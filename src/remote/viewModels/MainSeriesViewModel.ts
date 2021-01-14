@@ -9,16 +9,16 @@ export class MainSeriesViewModel {
   }
 
   @mobx.action
-  openAsync() {
-    throw new Error('TODO');
+  async openAsync() {
+    await app.core.screen.openChildAsync(app.SeriesController.createConstruct(this.url));
   }
 
   @mobx.observable
-  readonly imageUrl: string;
+  imageUrl: string;
   
   @mobx.observable
-  readonly title: string;
+  title: string;
 
   @mobx.observable
-  readonly url: string;
+  url: string;
 }
