@@ -11,5 +11,5 @@ export class SeriesSeasonViewModel {
   episodes: Array<app.SeriesSeasonEpisodeViewModel>;
   
   @mobx.observable
-  title: string;
+  title: app.RemoteSeriesSeason['title'];
 }
