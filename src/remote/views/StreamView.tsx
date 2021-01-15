@@ -6,9 +6,19 @@ import videojs from 'video.js';
 
 // TODO: back button, osd, cursor hide, custom controls, clean up.
 
+declare class SubtitlesOctopus {
+  constructor(options: {
+    video: HTMLVideoElement,
+    subUrl: string,
+    workerUrl: string
+  });
+  dispose(): void;
+}
+
 @mobxReact.observer
 export class StreamView extends app.BaseComponent<typeof StreamViewStyles, {vm: app.StreamViewModel}> {
   private readonly _videoRef = React.createRef<HTMLVideoElement>();
+  private _subtitleWorker?: SubtitlesOctopus;
   private _videoPlayer?: videojs.Player;
 
   componentDidMount() {
@@ -31,6 +41,8 @@ export class StreamView extends app.BaseComponent<typeof StreamViewStyles, {vm: 
 
     this._videoPlayer?.dispose()
     this._videoPlayer = undefined;
+    this._subtitleWorker?.dispose();
+    this._subtitleWorker = undefined;
   }
 
   render() {
@@ -51,16 +63,17 @@ export class StreamView extends app.BaseComponent<typeof StreamViewStyles, {vm: 
   }
 
   private _onReady() {
-    for (const subtitle of this.props.vm.subtitles) {
-      switch (subtitle.type) {
-        case 'ass':
-          break;
-        case 'vtt':
-          break;
-        default:
-          throw new Error();
-      }
-    }
+    if (!this._videoRef.current)
+      return;
+    const assSubtitle = this.props.vm.subtitles.find(x => x.language === 'eng' && x.type === 'ass');
+    if (!assSubtitle)
+      return;
+
+    this._subtitleWorker = new SubtitlesOctopus({
+      video: this._videoRef.current,
+      subUrl: assSubtitle.url,
+      workerUrl: 'js/subtitles-octopus-worker.js'
+    });
   }
 }
 
