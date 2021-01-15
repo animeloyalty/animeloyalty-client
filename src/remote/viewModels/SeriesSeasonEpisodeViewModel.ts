@@ -12,34 +12,34 @@ export class SeriesSeasonEpisodeViewModel {
   }
 
   @mobx.action
-  openAsync() {
-    throw new Error('TODO');
+  async openAsync() {
+    await app.core.screen.openChildAsync(app.StreamController.createConstruct(this.displayName, this.url));
   }
 
   @mobx.computed
   get displayName() {
     if (this.title) {
-      return `Episode ${this.number} - ${this.title}`;
+      return `${this.number} - ${this.title}`;
     } else {
-      return `Episode ${this.number}`;
+      return `${this.number}`;
     }
   }
   
   @mobx.observable
-  imageUrl: string;
+  imageUrl: app.RemoteSeriesSeasonEpisode['imageUrl'];
 
   @mobx.observable
-  isPremium: boolean;
+  isPremium: app.RemoteSeriesSeasonEpisode['isPremium'];
 
   @mobx.observable
-  number: string;
+  number: app.RemoteSeriesSeasonEpisode['number'];
 
   @mobx.observable
-  synopsis?: string;
+  synopsis: app.RemoteSeriesSeasonEpisode['synopsis'];
 
   @mobx.observable
-  title?: string;
+  title: app.RemoteSeriesSeasonEpisode['title'];
 
   @mobx.observable
-  url: string;
+  url: app.RemoteSeriesSeasonEpisode['url'];
 }

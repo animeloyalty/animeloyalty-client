@@ -14,11 +14,11 @@ export class MainSeriesViewModel {
   }
 
   @mobx.observable
-  imageUrl: string;
+  imageUrl: app.RemoteSearchSeries['imageUrl'];
   
   @mobx.observable
-  title: string;
+  title: app.RemoteSearchSeries['title'];
 
   @mobx.observable
-  url: string;
+  url: app.RemoteSearchSeries['url'];
 }

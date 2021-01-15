@@ -13,7 +13,7 @@ export class SeriesViewModel {
   @mobx.action
   async refreshAsync() {
     await app.core.screen.loadAsync(async () => {
-      const result = await app.core.api.remote.seriesAsync(this);
+      const result = await app.core.api.remote.seriesAsync({url: this.url});
       if (result.value) {
         this.genres = result.value.genres;
         this.imageUrl = result.value.imageUrl;
@@ -28,20 +28,20 @@ export class SeriesViewModel {
   }
 
   @mobx.observable
-  genres: string[];
+  genres: app.RemoteSeries['genres'];
   
   @mobx.observable
-  imageUrl: string;
+  imageUrl: app.RemoteSeries['imageUrl'];
 
   @mobx.observable
   seasons: Array<app.SeriesSeasonViewModel>;
 
   @mobx.observable
-  synopsis?: string;
+  synopsis: app.RemoteSeries['synopsis'];
 
   @mobx.observable
-  title: string;
+  title: app.RemoteSeries['title'];
 
   @mobx.observable
-  url: string;
+  url: app.RemoteSeries['url'];
 }

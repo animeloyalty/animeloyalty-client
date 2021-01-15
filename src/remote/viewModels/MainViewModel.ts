@@ -2,6 +2,11 @@ import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainViewModel {
+  constructor() {
+    this.hasMorePages = false;
+    this.series = [];
+  }
+
   @mobx.action
   async refreshAsync() {
     await app.core.screen.loadAsync(async () => {
@@ -16,8 +21,8 @@ export class MainViewModel {
   }
 
   @mobx.observable
-  hasMorePages = false;
+  hasMorePages: app.RemoteSearch['hasMorePages'];
 
   @mobx.observable
-  series: Array<app.MainSeriesViewModel> = [];
+  series: Array<app.MainSeriesViewModel>;
 }
