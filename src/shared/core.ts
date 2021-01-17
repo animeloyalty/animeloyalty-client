@@ -1,12 +1,13 @@
 import * as app from '.';
-let api: app.ServerApi;
+import * as ace from 'animesync';
+let api: ace.api.ServerApi;
 let dialog: app.DialogManager;
 let screen: app.ScreenManager;
 
 export const core = {
   get api() {
     if (api) return api;
-    api = new app.ServerApi('http://127.0.0.1:6583/'); // TODO
+    api = new ace.api.ServerApi('http://127.0.0.1:6583/'); // TODO
     return api;
   },
 

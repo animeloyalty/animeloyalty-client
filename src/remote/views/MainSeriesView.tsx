@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-export class MainSeriesView extends app.BaseComponent<typeof MainSeriesViewStyles, {vm: app.MainSeriesViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainSeriesViewModel}> {
   render() {
     return (
       <mui.Grid className={this.classes.container} onClick={() => this.props.vm.openAsync()}>
@@ -15,7 +15,7 @@ export class MainSeriesView extends app.BaseComponent<typeof MainSeriesViewStyle
   }
 }
 
-export const MainSeriesViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
   container: {
     cursor: 'pointer',
     height: '22vw'
@@ -32,3 +32,5 @@ export const MainSeriesViewStyles = mui.createStyles({
     whiteSpace: 'nowrap'
   }
 });
+
+export const MainSeriesView = mui.withStyles(Styles)(Component);

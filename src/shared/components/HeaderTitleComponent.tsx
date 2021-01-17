@@ -2,7 +2,7 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-export class HeaderTitleComponent extends app.BaseComponent<typeof HeaderTitleComponentStyles, {icon?: React.ReactElement<any>, title: string}> {
+class Component extends app.BaseComponent<typeof Styles, {icon?: React.ReactElement<any>, title: string}> {
   render() {
     return (
       <mui.Grid>
@@ -31,7 +31,7 @@ export class HeaderTitleComponent extends app.BaseComponent<typeof HeaderTitleCo
   }
 }
 
-export const HeaderTitleComponentStyles = mui.createStyles({
+const Styles = mui.createStyles({
   children: {
     paddingTop: 64
   },
@@ -50,3 +50,5 @@ export const HeaderTitleComponentStyles = mui.createStyles({
     marginRight: -20
   }
 });
+
+export const HeaderTitleComponent = mui.withStyles(Styles)(Component);

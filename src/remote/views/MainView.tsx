@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-export class MainView extends app.BaseComponent<typeof MainViewStyles, {vm: app.MainViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
       <mui.Grid className={this.classes.container}>
@@ -16,7 +16,7 @@ export class MainView extends app.BaseComponent<typeof MainViewStyles, {vm: app.
   }
 }
 
-export const MainViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
   container: {
     overflow: 'hidden'
   },
@@ -29,3 +29,5 @@ export const MainViewStyles = mui.createStyles({
     width: '100vw'
   }
 });
+
+export const MainView = mui.withStyles(Styles)(Component);

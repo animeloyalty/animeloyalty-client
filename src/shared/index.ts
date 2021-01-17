@@ -1,8 +1,6 @@
-export * from '../../../animesync/dist/api'; // TODO
 export * from './core';
 export * from './settings';
 export * from './common/icons';
-export * from './common/styles';
 export * from './common/theme';
 export * from './components/BaseComponent';
 export * from './components/HeaderComponent';

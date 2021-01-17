@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-export class SeriesSeasonView extends app.BaseComponent<typeof SeriesSeasonViewStyles, {vm: app.SeriesSeasonViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonViewModel}> {
   render() {
     return (
       <mui.Grid className={this.classes.container}>
@@ -19,7 +19,7 @@ export class SeriesSeasonView extends app.BaseComponent<typeof SeriesSeasonViewS
   }
 }
 
-export const SeriesSeasonViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
   container: {
     overflow: 'hidden'
   },
@@ -32,3 +32,5 @@ export const SeriesSeasonViewStyles = mui.createStyles({
     width: '100vw'
   }
 });
+
+export const SeriesSeasonView = mui.withStyles(Styles)(Component);

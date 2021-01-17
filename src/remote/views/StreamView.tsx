@@ -16,7 +16,7 @@ declare class SubtitlesOctopus {
 }
 
 @mobxReact.observer
-export class StreamView extends app.BaseComponent<typeof StreamViewStyles, {vm: app.StreamViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewModel}> {
   private readonly _videoRef = React.createRef<HTMLVideoElement>();
   private _subtitleWorker?: SubtitlesOctopus;
   private _videoPlayer?: videojs.Player;
@@ -77,8 +77,10 @@ export class StreamView extends app.BaseComponent<typeof StreamViewStyles, {vm: 
   }
 }
 
-export const StreamViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
   video: {
     height: '100vh !important'
   }
 });
+
+export const StreamView = mui.withStyles(Styles)(Component);

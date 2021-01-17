@@ -1,4 +1,5 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class StreamViewModel {
@@ -26,8 +27,8 @@ export class StreamViewModel {
   subtitles: Array<app.StreamSubtitleViewModel>;
 
   @mobx.observable
-  type: app.RemoteStream['type'];
+  type: ace.api.RemoteStream['type'];
 
   @mobx.observable
-  url: app.RemoteStream['url'];
+  url: ace.api.RemoteStream['url'];
 }

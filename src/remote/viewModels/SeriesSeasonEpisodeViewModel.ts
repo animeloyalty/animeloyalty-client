@@ -1,11 +1,12 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonEpisodeViewModel {
-  constructor(episode: app.RemoteSeriesSeasonEpisode) {
+  constructor(episode: ace.api.RemoteSeriesSeasonEpisode) {
     this.imageUrl = episode.imageUrl;
     this.isPremium = episode.isPremium;
-    this.number = episode.number;
+    this.name = episode.name;
     this.synopsis = episode.synopsis;
     this.title = episode.title;
     this.url = episode.url;
@@ -13,33 +14,33 @@ export class SeriesSeasonEpisodeViewModel {
 
   @mobx.action
   async openAsync() {
-    await app.core.screen.openChildAsync(app.StreamController.createConstruct(this.displayName, this.url));
+    await app.core.screen.openChildAsync(app.StreamController.createConstruct(this.url));
   }
 
   @mobx.computed
   get displayName() {
     if (this.title) {
-      return `${this.number} - ${this.title}`;
+      return `${this.name} - ${this.title}`;
     } else {
-      return `${this.number}`;
+      return `${this.name}`;
     }
   }
   
   @mobx.observable
-  imageUrl: app.RemoteSeriesSeasonEpisode['imageUrl'];
+  imageUrl: ace.api.RemoteSeriesSeasonEpisode['imageUrl'];
 
   @mobx.observable
-  isPremium: app.RemoteSeriesSeasonEpisode['isPremium'];
+  isPremium: ace.api.RemoteSeriesSeasonEpisode['isPremium'];
 
   @mobx.observable
-  number: app.RemoteSeriesSeasonEpisode['number'];
+  name: ace.api.RemoteSeriesSeasonEpisode['name'];
 
   @mobx.observable
-  synopsis: app.RemoteSeriesSeasonEpisode['synopsis'];
+  synopsis: ace.api.RemoteSeriesSeasonEpisode['synopsis'];
 
   @mobx.observable
-  title: app.RemoteSeriesSeasonEpisode['title'];
+  title: ace.api.RemoteSeriesSeasonEpisode['title'];
 
   @mobx.observable
-  url: app.RemoteSeriesSeasonEpisode['url'];
+  url: ace.api.RemoteSeriesSeasonEpisode['url'];
 }
