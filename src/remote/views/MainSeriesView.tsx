@@ -28,6 +28,7 @@ const Styles = mui.createStyles({
   textContent: {
     fontSize: '1.25vw',
     overflow: 'hidden',
+    textAlign: 'center',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   }
