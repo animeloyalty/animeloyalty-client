@@ -19,11 +19,12 @@ export class SeriesSeasonEpisodeViewModel {
 
   @mobx.computed
   get displayName() {
-    if (this.title) {
-      return `${this.name} - ${this.title}`;
-    } else {
-      return `${this.name}`;
-    }
+    const name = isFinite(parseFloat(this.name))
+      ? this.name.padStart(2, '0')
+      : this.name;
+    return this.title
+      ? `${name} - ${this.title}`
+      : `${name}`;
   }
   
   @mobx.observable

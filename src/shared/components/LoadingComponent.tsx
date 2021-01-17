@@ -47,7 +47,7 @@ class Component extends app.BaseComponent<typeof Styles, {open: boolean}> {
     return (
       this.props.open && <mui.Grid className={`${this.classes.disabler} ${this.state.open && this.classes.disablerVisible}`}>
         {this.state.open && <mui.Grid className={this.classes.container}>
-          <mui.CircularProgress className={this.classes.icon} />
+          <mui.CircularProgress className={this.classes.icon} color="secondary" />
         </mui.Grid>}
       </mui.Grid>
     );
