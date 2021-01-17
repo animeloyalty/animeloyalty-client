@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-export class SeriesView extends app.BaseComponent<typeof SeriesViewStyles, {vm: app.SeriesViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesViewModel}> {
   render() {
     return (
       <mui.Grid>
@@ -14,5 +14,7 @@ export class SeriesView extends app.BaseComponent<typeof SeriesViewStyles, {vm: 
   }
 }
 
-export const SeriesViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
 });
+
+export const SeriesView = mui.withStyles(Styles)(Component);

@@ -1,8 +1,9 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class MainSeriesViewModel {
-  constructor(series: app.RemoteSearchSeries) {
+  constructor(series: ace.api.RemoteSearchSeries) {
     this.imageUrl = series.imageUrl
     this.title = series.title;
     this.url = series.url;
@@ -14,11 +15,11 @@ export class MainSeriesViewModel {
   }
 
   @mobx.observable
-  imageUrl: app.RemoteSearchSeries['imageUrl'];
+  imageUrl: ace.api.RemoteSearchSeries['imageUrl'];
   
   @mobx.observable
-  title: app.RemoteSearchSeries['title'];
+  title: ace.api.RemoteSearchSeries['title'];
 
   @mobx.observable
-  url: app.RemoteSearchSeries['url'];
+  url: ace.api.RemoteSearchSeries['url'];
 }

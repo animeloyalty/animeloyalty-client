@@ -1,4 +1,5 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class SeriesViewModel {
@@ -28,20 +29,20 @@ export class SeriesViewModel {
   }
 
   @mobx.observable
-  genres: app.RemoteSeries['genres'];
+  genres: ace.api.RemoteSeries['genres'];
   
   @mobx.observable
-  imageUrl: app.RemoteSeries['imageUrl'];
+  imageUrl: ace.api.RemoteSeries['imageUrl'];
 
   @mobx.observable
   seasons: Array<app.SeriesSeasonViewModel>;
 
   @mobx.observable
-  synopsis: app.RemoteSeries['synopsis'];
+  synopsis: ace.api.RemoteSeries['synopsis'];
 
   @mobx.observable
-  title: app.RemoteSeries['title'];
+  title: ace.api.RemoteSeries['title'];
 
   @mobx.observable
-  url: app.RemoteSeries['url'];
+  url: ace.api.RemoteSeries['url'];
 }

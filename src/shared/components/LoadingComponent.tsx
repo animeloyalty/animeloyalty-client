@@ -3,7 +3,7 @@ import * as mobx from 'mobx';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-export class LoadingComponent extends app.BaseComponent<typeof LoadingComponentStyles, {open: boolean}> {
+class Component extends app.BaseComponent<typeof Styles, {open: boolean}> {
   state = {
     open: false,
     timeoutHandle: undefined,
@@ -54,7 +54,7 @@ export class LoadingComponent extends app.BaseComponent<typeof LoadingComponentS
   }
 }
 
-export const LoadingComponentStyles = mui.createStyles({
+const Styles = mui.createStyles({
   disabler: {
     bottom: 0,
     left: 0,
@@ -78,3 +78,5 @@ export const LoadingComponentStyles = mui.createStyles({
     transform: 'translate(-50%, -50%)'
   }
 });
+
+export const LoadingComponent = mui.withStyles(Styles)(Component);

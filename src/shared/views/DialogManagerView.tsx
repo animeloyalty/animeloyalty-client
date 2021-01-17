@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-export class DialogManagerView extends app.BaseComponent<typeof DialogManagerViewStyles> {
+class Component extends app.BaseComponent<typeof Styles> {
   render() {
     return app.core.dialog.items.map((item, index) => (
       <mui.Dialog key={item.id} fullWidth maxWidth={false} open={index === app.core.dialog.items.length - 1}>
@@ -28,7 +28,7 @@ export class DialogManagerView extends app.BaseComponent<typeof DialogManagerVie
   }
 }
 
-export const DialogManagerViewStyles = mui.createStyles({
+const Styles = mui.createStyles({
   content: {
     paddingTop: 24
   },
@@ -37,3 +37,5 @@ export const DialogManagerViewStyles = mui.createStyles({
     overflow: 'scroll'
   }
 });
+
+export const DialogManagerView = mui.withStyles(Styles)(Component);

@@ -1,4 +1,5 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class MainViewModel {
@@ -21,7 +22,7 @@ export class MainViewModel {
   }
 
   @mobx.observable
-  hasMorePages: app.RemoteSearch['hasMorePages'];
+  hasMorePages: ace.api.RemoteSearch['hasMorePages'];
 
   @mobx.observable
   series: Array<app.MainSeriesViewModel>;

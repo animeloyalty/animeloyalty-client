@@ -1,8 +1,9 @@
 import * as app from '..';
+import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonViewModel {
-  constructor(season: app.RemoteSeriesSeason) {
+  constructor(season: ace.api.RemoteSeriesSeason) {
     this.episodes = season.episodes.map((episode) => new app.SeriesSeasonEpisodeViewModel(episode));
     this.title = season.title;
   }
@@ -11,5 +12,5 @@ export class SeriesSeasonViewModel {
   episodes: Array<app.SeriesSeasonEpisodeViewModel>;
   
   @mobx.observable
-  title: app.RemoteSeriesSeason['title'];
+  title: ace.api.RemoteSeriesSeason['title'];
 }

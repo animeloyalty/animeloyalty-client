@@ -2,7 +2,7 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-export class HeaderComponent extends app.BaseComponent<typeof HeaderComponentStyles, {title: string}> {
+class Component extends app.BaseComponent<typeof Styles, {title: string}> {
   render() {
     return (
       <mui.Grid>
@@ -23,7 +23,7 @@ export class HeaderComponent extends app.BaseComponent<typeof HeaderComponentSty
   }
 }
 
-export const HeaderComponentStyles = mui.createStyles({
+const Styles = mui.createStyles({
   title: {
     flex: 1
   },
@@ -31,3 +31,5 @@ export const HeaderComponentStyles = mui.createStyles({
     paddingTop: 64
   }
 });
+
+export const HeaderComponent = mui.withStyles(Styles)(Component);
