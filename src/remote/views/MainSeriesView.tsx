@@ -18,17 +18,25 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainSeriesView
 const Styles = mui.createStyles({
   container: {
     cursor: 'pointer',
-    height: '22vw'
+    height: '22vw',
+    padding: '0.75vw',
+    transition: 'padding 0.25s ease',
+    '&:hover': {padding: 0},
+    '&:hover $image': {borderColor: app.theme.palette.secondary.main},
+    '&:hover $textContent': {padding: '0 0.75vw'}
   },
   image: {
+    border: '0.25vw solid transparent',
+    borderRadius: '1vw',
     objectFit: 'cover',
     height: 'calc(100% - 2vw)',
     width: '100%'
   },
   textContent: {
     fontSize: '1.25vw',
-    overflow: 'hidden',
     textAlign: 'center',
+    transition: 'padding 0.25s ease',
+    overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   }
