@@ -4,7 +4,7 @@ import * as React from 'react';
 
 @mobxReact.observer
 export class MainController extends React.Component<{vm: app.MainViewModel}> {
-  static async constructAsync() {
+  static createController() {
     const vm = new app.MainViewModel();
     vm.refreshAsync();
     return <MainController vm={vm} />;

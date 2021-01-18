@@ -10,8 +10,9 @@ export class MainSeriesViewModel {
   }
 
   @mobx.action
-  async openAsync() {
-    await app.core.screen.openChildAsync(app.SeriesController.createConstruct(this.title, this.url));
+  open() {
+    const controller = app.SeriesController.createController(this.title, this.url);
+    app.core.screen.open(controller);
   }
 
   @mobx.observable

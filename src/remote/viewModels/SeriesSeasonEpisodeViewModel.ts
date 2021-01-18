@@ -13,8 +13,9 @@ export class SeriesSeasonEpisodeViewModel {
   }
 
   @mobx.action
-  async openAsync() {
-    await app.core.screen.openChildAsync(app.StreamController.createConstruct(this.url));
+  open() {
+    const controller = app.StreamController.createController(this.url);
+    app.core.screen.open(controller);
   }
 
   @mobx.computed

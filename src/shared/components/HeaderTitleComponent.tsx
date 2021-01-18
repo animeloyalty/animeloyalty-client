@@ -9,7 +9,7 @@ class Component extends app.BaseComponent<typeof Styles, {icon?: React.ReactElem
         <mui.AppBar className="disablePadding">
           <mui.Grid className="inset-top">
             <mui.Toolbar>
-              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => app.core.screen.leaveAsync()}>
+              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => app.core.screen.leave()}>
                 <app.icons.ArrowBackIos />
               </mui.IconButton>
               <mui.Typography className={this.classes.title} color="inherit" variant="h6">
