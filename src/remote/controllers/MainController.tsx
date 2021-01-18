@@ -1,17 +1,21 @@
 import * as app from '..';
+import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
+@mobxReact.observer
 export class MainController extends React.Component<{vm: app.MainViewModel}> {
   static async constructAsync() {
     const vm = new app.MainViewModel();
-    await vm.refreshAsync();
+    vm.refreshAsync();
     return <MainController vm={vm} />;
   }
 
   render() {
     return (
       <app.HeaderComponent title={document.title}>
-        <app.MainView vm={this.props.vm} />
+        {this.props.vm.loader.isLoading
+          ? <app.LoaderComponent />
+          : <app.MainView vm={this.props.vm} />}
       </app.HeaderComponent>
     );
   }

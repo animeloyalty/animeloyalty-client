@@ -11,7 +11,7 @@ export class MainSeriesViewModel {
 
   @mobx.action
   async openAsync() {
-    await app.core.screen.openChildAsync(app.SeriesController.createConstruct(this.url));
+    await app.core.screen.openChildAsync(app.SeriesController.createConstruct(this.title, this.url));
   }
 
   @mobx.observable
