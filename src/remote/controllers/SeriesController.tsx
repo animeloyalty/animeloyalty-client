@@ -4,12 +4,10 @@ import * as React from 'react';
 
 @mobxReact.observer
 export class SeriesController extends React.Component<{vm: app.SeriesViewModel}> {
-  static createConstruct(title: string, url: string) {
-    return async () => {
-      const vm = new app.SeriesViewModel(title, url);
-      vm.refreshAsync();
-      return <SeriesController vm={vm} />;
-    };
+  static createController(title: string, url: string) {
+    const vm = new app.SeriesViewModel(title, url);
+    vm.refreshAsync();
+    return <SeriesController vm={vm} />;
   }
 
   render() {

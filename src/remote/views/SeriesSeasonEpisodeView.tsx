@@ -7,7 +7,7 @@ import * as React from 'react';
 class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonEpisodeViewModel}> {
   render() {
     return (
-      <mui.Grid className={this.classes.container} onClick={() => this.props.vm.openAsync()}>
+      <mui.Grid className={this.classes.container} onClick={() => this.props.vm.open()}>
         <img className={this.classes.image} src={this.props.vm.imageUrl} />
         <mui.Typography className={this.classes.textContent}>{this.props.vm.displayName}</mui.Typography>
       </mui.Grid>

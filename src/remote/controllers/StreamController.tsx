@@ -4,12 +4,10 @@ import * as React from 'react';
 
 @mobxReact.observer
 export class StreamController extends React.Component<{vm: app.StreamViewModel}> {
-  static createConstruct(url: string) {
-    return async () => {
-      const vm = new app.StreamViewModel(url);
-      vm.refreshAsync();
-      return <StreamController vm={vm} />;
-    };
+  static createController(url: string) {
+    const vm = new app.StreamViewModel(url);
+    vm.refreshAsync();
+    return <StreamController vm={vm} />;
   }
 
   render() {
