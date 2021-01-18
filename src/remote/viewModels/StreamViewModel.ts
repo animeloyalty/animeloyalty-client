@@ -11,7 +11,7 @@ export class StreamViewModel {
 
   @mobx.action
   async refreshAsync() {
-    await app.core.screen.loadAsync(async () => {
+    await this.loader.loadAsync(async () => {
       const result = await app.core.api.remote.streamAsync({url: this.url});
       if (result.value) {
         this.subtitles = result.value.subtitles.map((subtitle) => new app.StreamSubtitleViewModel(subtitle));
@@ -31,4 +31,7 @@ export class StreamViewModel {
 
   @mobx.observable
   url: ace.api.RemoteStream['url'];
+
+  @mobx.observable
+  readonly loader = new app.LoaderViewModel();
 }

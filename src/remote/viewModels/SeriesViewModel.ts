@@ -3,17 +3,17 @@ import * as ace from 'animesync';
 import * as mobx from 'mobx';
 
 export class SeriesViewModel {
-  constructor(url: string) {
+  constructor(title: string, url: string) {
     this.genres = [];
     this.imageUrl = '';
     this.seasons = [];
-    this.title = '';
+    this.title = title;
     this.url = url;
   }
 
   @mobx.action
   async refreshAsync() {
-    await app.core.screen.loadAsync(async () => {
+    await this.loader.loadAsync(async () => {
       const result = await app.core.api.remote.seriesAsync({url: this.url});
       if (result.value) {
         this.genres = result.value.genres;
@@ -45,4 +45,7 @@ export class SeriesViewModel {
 
   @mobx.observable
   url: ace.api.RemoteSeries['url'];
+
+  @mobx.observable
+  readonly loader = new app.LoaderViewModel();
 }

@@ -1,11 +1,13 @@
 import * as app from '..';
+import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
+@mobxReact.observer
 export class SeriesController extends React.Component<{vm: app.SeriesViewModel}> {
-  static createConstruct(url: string) {
+  static createConstruct(title: string, url: string) {
     return async () => {
-      const vm = new app.SeriesViewModel(url);
-      await vm.refreshAsync();
+      const vm = new app.SeriesViewModel(title, url);
+      vm.refreshAsync();
       return <SeriesController vm={vm} />;
     };
   }
@@ -13,7 +15,9 @@ export class SeriesController extends React.Component<{vm: app.SeriesViewModel}>
   render() {
     return (
       <app.HeaderTitleComponent title={this.props.vm.title}>
-        <app.SeriesView vm={this.props.vm} />
+        {this.props.vm.loader.isLoading
+          ? <app.LoaderComponent />
+          : <app.SeriesView vm={this.props.vm} />}
       </app.HeaderTitleComponent>
     );
   }

@@ -18,16 +18,6 @@ export class ScreenManager {
   }
 
   @mobx.action
-  async loadAsync<T>(runAsync: () => Promise<T>) {
-    try {
-      this.loadCount++;
-      return await runAsync();
-    } finally {
-      this.loadCount--;
-    }
-  }
-
-  @mobx.action
   async openAsync(constructAsync: () => Promise<React.ReactElement>) {
     while (this.views.length > 0) this.views.pop();
     this.views.push({constructAsync});
@@ -49,9 +39,6 @@ export class ScreenManager {
   }
 
   @mobx.observable
-  loadCount = 0;
-
-  @mobx.observable
   presentView?: {
     element: React.ReactElement,
     x?: number,
@@ -67,11 +54,9 @@ export class ScreenManager {
   }[];
 
   private async _replaceAsync(constructAsync: (restoreState?: any) => Promise<React.ReactElement>, restoreState?: any, restoreX?: number, restoreY?: number) {
-    await this.loadAsync(async () => {
-      const element = await constructAsync(restoreState);
-      const elementView = this.views.length >= 1 && this.views[this.views.length - 1];
-      if (elementView && elementView.constructAsync === constructAsync) this.presentView = {element, x: restoreX, y: restoreY};
-    });
+    const element = await constructAsync(restoreState);
+    const elementView = this.views.length >= 1 && this.views[this.views.length - 1];
+    if (elementView && elementView.constructAsync === constructAsync) this.presentView = {element, x: restoreX, y: restoreY};
   }
   
   private _saveState(restoreState?: any) {

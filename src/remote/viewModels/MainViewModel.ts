@@ -10,7 +10,7 @@ export class MainViewModel {
 
   @mobx.action
   async refreshAsync() {
-    await app.core.screen.loadAsync(async () => {
+    await this.loader.loadAsync(async () => {
       const result = await app.core.api.remote.popularAsync({providerName: 'crunchyroll'});
       if (result.value) {
         this.hasMorePages = result.value.hasMorePages;
@@ -20,10 +20,13 @@ export class MainViewModel {
       }
     });
   }
-
+  
   @mobx.observable
   hasMorePages: ace.api.RemoteSearch['hasMorePages'];
 
   @mobx.observable
   series: Array<app.MainSeriesViewModel>;
+
+  @mobx.observable
+  readonly loader = new app.LoaderViewModel();
 }
