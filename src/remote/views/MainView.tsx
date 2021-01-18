@@ -22,10 +22,10 @@ const Styles = mui.createStyles({
   },
   seriesContainer: {
     display: 'grid',
-    gridGap: '1vw 2vw',
+    gridGap: '1.5vw 2vw',
     gridTemplateColumns: 'repeat(auto-fill, calc(84vw / 6))',
     justifyContent: 'center',
-    padding: '1vw 3vw',
+    padding: '1.5vw 2vw',
     width: '100vw'
   }
 });

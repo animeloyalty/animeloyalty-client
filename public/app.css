@@ -12,6 +12,20 @@ body {
   overflow-y: scroll;
 }
 
+body::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #333;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #F0A000;
+  border-radius: 8px;
+  border: 4px solid #333;
+}
+
 .ios-inset-top {
   padding-top: constant(safe-area-inset-top);
   padding-top: env(safe-area-inset-top);
