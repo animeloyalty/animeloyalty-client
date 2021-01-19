@@ -17,16 +17,11 @@ declare class SubtitlesOctopus {
 
 @mobxReact.observer
 class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewModel}> {
-  private readonly _videoRef = React.createRef<HTMLVideoElement>();
   private _subtitleWorker?: SubtitlesOctopus;
   private _videoPlayer?: videojs.Player;
 
   componentDidMount() {
-    if (!this._videoRef.current) return;
-    const options = {autoplay: true, controls: true, fill: true};
-    const data = {sources: this._createSources(), tracks: this._createTracks()};
-    this._videoPlayer = videojs(this._videoRef.current, {...data, ...options}, this._onReady.bind(this));
-    
+    document.body.style.backgroundColor = '#000';
     document.body.style.overflow = 'hidden';
   }
 
@@ -37,7 +32,8 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewMode
   }
   
   componentWillUnmount() {
-    document.body.style.overflow = 'inherit';
+    document.body.style.removeProperty('background-color');
+    document.body.style.removeProperty('overflow');
 
     this._videoPlayer?.dispose()
     this._videoPlayer = undefined;
@@ -47,10 +43,22 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewMode
 
   render() {
     return (
-      <mui.Grid>
-        <video className={`${this.classes.video} video-js`} ref={this._videoRef} />
+      <mui.Grid className={this.classes.container}>
+        <app.StreamHeaderView />
+        <app.StreamFooterView />
+        <video className="video-js" ref={(el) => this._onVideoElement(el)} />
       </mui.Grid>
     )
+  }
+
+  private _onVideoElement(videoElement: HTMLVideoElement | null) {
+    if (!videoElement) return;
+    const options = {autoplay: true, controlBar: false, fill: true, loadingSpinner: false};
+    const data = {sources: this._createSources(), tracks: this._createTracks()};
+    this._videoPlayer = videojs(videoElement, {...data, ...options}, () => {
+      this.props.vm.update(this._videoPlayer);
+      this._onReady(videoElement)
+    });
   }
 
   private _createSources() {
@@ -62,15 +70,13 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewMode
     }
   }
 
-  private _onReady() {
-    if (!this._videoRef.current)
-      return;
+  private _onReady(videoElement: HTMLVideoElement) {
     const assSubtitle = this.props.vm.subtitles.find(x => x.language === 'eng' && x.type === 'ass');
     if (!assSubtitle)
       return;
 
     this._subtitleWorker = new SubtitlesOctopus({
-      video: this._videoRef.current,
+      video: videoElement,
       subUrl: assSubtitle.url,
       workerUrl: 'js/subtitles-octopus-worker.js'
     });
@@ -78,7 +84,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.StreamViewMode
 }
 
 const Styles = mui.createStyles({
-  video: {
+  container: {
     height: '100vh !important'
   }
 });
