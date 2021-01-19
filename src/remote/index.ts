@@ -14,4 +14,6 @@ export * from './views/MainView';
 export * from './views/SeriesSeasonEpisodeView';
 export * from './views/SeriesSeasonView';
 export * from './views/SeriesView';
+export * from './views/StreamFooterView';
+export * from './views/StreamHeaderView';
 export * from './views/StreamView';
