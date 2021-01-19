@@ -514,7 +514,7 @@ var SubtitlesOctopus = function (options) {
         self.worker.terminate();
         self.workerActive = false;
         // Remove the canvas element to remove residual subtitles rendered on player
-        if (self.video) {
+        if (self.video && self.video.parentNode) {
             self.video.parentNode.removeChild(self.canvasParent);
         }
     };
