@@ -1,37 +1,61 @@
-import * as app from '..';
 import * as ace from 'animesync';
+import * as awe from '../..';
 import * as mobx from 'mobx';
 
 export class StreamViewModel {
-  constructor(url: string) {
-    this.subtitles = [];
-    this.type = 'hls';
-    this.url = url;
+  private readonly _bridge: awe.session.Bridge;
+  private readonly _url: string;
+
+  constructor(bridge: awe.session.Bridge, url: string) {
+    this._bridge = bridge;
+    this._url = url;
+  }
+  
+  @mobx.action
+  attach() {
+    this._bridge.addEventHandler(this._onEvent.bind(this));
+    return this;
   }
 
   @mobx.action
   async refreshAsync() {
-    await this.loader.loadAsync(async () => {
-      const result = await app.core.api.remote.streamAsync({url: this.url});
-      if (result.value) {
-        this.subtitles = result.value.subtitles.map((subtitle) => new app.StreamSubtitleViewModel(subtitle));
-        this.type = result.value.type;
-        this.url = result.value.url;
-      } else {
-        throw new Error('TODO');
-      }
-    });
+    const result = await awe.shared.core.api.remote.streamAsync({url: this._url});
+    if (result.value) {
+      this._requestStream(result.value);
+      this._requestSubtitle(result.value.subtitles.find(x => x.language === 'eng'));
+    } else {
+      throw new Error('TODO');
+    }
   }
 
-  @mobx.observable
-  subtitles: Array<app.StreamSubtitleViewModel>;
+  private _onEvent(event: awe.session.VideoEvent) {
+    switch (event.type) {
+      case 'ready':
+        this.refreshAsync();
+        break;
+    }
+  }
 
-  @mobx.observable
-  type: ace.api.RemoteStream['type'];
+  private _requestStream(stream: ace.api.RemoteStream) {
+    switch (stream.type) {
+      case 'hls':
+        this._bridge.dispatchRequest({type: 'stream', videoType: 'application/x-mpegURL', url: stream.url});
+        break;
+      default:
+        throw new Error();
+    }
+  }
 
-  @mobx.observable
-  url: ace.api.RemoteStream['url'];
-
-  @mobx.observable
-  readonly loader = new app.LoaderViewModel();
+  private _requestSubtitle(subtitle?: ace.api.RemoteStreamSubtitle) {
+    switch (subtitle?.type) {
+      case 'ass':
+        this._bridge.dispatchRequest({type: 'subtitle', subtitleType: 'ass', url: subtitle.url});
+        break;
+      case 'vtt':
+        this._bridge.dispatchRequest({type: 'subtitle', subtitleType: 'vtt', url: subtitle.url});
+        break;
+      default:
+        throw new Error();
+    }
+  }
 }

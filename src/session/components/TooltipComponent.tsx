@@ -1,6 +1,6 @@
 import * as mui from '@material-ui/core';
 
-export const StreamSliderTooltip = mui.withStyles(() => ({
+export const TooltipComponent = mui.withStyles(() => ({
   tooltip: {
     backgroundColor: 'rgba(51, 51, 51, 0.5)',
     borderRadius: 'max(1vmin, 5px)',

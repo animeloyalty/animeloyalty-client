@@ -1,16 +1,16 @@
-import * as app from '..';
+import * as awe from '../..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles> {
+class Component extends awe.shared.BaseComponent<typeof Styles> {
   render() {
     return (
       <mui.AppBar className={this.classes.appBar}>
         <mui.Toolbar className={this.classes.toolBar}>
-          <mui.IconButton className={this.classes.iconButton} onClick={() => app.core.screen.leave()}>
-            <app.icons.ArrowBackIos />
+          <mui.IconButton className={this.classes.iconButton} onClick={() => awe.shared.core.screen.leave()}>
+            <awe.shared.icons.ArrowBackIos />
           </mui.IconButton>
           <mui.Grid className={this.classes.title}>
             <mui.Typography className={this.classes.titleTop}>
@@ -61,4 +61,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const StreamHeaderView = mui.withStyles(Styles)(Component);
+export const MainTitleView = mui.withStyles(Styles)(Component);

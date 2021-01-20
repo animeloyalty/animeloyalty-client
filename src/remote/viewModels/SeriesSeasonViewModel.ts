@@ -1,15 +1,15 @@
-import * as app from '..';
 import * as ace from 'animesync';
+import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonViewModel {
   constructor(season: ace.api.RemoteSeriesSeason) {
-    this.episodes = season.episodes.map((episode) => new app.SeriesSeasonEpisodeViewModel(episode));
+    this.episodes = season.episodes.map((episode) => new awm.SeriesSeasonEpisodeViewModel(episode));
     this.title = season.title;
   }
 
   @mobx.observable
-  episodes: Array<app.SeriesSeasonEpisodeViewModel>;
+  episodes: Array<awm.SeriesSeasonEpisodeViewModel>;
   
   @mobx.observable
   title: ace.api.RemoteSeriesSeason['title'];

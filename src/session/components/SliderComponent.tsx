@@ -1,6 +1,6 @@
 import * as mui from '@material-ui/core';
 
-export const StreamSlider = mui.withStyles(() => ({
+export const SliderComponent = mui.withStyles(() => ({
   rail: {
     borderRadius: 0,
     height: 'max(0.4vmin, 2px)',

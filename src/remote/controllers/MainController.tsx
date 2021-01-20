@@ -1,22 +1,23 @@
-import * as app from '..';
+import * as awe from '../..';
+import * as awm from '..';
 import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
 @mobxReact.observer
-export class MainController extends React.Component<{vm: app.MainViewModel}> {
+export class MainController extends React.Component<{vm: awm.MainViewModel}> {
   static createController() {
-    const vm = new app.MainViewModel();
+    const vm = new awm.MainViewModel();
     vm.refreshAsync();
     return <MainController vm={vm} />;
   }
 
   render() {
     return (
-      <app.HeaderComponent title={document.title}>
+      <awe.shared.HeaderComponent title={document.title}>
         {this.props.vm.loader.isLoading
-          ? <app.LoaderComponent />
-          : <app.MainView vm={this.props.vm} />}
-      </app.HeaderComponent>
+          ? <awe.shared.LoaderComponent open={true} />
+          : <awm.MainView vm={this.props.vm} />}
+      </awe.shared.HeaderComponent>
     );
   }
 }

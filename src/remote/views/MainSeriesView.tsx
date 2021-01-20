@@ -1,10 +1,11 @@
-import * as app from '..';
+import * as awe from '../..';
+import * as awm from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.MainSeriesViewModel}> {
+class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainSeriesViewModel}> {
   render() {
     return (
       <mui.Grid className={this.classes.container} onClick={() => this.props.vm.open()}>
@@ -22,7 +23,7 @@ const Styles = mui.createStyles({
     padding: '0.75vw',
     transition: 'padding 0.25s ease',
     '&:hover': {padding: 0},
-    '&:hover $image': {borderColor: app.theme.palette.secondary.main},
+    '&:hover $image': {borderColor: awe.shared.theme.palette.secondary.main},
     '&:hover $textContent': {padding: '0 0.75vw'}
   },
   image: {

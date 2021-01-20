@@ -1,51 +1,49 @@
-import * as app from '..';
+import * as awe from '../..';
+import * as awm from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles> {
+class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainControlViewModel}> {
   render() {
-    const isPlaying = true;
     const isFullScreen = false;
     return (
       <mui.AppBar className={this.classes.container}>
-        <app.StreamFooterSeekView />
-        <mui.Grid className={this.classes.beginBar}>
-          <mui.Typography className={this.classes.time}>
-            03:23 / 23:24
-          </mui.Typography>
-        </mui.Grid>
+        {this.props.vm.showTimer && <mui.Grid>
+          <awm.MainSeekView vm={this.props.vm.seek} />
+          <mui.Grid className={this.classes.beginBar}>
+            <mui.Typography className={this.classes.time}>
+              {this.props.vm.displayTime}
+            </mui.Typography>
+          </mui.Grid>
+        </mui.Grid>}
         <mui.Grid className={this.classes.centerBar}>
           <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.SkipPrevious />
+            <awe.shared.icons.SkipPrevious />
+          </mui.IconButton>
+          <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSeek}>
+            <awe.shared.icons.FastRewind />
+          </mui.IconButton>
+          <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSeek} onClick={() => this.props.vm.togglePlay()}>
+            {this.props.vm.isPlaying ? <awe.shared.icons.Pause /> : <awe.shared.icons.PlayArrow />}
+          </mui.IconButton>
+          <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSeek}>
+            <awe.shared.icons.FastForward />
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.FastRewind />
-          </mui.IconButton>
-          <mui.IconButton className={this.classes.iconButton}>
-            {isPlaying
-              ? <app.icons.Pause />
-              : <app.icons.PlayArrow />}
-          </mui.IconButton>
-          <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.FastForward />
-          </mui.IconButton>
-          <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.SkipNext />
+            <awe.shared.icons.SkipNext />
           </mui.IconButton>
         </mui.Grid>
         <mui.Grid className={this.classes.endBar}>
           <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.PlaylistPlay />
+            <awe.shared.icons.PlaylistPlay />
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton}>
-            <app.icons.Subtitles />
+            <awe.shared.icons.Subtitles />
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton}>
-            {isFullScreen
-              ? <app.icons.FullscreenExit />
-              : <app.icons.Fullscreen />}
+            {isFullScreen ? <awe.shared.icons.FullscreenExit /> : <awe.shared.icons.Fullscreen />}
           </mui.IconButton>
         </mui.Grid>
       </mui.AppBar>
@@ -88,4 +86,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const StreamFooterView = mui.withStyles(Styles)(Component);
+export const MainControlView = mui.withStyles(Styles)(Component);
