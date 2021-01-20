@@ -1,5 +1,6 @@
-import * as app from '..';
 import * as ace from 'animesync';
+import * as awe from '../..';
+import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class MainViewModel {
@@ -11,10 +12,10 @@ export class MainViewModel {
   @mobx.action
   async refreshAsync() {
     await this.loader.loadAsync(async () => {
-      const result = await app.core.api.remote.popularAsync({providerName: 'crunchyroll'});
+      const result = await awe.shared.core.api.remote.popularAsync({providerName: 'crunchyroll'});
       if (result.value) {
         this.hasMorePages = result.value.hasMorePages;
-        this.series = result.value.series.map(x => new app.MainSeriesViewModel(x));
+        this.series = result.value.series.map(x => new awm.MainSeriesViewModel(x));
       } else {
         throw new Error('TODO');
       }
@@ -25,8 +26,8 @@ export class MainViewModel {
   hasMorePages: ace.api.RemoteSearch['hasMorePages'];
 
   @mobx.observable
-  series: Array<app.MainSeriesViewModel>;
+  series: Array<awm.MainSeriesViewModel>;
 
   @mobx.observable
-  readonly loader = new app.LoaderViewModel();
+  readonly loader = new awe.shared.LoaderViewModel();
 }

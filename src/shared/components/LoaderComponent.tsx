@@ -1,25 +1,10 @@
-import * as app from '..';
+import * as awm from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends app.BaseComponent<typeof Styles> {
-  state = {
-    open: false, 
-    timeoutHandle: undefined
-  };
-
-  componentDidMount() {
-    setTimeout(() => this.setState({open: true}));
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.state.timeoutHandle);
-  }
-
+class Component extends awm.BaseComponent<typeof Styles, {open: boolean}> { 
   render() {
-    return this.state.open
-      ? <mui.CircularProgress className={this.classes.icon} color="secondary" />
-      : null;
+    return this.props.open && <mui.CircularProgress className={this.classes.icon} color="secondary" />;
   }
 }
 
