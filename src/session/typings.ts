@@ -1,19 +1,32 @@
-export type PlayState = {
-  buffer: number,
-  duration: number,
-  time: number}
+export interface INavigator {
+  readonly current: INavigatorEpisode;
+  readonly episodes: Array<INavigatorEpisode>;
+  readonly hasNext: boolean;
+  readonly hasPrevious: boolean;
+  openNext: () => void;
+  openPrevious: () => void;
+}
+
+export interface INavigatorEpisode {
+  seriesName: string;
+  seasonName: string;
+  episodeName: string;
+  episodeTitle?: string;
+}
+
 export type VideoEvent =
   {type: 'ended'} |
   {type: 'error'} |
-  {type: 'loadedmetadata'} & PlayState |
-  {type: 'loadeddata'} & PlayState |
+  {type: 'loadedmetadata'} & {duration: number} |
+  {type: 'loadeddata'} |
   {type: 'play'} |
   {type: 'playing'} |
   {type: 'pause'} |
   {type: 'ready'} |
-  {type: 'seeked'} & PlayState |
-  {type: 'timeupdate'} & PlayState |
-  {type: 'waiting'} & PlayState;
+  {type: 'seeked'} |
+  {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
+  {type: 'waiting'} & {time: number};
+  
 export type VideoRequest =
   {type: 'pause'} |
   {type: 'play'} |

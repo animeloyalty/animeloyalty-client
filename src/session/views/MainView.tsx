@@ -27,7 +27,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {bridge: awm.Bri
         <video className="video-js" ref={(el) => this._onCreate(el)} />
         <awe.shared.LoaderComponent open={this.props.vm.isWaiting} />
         <awm.MainControlView vm={this.props.vm.control} />
-        <awm.MainTitleView />
+        <awm.MainTitleView vm={this.props.vm.title} />
       </mui.Grid>
     );
   }

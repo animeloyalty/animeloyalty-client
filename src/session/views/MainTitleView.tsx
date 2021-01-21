@@ -1,10 +1,11 @@
 import * as awe from '../..';
+import * as awm from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles> {
+class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainTitleViewModel}> {
   render() {
     return (
       <mui.AppBar className={this.classes.appBar}>
@@ -14,10 +15,10 @@ class Component extends awe.shared.BaseComponent<typeof Styles> {
           </mui.IconButton>
           <mui.Grid className={this.classes.title}>
             <mui.Typography className={this.classes.titleTop}>
-              Episode 01 – To You, 2,000 Years in the Future -The Fall of Zhiganshina (1) 
+              {this.props.vm.displayName}
             </mui.Typography>
             <mui.Typography className={this.classes.titleBottom}>
-              Attack on Titan ● Attack on Titan
+              {this.props.vm.seriesName} ● {this.props.vm.seasonName}
             </mui.Typography>
           </mui.Grid>
         </mui.Toolbar>

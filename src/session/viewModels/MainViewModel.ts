@@ -3,7 +3,10 @@ import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class MainViewModel {
-  constructor(private readonly bridge: awm.Bridge) {}
+  constructor(
+    private readonly bridge: awm.Bridge,
+    private readonly navigator: awm.INavigator
+  ) {}
 
   @mobx.action
   attach() {
@@ -16,8 +19,11 @@ export class MainViewModel {
   isWaiting = true;
 
   @mobx.observable
-  readonly control = new awm.MainControlViewModel(this.bridge);
+  readonly control = new awm.MainControlViewModel(this.bridge, this.navigator);
 
+  @mobx.observable
+  readonly title = new awm.MainTitleViewModel(this.navigator);
+  
   @mobx.action
   private _onEvent(event: awm.VideoEvent) {
     switch (event.type) {

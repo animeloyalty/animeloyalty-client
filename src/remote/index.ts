@@ -1,3 +1,5 @@
+export * from './classes/Navigator';
+export * from './classes/NavigatorEpisode';
 export * from './controllers/MainController';
 export * from './controllers/SeriesController';
 export * from './controllers/StreamController';

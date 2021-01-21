@@ -4,7 +4,8 @@ import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonEpisodeViewModel {
-  constructor(episode: ace.api.RemoteSeriesSeasonEpisode) {
+  constructor(private series: ace.api.RemoteSeries, private seasonIndex: number, private episodeIndex: number) {
+    const episode = series.seasons[seasonIndex].episodes[episodeIndex];
     this.imageUrl = episode.imageUrl;
     this.isPremium = episode.isPremium;
     this.name = episode.name;
@@ -15,7 +16,8 @@ export class SeriesSeasonEpisodeViewModel {
 
   @mobx.action
   open() {
-    const controller = awm.StreamController.createController(this.url);
+    const navigator = awm.Navigator.create(this.series, this.seasonIndex, this.episodeIndex);
+    const controller = awm.StreamController.createController(navigator, this.url);
     awe.shared.core.screen.open(controller);
   }
 

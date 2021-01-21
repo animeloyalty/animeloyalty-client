@@ -10,7 +10,6 @@ import * as ReactDOM from 'react-dom';
 // TODO:font sizing etc...
 // TODO:css -> @global jss
 // TODO:image->text scroll
-// TODO:video.js custom overlay and loader..
 // TODO:image loads... and bgs
 // TODO:synopsis and series info etc
 

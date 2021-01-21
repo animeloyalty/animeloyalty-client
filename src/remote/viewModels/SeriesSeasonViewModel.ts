@@ -3,8 +3,9 @@ import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonViewModel {
-  constructor(season: ace.api.RemoteSeriesSeason) {
-    this.episodes = season.episodes.map((episode) => new awm.SeriesSeasonEpisodeViewModel(episode));
+  constructor(series: ace.api.RemoteSeries, seasonIndex: number) {
+    const season = series.seasons[seasonIndex];
+    this.episodes = season.episodes.map((_, episodeIndex) => new awm.SeriesSeasonEpisodeViewModel(series, seasonIndex, episodeIndex));
     this.title = season.title;
   }
 
