@@ -39,12 +39,12 @@ export class MainControlSeekViewModel {
   private _onEvent(event: awm.VideoEvent) {
     switch (event.type) {
       case 'timeupdate':
-        this.currentBuffer = Math.floor(event.buffer);
-        this.currentDuration = Math.floor(event.duration);
-        if (!this.isPreview) this.currentTime = Math.floor(event.time);
+        this.currentBuffer = event.buffer;
+        this.currentDuration = event.duration;
+        if (!this.isPreview) this.currentTime = event.time;
         break;
       case 'waiting':
-        this.currentTime = event.time;
+        if (!this.isPreview) this.currentTime = event.time;
         break;
     }
   }
