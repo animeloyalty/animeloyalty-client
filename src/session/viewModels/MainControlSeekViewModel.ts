@@ -1,7 +1,8 @@
+import * as awe from '../..';
 import * as awm from '..';
 import * as mobx from 'mobx';
 
-export class MainSeekViewModel {
+export class MainControlSeekViewModel {
   constructor(private readonly bridge: awm.Bridge) {}
 
   @mobx.action
@@ -11,15 +12,13 @@ export class MainSeekViewModel {
   }
 
   @mobx.action
-  seekBegin(time: number | number[]) {
-    if (Array.isArray(time)) return;
+  seekStart(time: number) {
     this.currentTime = time;
     this.isPreview = true;
   }
 
   @mobx.action
-  seekEnd(time: number | number[]) {
-    if (Array.isArray(time)) return;
+  seekStop(time: number) {
     this.bridge.dispatchRequest({type: 'seek', time});
     this.currentTime = time;
     this.isPreview = false;
@@ -27,7 +26,7 @@ export class MainSeekViewModel {
 
   @mobx.computed
   get displayTime() {
-    return awm.formatTime(this.currentTime);
+    return awe.shared.formatTime(this.currentTime);
   }
 
   @mobx.observable

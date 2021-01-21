@@ -1,3 +1,4 @@
+import * as awe from '../..';
 import * as awm from '..';
 import * as mobx from 'mobx';
 
@@ -9,6 +10,18 @@ export class MainControlViewModel {
     this.bridge.addEventHandler(this._onEvent.bind(this));
     this.seek.attach();
     return this;
+  }
+
+  @mobx.action
+  seekForward() {
+    const time = this.currentTime + awe.shared.settings.seekForward;
+    this.bridge.dispatchRequest({type: 'seek', time});
+  }
+
+  @mobx.action
+  seekRewind() {
+    const time = this.currentTime - awe.shared.settings.seekRewind;
+    this.bridge.dispatchRequest({type: 'seek', time});
   }
 
   @mobx.action
@@ -25,7 +38,7 @@ export class MainControlViewModel {
 
   @mobx.computed
   get displayTime() {
-    return `${awm.formatTime(this.currentTime)} / ${awm.formatTime(this.currentDuration)}`;
+    return `${awe.shared.formatTime(this.currentTime)} / ${awe.shared.formatTime(this.currentDuration)}`;
   }
 
   @mobx.observable
@@ -41,7 +54,7 @@ export class MainControlViewModel {
   showTimer = false;
 
   @mobx.observable
-  readonly seek = new awm.MainSeekViewModel(this.bridge);
+  readonly seek = new awm.MainControlSeekViewModel(this.bridge);
 
   @mobx.action
   private _onEvent(event: awm.VideoEvent) {

@@ -35,7 +35,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {bridge: awm.Bri
   private _onCreate(element: HTMLVideoElement | null) {
     if (!element || this._element) return;
     this._element = element;
-    this._player = videojs(element, {autoplay: true, controlBar: false, fill: true, loadingSpinner: false}, () => {
+    this._player = videojs(element, awe.shared.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
       if (!this._player) return;
       new awm.Distributor(this.props.bridge, this._player).attach();
       this.props.bridge.addRequestHandler(this._onRequest.bind(this));
