@@ -3,13 +3,26 @@ import * as awm from '..';
 import * as mobx from 'mobx';
 
 export class MainControlViewModel {
-  constructor(private readonly bridge: awm.Bridge) {}
+  constructor(
+    private readonly bridge: awm.Bridge,
+    private readonly navigator: awm.INavigator
+  ) {}
 
   @mobx.action
   attach() {
     this.bridge.addEventHandler(this._onEvent.bind(this));
     this.seek.attach();
     return this;
+  }
+
+  @mobx.action
+  openNext() {
+    this.navigator.openNext();
+  }
+  
+  @mobx.action
+  openPrevious() {
+    this.navigator.openPrevious();
   }
 
   @mobx.action
@@ -33,12 +46,17 @@ export class MainControlViewModel {
 
   @mobx.computed
   get canSeek() {
-    return this.showTimer;
+    return Boolean(this.currentDuration);
   }
 
   @mobx.computed
-  get displayTime() {
-    return `${awe.shared.formatTime(this.currentTime)} / ${awe.shared.formatTime(this.currentDuration)}`;
+  get hasNext() {
+    return this.navigator.hasNext;
+  }
+
+  @mobx.computed
+  get hasPrevious() {
+    return this.navigator.hasPrevious;
   }
 
   @mobx.observable
@@ -51,16 +69,13 @@ export class MainControlViewModel {
   isPlaying = true;
 
   @mobx.observable
-  showTimer = false;
-
-  @mobx.observable
   readonly seek = new awm.MainControlSeekViewModel(this.bridge);
 
   @mobx.action
   private _onEvent(event: awm.VideoEvent) {
     switch (event.type) {
-      case 'loadeddata':
-        this.showTimer = true;
+      case 'loadedmetadata':
+        this.currentDuration = event.duration;
         break;
       case 'play':
         this.isPlaying = true;

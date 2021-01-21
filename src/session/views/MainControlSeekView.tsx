@@ -8,7 +8,7 @@ import * as React from 'react';
 class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainControlSeekViewModel}> {
   state = {
     thumb: awe.shared.unsafe<(props: React.HTMLAttributes<HTMLSpanElement>) => JSX.Element>((props) => (
-      <awm.TooltipComponent interactive placement="top" title={this.props.vm.displayTime}>
+      <awm.TooltipComponent interactive placement="top" title={awe.shared.formatTime(this.props.vm.currentTime)}>
         <span {...props} />
       </awm.TooltipComponent>
     ))

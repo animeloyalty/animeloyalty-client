@@ -10,16 +10,17 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainCon
     const isFullScreen = false;
     return (
       <mui.AppBar className={this.classes.container}>
-        {this.props.vm.showTimer && <mui.Grid>
+        {this.props.vm.canSeek && <mui.Grid>
           <awm.MainControlSeekView vm={this.props.vm.seek} />
           <mui.Grid className={this.classes.beginBar}>
             <mui.Typography className={this.classes.time}>
-              {this.props.vm.displayTime}
+              {awe.shared.formatTime(this.props.vm.currentTime)} /
+              {awe.shared.formatTime(this.props.vm.currentDuration)}
             </mui.Typography>
           </mui.Grid>
         </mui.Grid>}
         <mui.Grid className={this.classes.centerBar}>
-          <mui.IconButton className={this.classes.iconButton}>
+          <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.hasPrevious} onClick={() => this.props.vm.openPrevious()}>
             <awe.shared.icons.SkipPrevious />
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSeek} onClick={() => this.props.vm.seekRewind()}>
@@ -31,7 +32,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainCon
           <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSeek} onClick={() => this.props.vm.seekForward()}>
             <awe.shared.icons.FastForward />
           </mui.IconButton>
-          <mui.IconButton className={this.classes.iconButton}>
+          <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.hasNext} onClick={() => this.props.vm.openNext()}>
             <awe.shared.icons.SkipNext />
           </mui.IconButton>
         </mui.Grid>

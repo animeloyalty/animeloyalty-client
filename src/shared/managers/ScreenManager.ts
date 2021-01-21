@@ -19,6 +19,12 @@ export class ScreenManager {
     this.views.push({view, x: 0, y: 0});
   }
 
+  @mobx.action
+  replace(view: React.ReactElement) {
+    this.views.pop();
+    this.views.push({view, x: 0, y: 0});
+  }
+
   @mobx.computed
   get current() {
     return this.views[this.views.length - 1];

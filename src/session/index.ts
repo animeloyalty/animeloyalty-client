@@ -5,6 +5,7 @@ export * from './components/SliderComponent';
 export * from './components/TooltipComponent';
 export * from './viewModels/MainControlSeekViewModel';
 export * from './viewModels/MainControlViewModel';
+export * from './viewModels/MainTitleViewModel';
 export * from './viewModels/MainViewModel';
 export * from './views/MainControlSeekView';
 export * from './views/MainControlView';

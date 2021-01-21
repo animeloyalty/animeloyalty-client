@@ -1,4 +1,3 @@
-import * as awe from '../..';
 import * as awm from '..';
 import * as mobx from 'mobx';
 
@@ -24,11 +23,6 @@ export class MainControlSeekViewModel {
     this.isPreview = false;
   }
 
-  @mobx.computed
-  get displayTime() {
-    return awe.shared.formatTime(this.currentTime);
-  }
-
   @mobx.observable
   currentBuffer = 0;
 
@@ -50,7 +44,7 @@ export class MainControlSeekViewModel {
         if (!this.isPreview) this.currentTime = Math.floor(event.time);
         break;
       case 'waiting':
-        this.currentBuffer = 0;
+        this.currentTime = event.time;
         break;
     }
   }

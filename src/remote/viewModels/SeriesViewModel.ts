@@ -19,7 +19,7 @@ export class SeriesViewModel {
       if (result.value) {
         this.genres = result.value.genres;
         this.imageUrl = result.value.imageUrl;
-        this.seasons = result.value.seasons.map((season) => new awm.SeriesSeasonViewModel(season));
+        this.seasons = result.value.seasons.map((_, seasonIndex) => new awm.SeriesSeasonViewModel(result.value, seasonIndex));
         this.synopsis = result.value.synopsis;
         this.title = result.value.title;
         this.url = result.value.url;
