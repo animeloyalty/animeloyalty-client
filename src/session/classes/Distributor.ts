@@ -1,3 +1,4 @@
+import * as awe from '../..';
 import * as awm from '..';
 import videojs from 'video.js';
 
@@ -38,7 +39,7 @@ export class Distributor {
         this.player.src({src: request.url, type: request.videoType});
         break;
       case 'subtitle':
-        Array.from(this.player.remoteTextTracks()).forEach(x => this.player.removeRemoteTextTrack(x));
+        Array.from(this.player.remoteTextTracks()).forEach(x => this.player.removeRemoteTextTrack(awe.shared.unsafe(x)));
         break;
     }
   }

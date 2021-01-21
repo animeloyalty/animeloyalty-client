@@ -4,6 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+// TODO:size of loader
 // TODO: cursor hide, clean up.
 // TODO:vw/vh/vmin with MAX
 // TODO:font sizing etc...

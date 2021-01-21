@@ -5,6 +5,10 @@ export function formatTime(totalSeconds: number) {
   return toString(hours, minutes, seconds);
 }
 
+export function unsafe<T>(value: T) {
+  return value as any;
+}
+
 function toString(hours: number, minutes: number, seconds: number) {
   const hoursString = String(hours).padStart(2, '0');
   const minutesString = String(minutes).padStart(2, '0');

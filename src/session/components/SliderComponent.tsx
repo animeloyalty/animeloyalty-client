@@ -13,10 +13,18 @@ export const SliderComponent = mui.withStyles(() => ({
   thumb: {
     borderRadius: 'max(1vmin, 5px)',
     marginTop: 0,
-    height: 'max(1.8vmin, 9px)',
-    width: 'max(1.8vmin, 9px)',
+    height: 'max(2vmin, 10px)',
+    width: 'max(2vmin, 10px)',
     transform: 'translateY(calc(-50% + max(0.2vmin, 1px)))',
-    '&:hover': {boxShadow: '0 0 0 max(1.8vmin, 9px) rgba(240, 160, 0, 0.15)'}
+    '&:hover': {boxShadow: 'none'},
+    '&.Mui-focusVisible': {boxShadow: 'none'},
+    '&.MuiSlider-active': {boxShadow: 'none'},
+    '&:after': {
+      bottom: 'max(-1.2vmin, -6px)',
+      left: 'max(-1.2vmin, -6px)',
+      right: 'max(-1.2vmin, -6px)',
+      top: 'max(-1.2vmin, -6px)'
+    }
   }
 }))(mui.Slider);
 

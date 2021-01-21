@@ -1,5 +1,6 @@
 export * from './core';
 export * from './settings';
+export * from './utilities';
 export * from './common/icons';
 export * from './common/theme';
 export * from './components/BaseComponent';
