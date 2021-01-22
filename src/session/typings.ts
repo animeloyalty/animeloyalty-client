@@ -1,3 +1,8 @@
+export interface IBridgeHandler {
+  onVideoEvent?(event: VideoEvent): void;
+  onVideoRequest?(event: VideoRequest): void;
+}
+
 export interface INavigator {
   readonly current: INavigatorEpisode;
   readonly episodes: Array<INavigatorEpisode>;
@@ -18,12 +23,11 @@ export type VideoEvent =
   {type: 'ended'} |
   {type: 'error'} |
   {type: 'loadedmetadata'} & {duration: number} |
-  {type: 'loadeddata'} |
   {type: 'play'} |
   {type: 'playing'} |
   {type: 'pause'} |
   {type: 'ready'} |
-  {type: 'seeked'} |
+  {type: 'seeking'} |
   {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
   {type: 'waiting'} & {time: number};
   

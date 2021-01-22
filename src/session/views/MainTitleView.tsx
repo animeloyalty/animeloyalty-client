@@ -10,7 +10,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainTit
     return (
       <mui.AppBar className={this.classes.appBar}>
         <mui.Toolbar className={this.classes.toolBar}>
-          <mui.IconButton className={this.classes.iconButton} onClick={() => awe.shared.core.screen.leave()}>
+          <mui.IconButton className={this.classes.iconButton} onClick={() => this.props.vm.leave()}>
             <awe.shared.icons.ArrowBackIos />
           </mui.IconButton>
           <mui.Grid className={this.classes.title}>

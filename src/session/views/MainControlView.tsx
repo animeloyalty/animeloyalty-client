@@ -5,7 +5,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainControlViewModel}> {
+class Component extends awe.shared.BaseInputComponent<typeof Styles, {vm: awm.MainControlViewModel}> {
   render() {
     const isFullScreen = false;
     return (

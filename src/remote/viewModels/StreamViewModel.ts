@@ -2,7 +2,7 @@ import * as ace from 'animesync';
 import * as awe from '../..';
 import * as mobx from 'mobx';
 
-export class StreamViewModel {
+export class StreamViewModel implements awe.session.IBridgeHandler {
   constructor(
     readonly bridge: awe.session.Bridge,
     readonly url: string
@@ -10,8 +10,17 @@ export class StreamViewModel {
   
   @mobx.action
   attach() {
-    this.bridge.addEventHandler(this._onEvent.bind(this));
+    this.bridge.subscribe(this);
     return this;
+  }
+
+  @mobx.action
+  onVideoEvent(event: awe.session.VideoEvent) {
+    switch (event.type) {
+      case 'ready':
+        this.refreshAsync();
+        break;
+    }
   }
 
   @mobx.action
@@ -22,14 +31,6 @@ export class StreamViewModel {
       this._requestSubtitle(result.value.subtitles.find(x => x.language === 'eng'));
     } else {
       throw new Error('TODO');
-    }
-  }
-
-  private _onEvent(event: awe.session.VideoEvent) {
-    switch (event.type) {
-      case 'ready':
-        this.refreshAsync();
-        break;
     }
   }
 

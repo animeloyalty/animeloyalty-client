@@ -1,5 +1,5 @@
 export const settings = {
-  loadingMinimumTimeout: 300,
+  hideTimeout: 2000,
   seekForward: 30,
   seekRewind: 15
 };
