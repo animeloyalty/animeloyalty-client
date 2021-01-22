@@ -1,13 +1,27 @@
 import * as awm from '..';
 import * as mobx from 'mobx';
 
-export class MainControlSeekViewModel {
+export class MainControlSeekViewModel implements awm.IBridgeHandler {
   constructor(private readonly bridge: awm.Bridge) {}
 
   @mobx.action
   attach() {
-    this.bridge.addEventHandler(this._onEvent.bind(this));
+    this.bridge.subscribe(this);
     return this;
+  }
+
+  @mobx.action
+  onVideoEvent(event: awm.VideoEvent) {
+    switch (event.type) {
+      case 'timeupdate':
+        this.currentBuffer = event.buffer;
+        this.currentDuration = event.duration;
+        if (!this.isPreview) this.currentTime = event.time;
+        break;
+      case 'waiting':
+        if (!this.isPreview) this.currentTime = event.time;
+        break;
+    }
   }
 
   @mobx.action
@@ -34,18 +48,4 @@ export class MainControlSeekViewModel {
 
   @mobx.observable
   isPreview = false;
-
-  @mobx.action
-  private _onEvent(event: awm.VideoEvent) {
-    switch (event.type) {
-      case 'timeupdate':
-        this.currentBuffer = event.buffer;
-        this.currentDuration = event.duration;
-        if (!this.isPreview) this.currentTime = event.time;
-        break;
-      case 'waiting':
-        if (!this.isPreview) this.currentTime = event.time;
-        break;
-    }
-  }
 }

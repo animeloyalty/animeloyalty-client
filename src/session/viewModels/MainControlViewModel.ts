@@ -2,7 +2,7 @@ import * as awe from '../..';
 import * as awm from '..';
 import * as mobx from 'mobx';
 
-export class MainControlViewModel {
+export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBridgeHandler {
   constructor(
     private readonly bridge: awm.Bridge,
     private readonly navigator: awm.INavigator
@@ -10,11 +10,49 @@ export class MainControlViewModel {
 
   @mobx.action
   attach() {
-    this.bridge.addEventHandler(this._onEvent.bind(this));
+    this.bridge.subscribe(this);
     this.seek.attach();
     return this;
   }
 
+  @mobx.action
+  onInputKey(event: awe.shared.InputKeyEvent) {
+    if (event.type === 'enter') {
+      this.togglePlay();
+      return true;
+    } else if (event.type === 'arrowLeft') {
+      this.seekRewind();
+      return true;
+    } else if (event.type === 'arrowRight') {
+      this.seekForward();
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  @mobx.action
+  onVideoEvent(event: awm.VideoEvent) {
+    switch (event.type) {
+      case 'loadedmetadata':
+        this.currentDuration = event.duration;
+        break;
+      case 'play':
+        this.isPlaying = true;
+        break;
+      case 'pause':
+        this.isPlaying = false;
+        break;
+      case 'timeupdate':
+        this.currentDuration = event.duration;
+        this.currentTime = event.time;
+        break;
+      case 'waiting':
+        this.currentTime = event.time;
+        break;
+    }
+  }
+  
   @mobx.action
   openNext() {
     this.navigator.openNext();
@@ -27,18 +65,21 @@ export class MainControlViewModel {
 
   @mobx.action
   seekForward() {
+    if (!this.canSeek) return;
     const time = this.currentTime + awe.shared.settings.seekForward;
     this.bridge.dispatchRequest({type: 'seek', time});
   }
 
   @mobx.action
   seekRewind() {
+    if (!this.canSeek) return;
     const time = this.currentTime - awe.shared.settings.seekRewind;
     this.bridge.dispatchRequest({type: 'seek', time});
   }
 
   @mobx.action
   togglePlay() {
+    if (!this.canSeek) return;
     this.bridge.dispatchRequest(this.isPlaying
       ? {type: 'pause'}
       : {type: 'play'});
@@ -70,26 +111,4 @@ export class MainControlViewModel {
 
   @mobx.observable
   readonly seek = new awm.MainControlSeekViewModel(this.bridge);
-
-  @mobx.action
-  private _onEvent(event: awm.VideoEvent) {
-    switch (event.type) {
-      case 'loadedmetadata':
-        this.currentDuration = event.duration;
-        break;
-      case 'play':
-        this.isPlaying = true;
-        break;
-      case 'pause':
-        this.isPlaying = false;
-        break;
-      case 'timeupdate':
-        this.currentDuration = event.duration;
-        this.currentTime = event.time;
-        break;
-      case 'waiting':
-        this.currentTime = event.time;
-        break;
-    }
-  }
 }

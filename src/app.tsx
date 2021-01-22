@@ -15,12 +15,12 @@ import * as ReactDOM from 'react-dom';
 
 /*
 TODO:
-volume, brightness controls?
-double click, alt+enter, backslash = fullscreen toggle
-mwheelup, arrowup = louder
-mwhelldown, arrowdown = quieter
-Rightarrow = +10s
-leftarrow = -10s
+[ ] brightness controls?
+[ ] double click, alt+enter, backslash = fullscreen toggle
+[ ] mwheelup, arrowup = louder
+[ ] mwhelldown, arrowdown = quieter
+[x] Rightarrow = +30s
+[x] leftarrow = -15s
 */
 
 @mobxReact.observer
