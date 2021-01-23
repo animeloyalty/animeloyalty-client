@@ -16,7 +16,7 @@ export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
 
   @mobx.action
   clear() {
-    if (!this.selectedSubtitle) return;
+    if (!this.canSelect || !this.selectedSubtitle) return;
     this.bridge.dispatchRequest({type: 'clearSubtitle'});
     this.selectedSubtitle = undefined;
     localStorage.setItem(languageKey, languageNone);
@@ -24,7 +24,7 @@ export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
 
   @mobx.action
   select(subtitle: awm.ISubtitle) {
-    if (this.selectedSubtitle === subtitle) return;
+    if (!this.canSelect || this.selectedSubtitle === subtitle) return;
     this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
     this.selectedSubtitle = subtitle;
     localStorage.setItem(languageKey, subtitle.language);
