@@ -1,3 +1,5 @@
+import * as ace from 'animesync';
+
 export interface IBridgeHandler {
   onVideoEvent?(event: VideoEvent): void;
   onVideoRequest?(event: VideoRequest): void;
@@ -19,6 +21,10 @@ export interface INavigatorEpisode {
   episodeTitle?: string;
 }
 
+export interface ISubtitle extends ace.api.RemoteStreamSubtitle {
+  displayName: string;
+}
+
 export type VideoEvent =
   {type: 'ended'} |
   {type: 'error'} |
@@ -32,8 +38,10 @@ export type VideoEvent =
   {type: 'waiting'} & {time: number};
   
 export type VideoRequest =
+  {type: 'clearSubtitle'} |
+  {type: 'loadStream', videoType: 'application/x-mpegURL', url: string} |
+  {type: 'loadSubtitle', subtitle: ISubtitle} |
   {type: 'pause'} |
   {type: 'play'} |
   {type: 'seek', time: number} |
-  {type: 'stream', videoType: 'application/x-mpegURL', url: string} |
-  {type: 'subtitle', subtitleType: 'ass' | 'vtt', url: string};
+  {type: 'subtitles', subtitles: Array<ISubtitle>};

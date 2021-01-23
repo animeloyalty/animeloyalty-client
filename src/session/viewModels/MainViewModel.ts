@@ -43,7 +43,7 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
     if (this.isHidden && (event.type === 'down' || event.type === 'up')) {
       this.togglePlay();
       return true;
-    } else if (this.isLoaded && this.control.isPlaying) {
+    } else if (this.isLoaded && this.control.isPlaying && !this.isWaiting) {
       this.removeHide();
       this.scheduleHide();
       return false;

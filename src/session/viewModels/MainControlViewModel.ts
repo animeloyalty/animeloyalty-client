@@ -12,6 +12,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   attach() {
     this.bridge.subscribe(this);
     this.seek.attach();
+    this.subtitle.attach();
     return this;
   }
 
@@ -111,4 +112,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
 
   @mobx.observable
   readonly seek = new awm.MainControlSeekViewModel(this.bridge);
+  
+  @mobx.observable
+  readonly subtitle = new awm.MainControlSubtitleViewModel(this.bridge);
 }

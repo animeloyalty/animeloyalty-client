@@ -37,12 +37,7 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {vm: awm.Ma
           </mui.IconButton>
         </mui.Grid>
         <mui.Grid className={this.classes.endBar}>
-          <mui.IconButton className={this.classes.iconButton}>
-            <awe.shared.icons.PlaylistPlay />
-          </mui.IconButton>
-          <mui.IconButton className={this.classes.iconButton}>
-            <awe.shared.icons.Subtitles />
-          </mui.IconButton>
+          <awm.MainControlSubtitleView vm={this.props.vm.subtitle} />
           <mui.IconButton className={this.classes.iconButton}>
             {isFullScreen ? <awe.shared.icons.FullscreenExit /> : <awe.shared.icons.Fullscreen />}
           </mui.IconButton>
