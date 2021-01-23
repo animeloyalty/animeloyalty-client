@@ -13,6 +13,9 @@ export class MainControlSeekViewModel implements awm.IBridgeHandler {
   @mobx.action
   onVideoEvent(event: awm.VideoEvent) {
     switch (event.type) {
+      case 'seeking':
+        if (!this.isPreview) this.currentTime = event.time;
+        break;
       case 'timeupdate':
         this.currentBuffer = event.buffer;
         this.currentDuration = event.duration;

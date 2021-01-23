@@ -44,6 +44,9 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
       case 'pause':
         this.isPlaying = false;
         break;
+      case 'seeking':
+        this.currentTime = event.time;
+        break;
       case 'timeupdate':
         this.currentDuration = event.duration;
         this.currentTime = event.time;
