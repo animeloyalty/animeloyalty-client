@@ -4,10 +4,11 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+// TODO:fullscreen
+// TODO:vmin helper? call app.vmin(15) to get a correct css string etc.
+// TODO:font sizing of ass
 // TODO:size of loader
-// TODO: cursor hide, clean up.
 // TODO:vw/vh/vmin with MAX
-// TODO:font sizing etc...
 // TODO:css -> @global jss
 // TODO:image->text scroll
 // TODO:image loads... and bgs
