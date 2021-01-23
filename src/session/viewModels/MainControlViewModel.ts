@@ -56,11 +56,13 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   
   @mobx.action
   openNext() {
+    if (!this.navigator.hasNext) return;
     this.navigator.openNext();
   }
   
   @mobx.action
   openPrevious() {
+    if (!this.navigator.hasPrevious) return;
     this.navigator.openPrevious();
   }
 

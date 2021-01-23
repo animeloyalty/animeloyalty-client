@@ -5,9 +5,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 // TODO:fullscreen
+// TODO:next episode preloader
 // TODO:vmin helper? call app.vmin(15) to get a correct css string etc.
 // TODO:font sizing of ass
 // TODO:size of loader
+// TODO:track times? or wait for library for that.
 // TODO:vw/vh/vmin with MAX
 // TODO:css -> @global jss
 // TODO:image->text scroll

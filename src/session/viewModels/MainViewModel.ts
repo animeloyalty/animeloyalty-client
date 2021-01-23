@@ -56,11 +56,10 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   onVideoEvent(event: awm.VideoEvent) {
     switch (event.type) {
       case 'ended':
-        this.leave();
+        this.end();
         break;
       case 'error':
-        this.leave();
-        break;
+        throw new Error('TODO');
       case 'pause':
         this.removeHide();
         break;
@@ -96,12 +95,20 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   readonly title = new awm.MainTitleViewModel(this.navigator, this.leave.bind(this));
 
   @mobx.action
+  private end() {
+    if (this.navigator.hasNext) {
+      this.navigator.openNext();
+    } else {
+      this.leave();
+    }
+  }
+  
+  @mobx.action
   private removeHide() {
     if (this.isHidden) {
       document.exitPointerLock();
       this.isHidden = false;
-    }
-    if (this.hideTimeout) {
+    } else if (this.hideTimeout) {
       clearTimeout(this.hideTimeout);
       delete this.hideTimeout;
     }
