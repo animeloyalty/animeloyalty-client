@@ -2,29 +2,22 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends app.BaseComponent<typeof Styles, {icon?: React.ReactElement<any>, title: string}> {
+class Component extends app.BaseComponent<typeof Styles, {title: string}> {
   render() {
     return (
       <mui.Grid>
-        <mui.AppBar className="disablePadding">
-          <mui.Grid className="inset-top">
-            <mui.Toolbar>
-              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => app.core.view.leave()}>
-                <app.icons.ArrowBackIos />
-              </mui.IconButton>
-              <mui.Typography className={this.classes.title} color="inherit" variant="h6">
-                {this.props.title}
-              </mui.Typography>
-              <mui.Grid className={this.classes.menu}>
-                {this.props.icon}
-              </mui.Grid>
-            </mui.Toolbar>
-          </mui.Grid>
+        <mui.AppBar>
+          <mui.Toolbar className={this.classes.toolBar}>
+            <mui.IconButton className={this.classes.iconButton} onClick={() => app.core.view.leave()}>
+              <app.icons.ArrowBackIos />
+            </mui.IconButton>
+            <mui.Typography className={this.classes.title}>
+              {this.props.title}
+            </mui.Typography>
+          </mui.Toolbar>
         </mui.AppBar>
-        <mui.Grid className="inset-top">
-          <mui.Grid className={this.classes.children}>
-            {this.props.children}
-          </mui.Grid>
+        <mui.Grid className={this.classes.children}>
+          {this.props.children}
         </mui.Grid>
       </mui.Grid>
     );
@@ -32,22 +25,26 @@ class Component extends app.BaseComponent<typeof Styles, {icon?: React.ReactElem
 }
 
 const Styles = mui.createStyles({
-  children: {
-    paddingTop: 64
+  toolBar: {
+    height: app.sz(30),
+    minHeight: 0,
+    paddingLeft: 0
   },
-  back: {
-    marginLeft: -24,
-    paddingLeft: 16,
-    paddingRight: 6
+  iconButton: {
+    padding: app.sz(6),
+    paddingLeft: app.sz(10),
+    paddingRight: app.sz(4),
+    '& svg': {fontSize: app.sz(15)}
   },
   title: {
     flex: 1,
+    fontSize: app.sz(15),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   },
-  menu: {
-    marginRight: -20
+  children: {
+    paddingTop: app.sz(30)
   }
 });
 

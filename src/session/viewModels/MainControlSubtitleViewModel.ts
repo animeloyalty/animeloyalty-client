@@ -17,17 +17,17 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   @mobx.action
   clear() {
     if (!this.canSelect || !this.selectedSubtitle) return;
+    app.core.store.set(languageKey, languageNone);
     this.bridge.dispatchRequest({type: 'clearSubtitle'});
     this.selectedSubtitle = undefined;
-    localStorage.setItem(languageKey, languageNone);
   }
 
   @mobx.action
   select(subtitle: app.ISubtitle) {
     if (!this.canSelect || this.selectedSubtitle === subtitle) return;
+    app.core.store.set(languageKey, subtitle.language);
     this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
     this.selectedSubtitle = subtitle;
-    localStorage.setItem(languageKey, subtitle.language);
   }
 
   @mobx.action
@@ -52,7 +52,7 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   subtitles: Array<app.ISubtitle> = [];
 
   private loadSubtitle() {
-    const language = localStorage.getItem(languageKey)
+    const language = app.core.store.getString(languageKey, 'eng');
     if (language === languageNone || this.tryLoadSubtitle(language)) return;
     this.tryLoadSubtitle('eng');
   }

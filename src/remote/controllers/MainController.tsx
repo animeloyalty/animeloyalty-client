@@ -11,12 +11,6 @@ export class MainController extends React.Component<{vm: app.MainViewModel}> {
   }
 
   render() {
-    return (
-      <app.HeaderComponent title={document.title}>
-        {this.props.vm.loader.isLoading
-          ? <app.LoaderComponent open={true} />
-          : <app.MainView vm={this.props.vm} />}
-      </app.HeaderComponent>
-    );
+    return <app.MainView vm={this.props.vm} />;
   }
 }

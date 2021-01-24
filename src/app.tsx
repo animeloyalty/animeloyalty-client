@@ -4,10 +4,8 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:vw/vh/vmin with app.sz
-// TODO:css -> @global jss
 // TODO:image->text scroll
-// TODO:image loads... and bgs
+// TODO:image loads...
 // TODO:synopsis and series info etc
 
 // ElectronShell: Disable escape to exit fullscreen/mouselock, disable F11 (in+out), disable fullscreen gesture restriction

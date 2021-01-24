@@ -1,8 +1,6 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 const fullscreenKey = 'fullscreen';
-const fullscreenOff = 'false';
-const fullscreenOn = 'true';
 
 export class ScreenManager implements app.IInputHandler {
   @mobx.action
@@ -13,7 +11,7 @@ export class ScreenManager implements app.IInputHandler {
 
   @mobx.action
   checkStartup() {
-    if (localStorage.getItem(fullscreenKey) !== fullscreenOn) return;
+    if (!app.core.store.getBoolean(fullscreenKey, false)) return;
     this.toggleFullscreen();
   }
   
@@ -40,22 +38,22 @@ export class ScreenManager implements app.IInputHandler {
   private async enterAsync() {
     try {
       await document.body.requestFullscreen();
+      app.core.store.set(fullscreenKey, true);
       this.isFullscreen = true;
-      localStorage.setItem(fullscreenKey, fullscreenOn);
     } catch {
+      app.core.store.set(fullscreenKey, false);
       this.isFullscreen = false;
-      localStorage.setItem(fullscreenKey, fullscreenOff);
     }
   }
 
   private async exitAsync() {
     try {
       await document.exitFullscreen();
+      app.core.store.set(fullscreenKey, false);
       this.isFullscreen = false;
-      localStorage.setItem(fullscreenKey, fullscreenOff);
     } catch {
+      app.core.store.set(fullscreenKey, false);
       this.isFullscreen = false;
-      localStorage.setItem(fullscreenKey, fullscreenOff);
     }
   }
 }

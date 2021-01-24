@@ -4,6 +4,7 @@ let api: ace.api.ServerApi;
 let dialog: app.DialogManager;
 let input: app.InputManager;
 let screen: app.ScreenManager;
+let store: app.StoreManager;
 let view: app.ViewManager;
 
 export const core = {
@@ -25,6 +26,11 @@ export const core = {
   get screen() {
     screen ??= new app.ScreenManager().attach();
     return screen;
+  },
+
+  get store() {
+    store ??= new app.StoreManager();
+    return store;
   },
 
   get view() {

@@ -26,6 +26,7 @@ const Styles = mui.createStyles({
     '&:hover $textContent': {padding: '0 0.75vw'}
   },
   image: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     border: '0.25vw solid transparent',
     borderRadius: '1vw',
     objectFit: 'cover',
