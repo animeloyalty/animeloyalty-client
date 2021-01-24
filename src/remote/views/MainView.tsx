@@ -1,16 +1,15 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
       <mui.Grid className={this.classes.container}>
         <mui.Grid className={this.classes.seriesContainer}>
-          {this.props.vm.series.map((vm, i) => <awm.MainSeriesView key={i} vm={vm} />)}
+          {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
         </mui.Grid>
       </mui.Grid>
     );

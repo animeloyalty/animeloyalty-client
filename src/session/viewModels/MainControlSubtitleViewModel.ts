@@ -1,11 +1,11 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 const languageKey = 'language';
 const languageNone = 'none';
 
-export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
+export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   constructor(
-    private readonly bridge: awm.Bridge
+    private readonly bridge: app.Bridge
   ) {}
 
   @mobx.action
@@ -23,7 +23,7 @@ export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
   }
 
   @mobx.action
-  select(subtitle: awm.ISubtitle) {
+  select(subtitle: app.ISubtitle) {
     if (!this.canSelect || this.selectedSubtitle === subtitle) return;
     this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
     this.selectedSubtitle = subtitle;
@@ -31,7 +31,7 @@ export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
   }
 
   @mobx.action
-  onVideoRequest(event: awm.VideoRequest) {
+  onVideoRequest(event: app.VideoRequest) {
     switch (event.type) {
       case 'subtitles':
         this.subtitles = event.subtitles.sort((a, b) => a.displayName.localeCompare(b.displayName));
@@ -46,10 +46,10 @@ export class MainControlSubtitleViewModel implements awm.IBridgeHandler {
   }
 
   @mobx.observable
-  selectedSubtitle?: awm.ISubtitle;
+  selectedSubtitle?: app.ISubtitle;
 
   @mobx.observable
-  subtitles: Array<awm.ISubtitle> = [];
+  subtitles: Array<app.ISubtitle> = [];
 
   private loadSubtitle() {
     const language = localStorage.getItem(languageKey)

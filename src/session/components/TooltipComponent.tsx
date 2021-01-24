@@ -1,10 +1,11 @@
+import * as app from '..';
 import * as mui from '@material-ui/core';
 
 export const TooltipComponent = mui.withStyles(() => ({
   tooltip: {
     backgroundColor: 'rgba(51, 51, 51, 0.5)',
-    borderRadius: 'max(1vmin, 5px)',
-    fontSize: 'max(2vmin, 10px)',
-    padding: 'max(1.2vmin, 6px)'
+    borderRadius: app.sz(5),
+    fontSize: app.sz(10),
+    padding: app.sz(6)
   }
 }))(mui.Tooltip);

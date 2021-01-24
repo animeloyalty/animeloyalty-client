@@ -1,17 +1,16 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainTitleViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainTitleViewModel}> {
   render() {
     return (
       <mui.AppBar className={this.classes.appBar}>
         <mui.Toolbar className={this.classes.toolBar}>
           <mui.IconButton className={this.classes.iconButton} onClick={() => this.props.vm.leave()}>
-            <awe.shared.icons.ArrowBackIos />
+            <app.icons.ArrowBackIos />
           </mui.IconButton>
           <mui.Grid className={this.classes.title}>
             <mui.Typography className={this.classes.titleTop}>
@@ -33,29 +32,29 @@ const Styles = mui.createStyles({
   },
   toolBar: {
     backgroundColor: 'rgba(51, 51, 51, 0.5)',
-    height: 'max(6vmin, 30px)',
+    height: app.sz(30),
     minHeight: 0,
     paddingLeft: 0
   },
   iconButton: {
-    padding: 'max(1.2vmin, 6px)',
-    paddingLeft: 'max(2vmin, 10px)',
-    paddingRight: 'max(0.8vmin, 4px)',
-    '& svg': {fontSize: 'max(3vmin, 15px)'}
+    padding: app.sz(6),
+    paddingLeft: app.sz(10),
+    paddingRight: app.sz(4),
+    '& svg': {fontSize: app.sz(15)}
   },
   title: {
     flex: 1,
     width: 0
   },
   titleTop: {
-    fontSize: 'max(2vmin, 10px)',
+    fontSize: app.sz(10),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
   },
   titleBottom: {
     color: '#AAA',
-    fontSize: 'max(2vmin, 10px)',
+    fontSize: app.sz(10),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'

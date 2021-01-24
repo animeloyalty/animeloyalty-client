@@ -1,8 +1,8 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends awm.BaseComponent<typeof Styles, {title: string}> {
+class Component extends app.BaseComponent<typeof Styles, {title: string}> {
   render() {
     return (
       <mui.Grid>

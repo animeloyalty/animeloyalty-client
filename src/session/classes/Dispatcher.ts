@@ -1,13 +1,13 @@
-import * as awm from '..';
+import * as app from '..';
 import videojs from 'video.js';
 
 export class Dispatcher {
   private constructor(
-    private readonly bridge: awm.Bridge,
+    private readonly bridge: app.Bridge,
     private readonly player: videojs.Player
   ) {}
 
-  static attach(bridge: awm.Bridge, player: videojs.Player) {
+  static attach(bridge: app.Bridge, player: videojs.Player) {
     const distributor = new Dispatcher(bridge, player);
     distributor.attach();
   }

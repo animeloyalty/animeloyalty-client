@@ -1,7 +1,7 @@
 import * as ace from 'animesync';
-import * as awe from '../..';
+import {session} from '../..';
 
-export class NavigatorEpisode implements awe.session.INavigatorEpisode {
+export class NavigatorEpisode implements session.INavigatorEpisode {
   constructor(series: ace.api.RemoteSeries, season: ace.api.RemoteSeriesSeason, episode: ace.api.RemoteSeriesSeasonEpisode) {
     this.episodeName = episode.name;
     this.episodeTitle = episode.title;

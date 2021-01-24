@@ -1,11 +1,10 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBridgeHandler {
+export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandler {
   constructor(
-    private readonly bridge: awm.Bridge,
-    private readonly navigator: awm.INavigator
+    private readonly bridge: app.Bridge,
+    private readonly navigator: app.INavigator
   ) {}
 
   @mobx.action
@@ -17,7 +16,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   }
 
   @mobx.action
-  onInputKey(event: awe.shared.InputKeyEvent) {
+  onInputKey(event: app.InputKeyEvent) {
     if (event.type === 'enter') {
       this.togglePlay();
       return true;
@@ -33,7 +32,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   }
   
   @mobx.action
-  onVideoEvent(event: awm.VideoEvent) {
+  onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'loadedmetadata':
         this.currentDuration = event.duration;
@@ -72,7 +71,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   @mobx.action
   seekForward() {
     if (!this.canSeek) return;
-    const time = this.currentTime + awe.shared.settings.seekForward;
+    const time = this.currentTime + app.settings.seekForward;
     this.bridge.dispatchRequest({type: 'seek', time});
     this.currentTime = time;
   }
@@ -80,7 +79,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   @mobx.action
   seekRewind() {
     if (!this.canSeek) return;
-    const time = this.currentTime - awe.shared.settings.seekRewind;
+    const time = this.currentTime - app.settings.seekRewind;
     this.bridge.dispatchRequest({type: 'seek', time});
     this.currentTime = time;
   }
@@ -117,8 +116,8 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
   isPlaying = true;
 
   @mobx.observable
-  readonly seek = new awm.MainControlSeekViewModel(this.bridge);
+  readonly seek = new app.MainControlSeekViewModel(this.bridge);
   
   @mobx.observable
-  readonly subtitle = new awm.MainControlSubtitleViewModel(this.bridge);
+  readonly subtitle = new app.MainControlSubtitleViewModel(this.bridge);
 }

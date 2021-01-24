@@ -1,23 +1,22 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
 @mobxReact.observer
-export class SeriesController extends React.Component<{vm: awm.SeriesViewModel}> {
+export class SeriesController extends React.Component<{vm: app.SeriesViewModel}> {
   static createController(title: string, url: string) {
-    const vm = new awm.SeriesViewModel(title, url);
+    const vm = new app.SeriesViewModel(title, url);
     vm.refreshAsync();
     return <SeriesController vm={vm} />;
   }
 
   render() {
     return (
-      <awe.shared.HeaderTitleComponent title={this.props.vm.title}>
+      <app.HeaderTitleComponent title={this.props.vm.title}>
         {this.props.vm.loader.isLoading
-          ? <awe.shared.LoaderComponent open={true} />
-          : <awm.SeriesView vm={this.props.vm} />}
-      </awe.shared.HeaderTitleComponent>
+          ? <app.LoaderComponent open={true} />
+          : <app.SeriesView vm={this.props.vm} />}
+      </app.HeaderTitleComponent>
     );
   }
 }

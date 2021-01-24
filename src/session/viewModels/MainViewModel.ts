@@ -1,13 +1,12 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandler {
+export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   private hideTimeout?: NodeJS.Timeout;
 
   constructor(
-    private readonly bridge: awm.Bridge,
-    private readonly navigator: awm.INavigator
+    private readonly bridge: app.Bridge,
+    private readonly navigator: app.INavigator
   ) {}
 
   @mobx.action
@@ -19,12 +18,12 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
 
   @mobx.action
   leave() {
-    awe.shared.core.view.leave();
+    app.core.view.leave();
     this.clearSchedule();
   }
 
   @mobx.action
-  onInputKey(event: awe.shared.InputKeyEvent) {
+  onInputKey(event: app.InputKeyEvent) {
     if (event.type !== 'escape') {
       this.schedule();
       return false;
@@ -44,7 +43,7 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   }
 
   @mobx.action
-  onVideoEvent(event: awm.VideoEvent) {
+  onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'ended':
         this.onEnd();
@@ -84,10 +83,10 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   isWaiting = true;
 
   @mobx.observable
-  readonly control = new awm.MainControlViewModel(this.bridge, this.navigator);
+  readonly control = new app.MainControlViewModel(this.bridge, this.navigator);
 
   @mobx.observable
-  readonly title = new awm.MainTitleViewModel(this.navigator, this.leave.bind(this));
+  readonly title = new app.MainTitleViewModel(this.navigator, this.leave.bind(this));
 
   @mobx.action
   private onEnd() {
@@ -118,6 +117,6 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
     this.hideTimeout = setTimeout(() => {
       document.body.requestPointerLock();
       this.isHidden = true;
-    }, awe.shared.settings.hideTimeout);
+    }, app.settings.hideTimeout);
   }
 }

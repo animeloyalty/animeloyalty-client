@@ -1,31 +1,30 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainControlSeekViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSeekViewModel}> {
   state = {
-    thumb: awe.shared.unsafe<(props: React.HTMLAttributes<HTMLSpanElement>) => JSX.Element>((props) => (
-      <awm.TooltipComponent interactive placement="top" title={awe.shared.formatTime(this.props.vm.currentTime)}>
+    thumb: app.unsafe<(props: React.HTMLAttributes<HTMLSpanElement>) => JSX.Element>((props) => (
+      <app.TooltipComponent interactive placement="top" title={app.formatTime(this.props.vm.currentTime)}>
         <span {...props} />
-      </awm.TooltipComponent>
+      </app.TooltipComponent>
     ))
   };
 
   render() {
-    return <awm.SliderComponent className={this.classes.slider} color="secondary"
+    return <app.SliderComponent className={this.classes.slider} color="secondary"
       buffered={this.props.vm.currentBuffer} max={this.props.vm.currentDuration} value={this.props.vm.currentTime}
-      onChange={awe.shared.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
-      onChangeCommitted={awe.shared.unsafe((_: never, x: number) => this.props.vm.seekStop(x))}
+      onChange={app.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
+      onChangeCommitted={app.unsafe((_: never, x: number) => this.props.vm.seekStop(x))}
       ThumbComponent={this.state.thumb} />;
   }
 }
 
 const Styles = mui.createStyles({
   slider: {
-    padding: 'max(0.8vmin, 4px) 0',
+    padding: `${app.sz(4)} 0`,
     position: 'absolute',
     top: 0,
     transform: 'translateY(-50%)'

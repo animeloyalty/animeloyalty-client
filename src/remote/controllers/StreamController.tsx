@@ -1,18 +1,18 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as React from 'react';
+import {session} from '../..';
 
 @mobxReact.observer
-export class StreamController extends React.Component<{svm: awe.session.MainViewModel, vm: awm.StreamViewModel}> {
-  static createController(navigator: awe.session.INavigator, url: string) {
-    const bridge = new awe.session.Bridge();
-    const svm = new awe.session.MainViewModel(bridge, navigator).attach();
-    const vm = new awm.StreamViewModel(bridge, url).attach();
+export class StreamController extends React.Component<{svm: session.MainViewModel, vm: app.StreamViewModel}> {
+  static createController(navigator: session.INavigator, url: string) {
+    const bridge = new session.Bridge();
+    const svm = new session.MainViewModel(bridge, navigator).attach();
+    const vm = new app.StreamViewModel(bridge, url).attach();
     return <StreamController svm={svm} vm={vm} />;
   }
 
   render() {
-    return <awe.session.MainView bridge={this.props.vm.bridge} key={this.props.vm.url} vm={this.props.svm} />;
+    return <session.MainView bridge={this.props.vm.bridge} key={this.props.vm.url} vm={this.props.svm} />;
   }
 }
