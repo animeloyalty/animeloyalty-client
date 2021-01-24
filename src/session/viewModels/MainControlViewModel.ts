@@ -74,6 +74,7 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
     if (!this.canSeek) return;
     const time = this.currentTime + awe.shared.settings.seekForward;
     this.bridge.dispatchRequest({type: 'seek', time});
+    this.currentTime = time;
   }
 
   @mobx.action
@@ -81,14 +82,14 @@ export class MainControlViewModel implements awe.shared.IInputHandler, awm.IBrid
     if (!this.canSeek) return;
     const time = this.currentTime - awe.shared.settings.seekRewind;
     this.bridge.dispatchRequest({type: 'seek', time});
+    this.currentTime = time;
   }
 
   @mobx.action
   togglePlay() {
     if (!this.canSeek) return;
-    this.bridge.dispatchRequest(this.isPlaying
-      ? {type: 'pause'}
-      : {type: 'play'});
+    this.bridge.dispatchRequest(this.isPlaying ? {type: 'pause'} : {type: 'play'});
+    this.isPlaying = !this.isPlaying;
   }
 
   @mobx.computed

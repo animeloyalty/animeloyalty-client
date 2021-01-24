@@ -4,7 +4,6 @@ import * as mobx from 'mobx';
 
 export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandler {
   private hideTimeout?: NodeJS.Timeout;
-  private isLoaded?: boolean;
 
   constructor(
     private readonly bridge: awm.Bridge,
@@ -21,35 +20,27 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   @mobx.action
   leave() {
     awe.shared.core.screen.leave();
-    this.removeHide();
+    this.clearSchedule();
   }
 
   @mobx.action
   onInputKey(event: awe.shared.InputKeyEvent) {
-    if (event.type === 'escape') {
+    if (event.type !== 'escape') {
+      this.schedule();
+      return false;
+    } else if (this.isHidden) {
+      this.schedule();
+      return true;
+    } else {
       this.leave();
       return true;
-    } else if (this.isLoaded && this.control.isPlaying && !this.isWaiting) {
-      this.removeHide();
-      this.scheduleHide();
-      return false;
-    } else {
-      return false;
     }
   }
 
   @mobx.action
-  onInputMouse(event: awe.shared.InputMouseEvent) {
-    if (this.isHidden && (event.type === 'down' || event.type === 'up')) {
-      this.togglePlay();
-      return true;
-    } else if (this.isLoaded && this.control.isPlaying && !this.isWaiting) {
-      this.removeHide();
-      this.scheduleHide();
-      return false;
-    } else {
-      return false;
-    }
+  onInputMouse() {
+    this.schedule();
+    return false;
   }
 
   @mobx.action
@@ -60,15 +51,22 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
         break;
       case 'error':
         throw new Error('TODO');
+      case 'pause':
+        this.clearSchedule();
+        break;
       case 'playing':
-        this.isLoaded = true;
         this.isWaiting = false;
-        this.scheduleHide();
+        this.schedule();
+        break;
+      case 'seeked':
+        this.isWaiting = false;
         break;
       case 'seeking':
-        this.removeHide();
+        this.isWaiting = true;
+        this.clearSchedule();
         break;
       case 'waiting':
+        this.clearSchedule();
         this.isWaiting = true;
         break;
     }
@@ -101,20 +99,23 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
   }
   
   @mobx.action
-  private removeHide() {
-    if (this.isHidden) {
-      document.exitPointerLock();
-      this.isHidden = false;
-    } else if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      delete this.hideTimeout;
-    }
+  private clearHide() {
+    if (!this.isHidden) return;
+    document.exitPointerLock();
+    this.isHidden = false;
+  }
+  
+  @mobx.action
+  private clearSchedule() {
+    if (!this.hideTimeout) return;
+    clearTimeout(this.hideTimeout);
   }
 
   @mobx.action
-  private scheduleHide() {
-    if (this.isHidden) return;
-    this.hideTimeout ??= setTimeout(() => {
+  private schedule() {
+    this.clearHide();
+    this.clearSchedule();
+    this.hideTimeout = setTimeout(() => {
       document.body.requestPointerLock();
       this.isHidden = true;
     }, awe.shared.settings.hideTimeout);
