@@ -6,6 +6,11 @@ export function formatTime(seconds: number) {
   return date.getHours() ? `${hoursString}:${minutesString}:${secondsString}` : `${minutesString}:${secondsString}`;
 }
 
+export function sz(px: number) {
+  const vmin = px / 5;
+  return `max(${vmin}vmin, ${px}px)`;
+}
+
 export function unsafe<T>(value: T) {
   return value as any;
 }

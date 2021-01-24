@@ -1,12 +1,11 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainControlSubtitleViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSubtitleViewModel}> {
   state = {
     anchorEl: undefined,
   };
@@ -15,7 +14,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainCon
     return (
       <mui.Grid className={this.classes.container}>
         <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSelect} onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>
-          <awe.shared.icons.Subtitles />
+          <app.icons.Subtitles />
         </mui.IconButton>
         <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement="top-end">
           <mui.Paper className={this.classes.menu}>
@@ -32,7 +31,7 @@ class Component extends awe.shared.BaseComponent<typeof Styles, {vm: awm.MainCon
     );
   }
 
-  private renderMenuItem(subtitle?: awm.ISubtitle) {
+  private renderMenuItem(subtitle?: app.ISubtitle) {
     const displayName = subtitle
       ? subtitle.displayName
       : language.none;
@@ -55,19 +54,19 @@ const Styles = mui.createStyles({
     display: 'inline-block'
   },
   iconButton: {
-    padding: 'max(1.2vmin, 6px)',
-    '& svg': {fontSize: 'max(3vmin, 15px)'}
+    padding: app.sz(6),
+    '& svg': {fontSize: app.sz(15)}
   },
   menu: {
-    transform: 'translateX(max(5.6vmin, 26px))'
+    transform: `translateX(${app.sz(26)})`
   },
   menuList: {
-    padding: 'max(1.2vmin, 6px) 0'
+    padding: `${app.sz(6)} 0`
   },
   menuListItem: {
-    '& svg': {height: 'max(2vmin, 10px)', width: 'max(2vmin, 10px)'},
-    '& .MuiFormControlLabel-label': {fontSize: 'max(2vmin, 10px)'},
-    '& .MuiRadio-root': {padding: 'max(1.2vmin, 6px)'}
+    '& svg': {height: app.sz(10), width: app.sz(10)},
+    '& .MuiFormControlLabel-label': {fontSize: app.sz(10)},
+    '& .MuiRadio-root': {padding: app.sz(6)}
   }
 });
 

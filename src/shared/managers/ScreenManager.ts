@@ -1,13 +1,13 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 const fullscreenKey = 'fullscreen';
 const fullscreenOff = 'false';
 const fullscreenOn = 'true';
 
-export class ScreenManager implements awm.IInputHandler {
+export class ScreenManager implements app.IInputHandler {
   @mobx.action
   attach() {
-    awm.core.input.subscribe(this);
+    app.core.input.subscribe(this);
     return this;
   }
 
@@ -18,7 +18,7 @@ export class ScreenManager implements awm.IInputHandler {
   }
   
   @mobx.action
-  onInputKey(event: awm.InputKeyEvent) {
+  onInputKey(event: app.InputKeyEvent) {
     if (event.type === 'fullscreen') {
       this.toggleFullscreen();
       return true;

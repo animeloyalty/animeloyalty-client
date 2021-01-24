@@ -1,4 +1,4 @@
-import * as awe from '.';
+import * as app from '.';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
@@ -9,10 +9,9 @@ import * as ReactDOM from 'react-dom';
 
 // TODO:font sizing of ass
 // TODO:size of loader
-// TODO:vmin helper? call app.vmin(15) to get a correct css string etc.
 
 // TODO:track times? or wait for library for that.
-// TODO:vw/vh/vmin with MAX
+// TODO:vw/vh/vmin with app.sz
 // TODO:css -> @global jss
 // TODO:image->text scroll
 // TODO:image loads... and bgs
@@ -34,17 +33,17 @@ TODO:
 class App extends React.Component {
   render() {
     return (
-      <mui.MuiThemeProvider theme={awe.shared.theme}>
+      <mui.MuiThemeProvider theme={app.shared.theme}>
         <mui.CssBaseline />
-        <awe.shared.DialogManagerView />
-        <awe.shared.ViewManagerView />
+        <app.shared.DialogManagerView />
+        <app.shared.ViewManagerView />
       </mui.MuiThemeProvider>
     );
   }
 }
 
 (function() {
-  awe.shared.core.screen.checkStartup();
-  awe.shared.core.view.open(awe.remote.MainController.createController());
+  app.shared.core.screen.checkStartup();
+  app.shared.core.view.open(app.remote.MainController.createController());
   ReactDOM.render(<App />, document.getElementById('container'));
 })();

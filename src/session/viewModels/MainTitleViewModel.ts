@@ -1,9 +1,9 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainTitleViewModel {
   constructor(
-    private readonly navigator: awm.INavigator,
+    private readonly navigator: app.INavigator,
     private readonly onLeave: Function
   ) {}
 

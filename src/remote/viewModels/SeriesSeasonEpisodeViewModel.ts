@@ -1,6 +1,5 @@
 import * as ace from 'animesync';
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonEpisodeViewModel {
@@ -16,9 +15,9 @@ export class SeriesSeasonEpisodeViewModel {
 
   @mobx.action
   open() {
-    const navigator = awm.Navigator.create(this.series, this.seasonIndex, this.episodeIndex);
-    const controller = awm.StreamController.createController(navigator, this.url);
-    awe.shared.core.view.open(controller);
+    const navigator = app.Navigator.create(this.series, this.seasonIndex, this.episodeIndex);
+    const controller = app.StreamController.createController(navigator, this.url);
+    app.core.view.open(controller);
   }
 
   @mobx.computed

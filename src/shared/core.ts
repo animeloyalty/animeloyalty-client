@@ -1,10 +1,10 @@
 import * as ace from 'animesync';
-import * as awm from '.';
+import * as app from '.';
 let api: ace.api.ServerApi;
-let dialog: awm.DialogManager;
-let input: awm.InputManager;
-let screen: awm.ScreenManager;
-let view: awm.ViewManager;
+let dialog: app.DialogManager;
+let input: app.InputManager;
+let screen: app.ScreenManager;
+let view: app.ViewManager;
 
 export const core = {
   get api() {
@@ -13,22 +13,22 @@ export const core = {
   },
 
   get dialog() {
-    dialog ??= new awm.DialogManager();
+    dialog ??= new app.DialogManager();
     return dialog;
   },
 
   get input() {
-    input ??= new awm.InputManager().attach();
+    input ??= new app.InputManager().attach();
     return input;
   },
 
   get screen() {
-    screen ??= new awm.ScreenManager().attach();
+    screen ??= new app.ScreenManager().attach();
     return screen;
   },
 
   get view() {
-    view ??= new awm.ViewManager();
+    view ??= new app.ViewManager();
     return view;
   }
 };

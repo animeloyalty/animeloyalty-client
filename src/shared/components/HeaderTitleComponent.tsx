@@ -1,16 +1,16 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends awm.BaseComponent<typeof Styles, {icon?: React.ReactElement<any>, title: string}> {
+class Component extends app.BaseComponent<typeof Styles, {icon?: React.ReactElement<any>, title: string}> {
   render() {
     return (
       <mui.Grid>
         <mui.AppBar className="disablePadding">
           <mui.Grid className="inset-top">
             <mui.Toolbar>
-              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => awm.core.view.leave()}>
-                <awm.icons.ArrowBackIos />
+              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => app.core.view.leave()}>
+                <app.icons.ArrowBackIos />
               </mui.IconButton>
               <mui.Typography className={this.classes.title} color="inherit" variant="h6">
                 {this.props.title}

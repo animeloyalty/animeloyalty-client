@@ -1,10 +1,11 @@
-import * as awe from '../..';
+import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
+import {session} from '../..';
 
-export class StreamViewModel implements awe.session.IBridgeHandler {
+export class StreamViewModel implements session.IBridgeHandler {
   constructor(
-    readonly bridge: awe.session.Bridge,
+    readonly bridge: session.Bridge,
     readonly url: string
   ) {}
   
@@ -15,7 +16,7 @@ export class StreamViewModel implements awe.session.IBridgeHandler {
   }
 
   @mobx.action
-  onVideoEvent(event: awe.session.VideoEvent) {
+  onVideoEvent(event: session.VideoEvent) {
     switch (event.type) {
       case 'ready':
         this.refreshAsync();
@@ -25,7 +26,7 @@ export class StreamViewModel implements awe.session.IBridgeHandler {
 
   @mobx.action
   async refreshAsync() {
-    const result = await awe.shared.core.api.remote.streamAsync({url: this.url});
+    const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
       const subtitles = result.value.subtitles.map(subtitle => ({displayName: language[subtitle.language], ...subtitle}));
       this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});

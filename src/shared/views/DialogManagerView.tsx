@@ -1,13 +1,13 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends awm.BaseComponent<typeof Styles> {
+class Component extends app.BaseComponent<typeof Styles> {
   render() {
-    return awm.core.dialog.items.map((item, index) => (
-      <mui.Dialog key={item.id} fullWidth maxWidth={false} open={index === awm.core.dialog.items.length - 1}>
+    return app.core.dialog.items.map((item, index) => (
+      <mui.Dialog key={item.id} fullWidth maxWidth={false} open={index === app.core.dialog.items.length - 1}>
         <mui.DialogContent className={this.classes.content}>
           <mui.DialogContentText>
             {item.body}

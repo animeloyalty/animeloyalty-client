@@ -1,6 +1,5 @@
 import * as ace from 'animesync';
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
 export class SeriesViewModel {
@@ -15,11 +14,11 @@ export class SeriesViewModel {
   @mobx.action
   async refreshAsync() {
     await this.loader.loadAsync(async () => {
-      const result = await awe.shared.core.api.remote.seriesAsync({url: this.url});
+      const result = await app.core.api.remote.seriesAsync({url: this.url});
       if (result.value) {
         this.genres = result.value.genres;
         this.imageUrl = result.value.imageUrl;
-        this.seasons = result.value.seasons.map((_, seasonIndex) => new awm.SeriesSeasonViewModel(result.value, seasonIndex));
+        this.seasons = result.value.seasons.map((_, seasonIndex) => new app.SeriesSeasonViewModel(result.value, seasonIndex));
         this.synopsis = result.value.synopsis;
         this.title = result.value.title;
         this.url = result.value.url;
@@ -36,7 +35,7 @@ export class SeriesViewModel {
   imageUrl: ace.api.RemoteSeries['imageUrl'];
 
   @mobx.observable
-  seasons: Array<awm.SeriesSeasonViewModel>;
+  seasons: Array<app.SeriesSeasonViewModel>;
 
   @mobx.observable
   synopsis: ace.api.RemoteSeries['synopsis'];
@@ -48,5 +47,5 @@ export class SeriesViewModel {
   url: ace.api.RemoteSeries['url'];
 
   @mobx.observable
-  readonly loader = new awe.shared.LoaderViewModel();
+  readonly loader = new app.LoaderViewModel();
 }

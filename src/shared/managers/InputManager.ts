@@ -1,7 +1,7 @@
-import * as awm from '..';
+import * as app from '..';
 
 export class InputManager {
-  private readonly _handlers: Array<awm.IInputHandler>;
+  private readonly _handlers: Array<app.IInputHandler>;
 
   constructor() {
     this._handlers = [];
@@ -15,11 +15,11 @@ export class InputManager {
     return this;
   }
   
-  subscribe(handler: awm.IInputHandler) {
+  subscribe(handler: app.IInputHandler) {
     this._handlers.push(handler);
   }
 
-  unsubscribe(handler: awm.IInputHandler) {
+  unsubscribe(handler: app.IInputHandler) {
     const index = this._handlers.indexOf(handler);
     if (index !== -1) this._handlers.splice(index, 1);
   }
@@ -67,12 +67,12 @@ export class InputManager {
     }
   }
 
-  private _sendKeyEvent(source: KeyboardEvent, event: awm.InputKeyEvent) {
+  private _sendKeyEvent(source: KeyboardEvent, event: app.InputKeyEvent) {
     if (!this._handlers.slice().reverse().reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }
   
-  private _sendMouseEvent(source: MouseEvent, event: awm.InputMouseEvent) {
+  private _sendMouseEvent(source: MouseEvent, event: app.InputMouseEvent) {
     if (!this._handlers.slice().reverse().reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }

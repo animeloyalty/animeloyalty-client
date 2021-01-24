@@ -1,6 +1,5 @@
 import * as ace from 'animesync';
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainSeriesViewModel {
@@ -12,8 +11,8 @@ export class MainSeriesViewModel {
 
   @mobx.action
   open() {
-    const controller = awm.SeriesController.createController(this.title, this.url);
-    awe.shared.core.view.open(controller);
+    const controller = app.SeriesController.createController(this.title, this.url);
+    app.core.view.open(controller);
   }
 
   @mobx.observable

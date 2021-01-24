@@ -1,12 +1,11 @@
-import * as awe from '../..';
-import * as awm from '..';
+import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 import videojs from 'video.js';
 
 @mobxReact.observer
-class Component extends awe.shared.BaseInputComponent<typeof Styles, {bridge: awm.Bridge, vm: awm.MainViewModel}> implements awm.IBridgeHandler {
+class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
   private _element?: HTMLVideoElement;
   private _player?: videojs.Player;
   private _worker?: SubtitlesOctopus;
@@ -23,7 +22,7 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {bridge: aw
     this._worker?.dispose();
   }
 
-  onVideoRequest(request: awm.VideoRequest) {
+  onVideoRequest(request: app.VideoRequest) {
     switch (request.type) {
       case 'clearSubtitle':
         this.clearSubtitle();
@@ -57,10 +56,10 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {bridge: aw
     return (
       <mui.Grid className={this.props.vm.isHidden ? this.classes.containerHidden : this.classes.container}>
         <video className="video-js" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.togglePlay()} />
-        <awe.shared.LoaderComponent open={this.props.vm.isWaiting} />
+        <app.LoaderComponent open={this.props.vm.isWaiting} />
         <mui.Grid className={this.classes.ui}>
-          <awm.MainControlView vm={this.props.vm.control} />
-          <awm.MainTitleView vm={this.props.vm.title} />
+          <app.MainControlView vm={this.props.vm.control} />
+          <app.MainTitleView vm={this.props.vm.title} />
         </mui.Grid>
       </mui.Grid>
     );
@@ -68,7 +67,7 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {bridge: aw
 
   private clearSubtitle() {
     const tracks = this._player?.remoteTextTracks();
-    if (tracks) Array.from(tracks).forEach(x => this._player?.removeRemoteTextTrack(awe.shared.unsafe(x)));
+    if (tracks) Array.from(tracks).forEach(x => this._player?.removeRemoteTextTrack(app.unsafe(x)));
     this._worker?.dispose();
     delete this._worker;
   }
@@ -76,9 +75,9 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {bridge: aw
   private onCreate(element: HTMLVideoElement | null) {
     if (!element || this._element) return;
     this._element = element;
-    this._player = videojs(element, awe.shared.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
+    this._player = videojs(element, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
       if (!this._player) return;
-      awm.Dispatcher.attach(this.props.bridge, this._player);
+      app.Dispatcher.attach(this.props.bridge, this._player);
       this.props.bridge.subscribe(this);
       this.props.bridge.dispatchEvent({type: 'ready'});
     });

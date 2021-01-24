@@ -1,8 +1,8 @@
-import * as awm from '..';
+import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainControlSeekViewModel implements awm.IBridgeHandler {
-  constructor(private readonly bridge: awm.Bridge) {}
+export class MainControlSeekViewModel implements app.IBridgeHandler {
+  constructor(private readonly bridge: app.Bridge) {}
 
   @mobx.action
   attach() {
@@ -11,7 +11,7 @@ export class MainControlSeekViewModel implements awm.IBridgeHandler {
   }
 
   @mobx.action
-  onVideoEvent(event: awm.VideoEvent) {
+  onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'seeking':
         if (!this.isPreview) this.currentTime = event.time;
