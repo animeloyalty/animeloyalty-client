@@ -3,14 +3,8 @@ import * as mobx from 'mobx';
 
 export class MainTitleViewModel {
   constructor(
-    private readonly navigator: app.INavigator,
-    private readonly onLeave: Function
+    private readonly navigator: app.INavigator
   ) {}
-
-  @mobx.action
-  leave() {
-    this.onLeave();
-  }
 
   @mobx.computed
   get displayName() {
