@@ -58,12 +58,14 @@ export class InputManager {
   }
 
   private _sendKeyEvent(source: KeyboardEvent, event: awm.InputKeyEvent) {
-    if (!this._handlers.reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
+    const handlers = this._handlers.slice().reverse();
+    if (!handlers.reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }
   
   private _sendMouseEvent(source: MouseEvent, event: awm.InputMouseEvent) {
-    if (!this._handlers.reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
+    const handlers = this._handlers.slice().reverse();
+    if (!handlers.reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }
 }

@@ -33,6 +33,7 @@ export type VideoEvent =
   {type: 'playing'} |
   {type: 'pause'} |
   {type: 'ready'} |
+  {type: 'seeked'} & {time: number} |
   {type: 'seeking'} & {time: number} |
   {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
   {type: 'waiting'} & {time: number};
