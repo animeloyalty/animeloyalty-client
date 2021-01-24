@@ -1,39 +1,61 @@
+import * as awm from '..';
 import * as mobx from 'mobx';
-import * as React from 'react';
+const fullscreenKey = 'fullscreen';
+const fullscreenOff = 'false';
+const fullscreenOn = 'true';
 
-export class ScreenManager {
-  constructor() {
-    const view = React.createElement('span');
-    this.views = [{view, x: 0, y: 0}];
+export class ScreenManager implements awm.IInputHandler {
+  @mobx.action
+  attach() {
+    awm.core.input.subscribe(this);
+    return this;
   }
 
   @mobx.action
-  leave() {
-    this.views.pop();
+  checkStartup() {
+    if (localStorage.getItem(fullscreenKey) !== fullscreenOn) return;
+    this.toggleFullscreen();
+  }
+  
+  @mobx.action
+  onInputKey(event: awm.InputKeyEvent) {
+    if (event.type === 'fullscreen') {
+      this.toggleFullscreen();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @mobx.action
-  open(view: React.ReactElement) {
-    this.current.x = scrollX;
-    this.current.y = scrollY;
-    this.views.push({view, x: 0, y: 0});
-  }
-
-  @mobx.action
-  replace(view: React.ReactElement) {
-    this.views.pop();
-    this.views.push({view, x: 0, y: 0});
-  }
-
-  @mobx.computed
-  get current() {
-    return this.views[this.views.length - 1];
+  toggleFullscreen() {
+    this.isFullscreen
+      ? this.exitAsync()
+      : this.enterAsync();
   }
   
   @mobx.observable
-  private views: {
-    view: React.ReactElement,
-    x: number,
-    y: number
-  }[];
+  isFullscreen = false;
+
+  private async enterAsync() {
+    try {
+      await document.body.requestFullscreen();
+      this.isFullscreen = true;
+      localStorage.setItem(fullscreenKey, fullscreenOn);
+    } catch {
+      this.isFullscreen = false;
+      localStorage.setItem(fullscreenKey, fullscreenOff);
+    }
+  }
+
+  private async exitAsync() {
+    try {
+      await document.exitFullscreen();
+      this.isFullscreen = false;
+      localStorage.setItem(fullscreenKey, fullscreenOff);
+    } catch {
+      this.isFullscreen = false;
+      localStorage.setItem(fullscreenKey, fullscreenOff);
+    }
+  }
 }

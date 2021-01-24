@@ -13,7 +13,7 @@ export class MainSeriesViewModel {
   @mobx.action
   open() {
     const controller = awm.SeriesController.createController(this.title, this.url);
-    awe.shared.core.screen.open(controller);
+    awe.shared.core.view.open(controller);
   }
 
   @mobx.observable

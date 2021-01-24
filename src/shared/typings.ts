@@ -7,7 +7,8 @@ export type InputKeyEvent =
   {type: 'arrowLeft'} |
   {type: 'arrowRight'} |
   {type: 'enter'} | 
-  {type: 'escape'};
+  {type: 'escape'} |
+  {type: 'fullscreen'};
 
 export type InputMouseEvent =
   {type: 'up'} |

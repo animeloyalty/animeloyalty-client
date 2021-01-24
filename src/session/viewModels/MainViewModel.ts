@@ -19,7 +19,7 @@ export class MainViewModel implements awe.shared.IInputHandler, awm.IBridgeHandl
 
   @mobx.action
   leave() {
-    awe.shared.core.screen.leave();
+    awe.shared.core.view.leave();
     this.clearSchedule();
   }
 

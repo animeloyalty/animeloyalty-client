@@ -32,11 +32,21 @@ export class InputManager {
       case 'ArrowRight':
         this._sendKeyEvent(event, {type: 'arrowRight'});
         break;
+      case 'Backslash':
+        this._sendKeyEvent(event, {type: 'fullscreen'});
+        break;
       case 'Backspace':
+        this._sendKeyEvent(event, {type: 'escape'});
+        break;
       case 'Escape':
         this._sendKeyEvent(event, {type: 'escape'});
         break;
       case 'Enter':
+        this._sendKeyEvent(event, event.altKey ? {type: 'fullscreen'} : {type: 'enter'});
+        break;
+      case 'KeyF':
+        this._sendKeyEvent(event, {type: 'fullscreen'});
+        break;
       case 'Space':
         this._sendKeyEvent(event, {type: 'enter'});
         break;
@@ -58,14 +68,12 @@ export class InputManager {
   }
 
   private _sendKeyEvent(source: KeyboardEvent, event: awm.InputKeyEvent) {
-    const handlers = this._handlers.slice().reverse();
-    if (!handlers.reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
+    if (!this._handlers.slice().reverse().reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }
   
   private _sendMouseEvent(source: MouseEvent, event: awm.InputMouseEvent) {
-    const handlers = this._handlers.slice().reverse();
-    if (!handlers.reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
+    if (!this._handlers.slice().reverse().reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
     source.preventDefault();
   }
 }
