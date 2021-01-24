@@ -12,6 +12,7 @@ export interface INavigator {
   readonly hasPrevious: boolean;
   openNext: () => void;
   openPrevious: () => void;
+  preloadNext: () => void;
 }
 
 export interface INavigatorEpisode {

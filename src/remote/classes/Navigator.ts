@@ -15,15 +15,23 @@ export class Navigator implements session.INavigator {
   }
 
   openNext() {
+    if (!this.hasNext) return;
     const navigator = new Navigator(this.series, this.index + 1);
     const controller = app.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl);
     app.core.view.replace(controller);
   }
 
   openPrevious() {
+    if (!this.hasPrevious) return;
     const navigator = new Navigator(this.series, this.index - 1);
     const controller = app.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl);
     app.core.view.replace(controller);
+  }
+
+  preloadNext() {
+    if (!this.hasNext) return;
+    const url = this.episodes[this.index + 1].episodeUrl;
+    app.core.api.remote.streamAsync({url}).catch(() => undefined);
   }
 
   readonly current: app.NavigatorEpisode

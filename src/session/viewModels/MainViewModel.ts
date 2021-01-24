@@ -2,6 +2,7 @@ import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
+  private didPreload?: boolean;
   private hideTimeout?: NodeJS.Timeout;
 
   constructor(
@@ -19,7 +20,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   @mobx.action
   leave() {
     app.core.view.leave();
-    this.clearSchedule();
+    this.removeSchedule();
   }
 
   @mobx.action
@@ -56,10 +57,12 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         break;
       case 'seeked':
         this.isWaiting = false;
-        this.schedule();
         break;
       case 'seeking':
         this.isWaiting = true;
+        break;
+      case 'timeupdate':
+        this.onTimeUpdate(event.time, event.duration);
         break;
       case 'waiting':
         this.isWaiting = true;
@@ -94,22 +97,29 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   }
   
   @mobx.action
-  private clearHide() {
+  private onTimeUpdate(time: number, duration: number) {
+    if (this.didPreload || duration - time > app.settings.preloadTreshold) return;
+    this.didPreload = true;
+    this.navigator.preloadNext();
+  }
+
+  @mobx.action
+  private removeHide() {
     if (!this.isHidden) return;
     document.exitPointerLock();
     this.isHidden = false;
   }
   
   @mobx.action
-  private clearSchedule() {
+  private removeSchedule() {
     if (!this.hideTimeout) return;
     clearTimeout(this.hideTimeout);
   }
 
   @mobx.action
   private schedule() {
-    this.clearHide();
-    this.clearSchedule();
+    this.removeHide();
+    this.removeSchedule();
     this.hideTimeout = setTimeout(() => {
       if (!this.control.isPlaying || this.isWaiting) return;
       document.body.requestPointerLock();
