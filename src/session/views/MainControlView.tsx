@@ -12,8 +12,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {vm: app.MainContr
           <app.MainControlSeekView vm={this.props.vm.seek} />
           <mui.Grid className={this.classes.beginBar}>
             <mui.Typography className={this.classes.time}>
-              {app.formatTime(this.props.vm.currentTime)} /
-              {app.formatTime(this.props.vm.currentDuration)}
+              {app.formatTime(this.props.vm.currentTime)} / {app.formatTime(this.props.vm.currentDuration)}
             </mui.Typography>
           </mui.Grid>
         </mui.Grid>}
