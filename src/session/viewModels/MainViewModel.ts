@@ -41,6 +41,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'destroy':
+        this.removeHide();
         this.removeSchedule();
         break;
       case 'ended':
