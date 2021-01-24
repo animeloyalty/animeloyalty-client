@@ -55,7 +55,7 @@ const Styles = mui.createStyles({
   },
   beginBar: {
     position: 'absolute',
-    left: app.sz(9),
+    left: app.sz(10),
     top: '50%',
     transform: 'translateY(-50%)'
   },
@@ -72,7 +72,7 @@ const Styles = mui.createStyles({
     transform: 'translateY(-50%)'
   },
   iconButton: {
-    padding: app.sz(6),
+    padding: app.sz(5),
     '& svg': {fontSize: app.sz(15)}
   },
   time: {
