@@ -4,6 +4,7 @@ let api: ace.api.ServerApi;
 let dialog: awm.DialogManager;
 let input: awm.InputManager;
 let screen: awm.ScreenManager;
+let view: awm.ViewManager;
 
 export const core = {
   get api() {
@@ -22,7 +23,12 @@ export const core = {
   },
 
   get screen() {
-    screen ??= new awm.ScreenManager();
+    screen ??= new awm.ScreenManager().attach();
     return screen;
+  },
+
+  get view() {
+    view ??= new awm.ViewManager();
+    return view;
   }
 };

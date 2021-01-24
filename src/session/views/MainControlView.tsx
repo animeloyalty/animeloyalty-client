@@ -7,7 +7,6 @@ import * as React from 'react';
 @mobxReact.observer
 class Component extends awe.shared.BaseInputComponent<typeof Styles, {vm: awm.MainControlViewModel}> {
   render() {
-    const isFullScreen = false;
     return (
       <mui.AppBar className={this.classes.container}>
         {this.props.vm.canSeek && <mui.Grid>
@@ -38,8 +37,8 @@ class Component extends awe.shared.BaseInputComponent<typeof Styles, {vm: awm.Ma
         </mui.Grid>
         <mui.Grid className={this.classes.endBar}>
           <awm.MainControlSubtitleView vm={this.props.vm.subtitle} />
-          <mui.IconButton className={this.classes.iconButton}>
-            {isFullScreen ? <awe.shared.icons.FullscreenExit /> : <awe.shared.icons.Fullscreen />}
+          <mui.IconButton className={this.classes.iconButton} onClick={() => awe.shared.core.screen.toggleFullscreen()}>
+            {awe.shared.core.screen.isFullscreen ? <awe.shared.icons.FullscreenExit /> : <awe.shared.icons.Fullscreen />}
           </mui.IconButton>
         </mui.Grid>
       </mui.AppBar>

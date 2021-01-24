@@ -17,13 +17,13 @@ export class Navigator implements awe.session.INavigator {
   openNext() {
     const navigator = new Navigator(this.series, this.index + 1);
     const controller = awm.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl);
-    awe.shared.core.screen.replace(controller);
+    awe.shared.core.view.replace(controller);
   }
 
   openPrevious() {
     const navigator = new Navigator(this.series, this.index - 1);
     const controller = awm.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl);
-    awe.shared.core.screen.replace(controller);
+    awe.shared.core.view.replace(controller);
   }
 
   readonly current: awm.NavigatorEpisode

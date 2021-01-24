@@ -3,14 +3,14 @@ import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
 @mobxReact.observer
-export class ScreenManagerView extends React.Component {
+export class ViewManagerView extends React.Component {
   componentDidUpdate() {
-    const x = awm.core.screen.current.x;
-    const y = awm.core.screen.current.y;
+    const x = awm.core.view.current.x;
+    const y = awm.core.view.current.y;
     scrollTo(x, y);
   }
 
   render() {
-    return awm.core.screen.current.view;
+    return awm.core.view.current.view;
   }
 }

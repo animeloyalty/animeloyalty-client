@@ -9,7 +9,7 @@ class Component extends awm.BaseComponent<typeof Styles, {icon?: React.ReactElem
         <mui.AppBar className="disablePadding">
           <mui.Grid className="inset-top">
             <mui.Toolbar>
-              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => awm.core.screen.leave()}>
+              <mui.IconButton className={this.classes.back} color="inherit" onClick={() => awm.core.view.leave()}>
                 <awm.icons.ArrowBackIos />
               </mui.IconButton>
               <mui.Typography className={this.classes.title} color="inherit" variant="h6">

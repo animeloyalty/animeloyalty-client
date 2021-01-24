@@ -12,6 +12,7 @@ export * from './components/LoaderComponent';
 export * from './managers/DialogManager';
 export * from './managers/InputManager';
 export * from './managers/ScreenManager';
+export * from './managers/ViewManager';
 export * from './viewModels/LoaderViewModel';
 export * from './views/DialogManagerView';
-export * from './views/ScreenManagerView';
+export * from './views/ViewManagerView';

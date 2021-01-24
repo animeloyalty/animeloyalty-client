@@ -18,7 +18,7 @@ export class SeriesSeasonEpisodeViewModel {
   open() {
     const navigator = awm.Navigator.create(this.series, this.seasonIndex, this.episodeIndex);
     const controller = awm.StreamController.createController(navigator, this.url);
-    awe.shared.core.screen.open(controller);
+    awe.shared.core.view.open(controller);
   }
 
   @mobx.computed
