@@ -18,12 +18,6 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   }
 
   @mobx.action
-  leave() {
-    app.core.view.leave();
-    this.removeSchedule();
-  }
-
-  @mobx.action
   onInputKey(event: app.InputKeyEvent) {
     if (event.type !== 'escape') {
       this.schedule();
@@ -32,7 +26,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
       this.schedule();
       return true;
     } else {
-      this.leave();
+      app.core.view.leave();
       return true;
     }
   }
@@ -46,6 +40,9 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
+      case 'destroy':
+        this.removeSchedule();
+        break;
       case 'ended':
         this.onEnd();
         break;
@@ -85,14 +82,14 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   readonly control = new app.MainControlViewModel(this.bridge, this.navigator);
 
   @mobx.observable
-  readonly title = new app.MainTitleViewModel(this.navigator, this.leave.bind(this));
+  readonly title = new app.MainTitleViewModel(this.navigator);
 
   @mobx.action
   private onEnd() {
     if (this.navigator.hasNext) {
       this.navigator.openNext();
     } else {
-      this.leave();
+      app.core.view.leave();
     }
   }
   

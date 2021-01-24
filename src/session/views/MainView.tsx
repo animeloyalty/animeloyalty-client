@@ -6,9 +6,9 @@ import videojs from 'video.js';
 
 @mobxReact.observer
 class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
-  private _element?: HTMLVideoElement;
-  private _player?: videojs.Player;
-  private _worker?: SubtitlesOctopus;
+  private node?: HTMLVideoElement;
+  private player?: videojs.Player;
+  private worker?: SubtitlesOctopus;
 
   componentDidMount() {
     super.componentDidMount();
@@ -18,8 +18,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
   componentWillUnmount() {
     super.componentWillUnmount();
     document.body.style.removeProperty('overflow');
-    this._player?.dispose()
-    this._worker?.dispose();
+    this.onDestroy();
   }
 
   onVideoRequest(request: app.VideoRequest) {
@@ -28,26 +27,26 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
         this.clearSubtitle();
         break;
       case 'loadStream':
-        this._player?.src({src: request.url, type: request.videoType});
+        this.player?.src({src: request.url, type: request.videoType});
         break;
       case 'loadSubtitle':
         if (request.subtitle.type === 'vtt') {
           this.clearSubtitle();
-          this._player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
+          this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
           break;
         } else {
           this.clearSubtitle();
-          this._worker = new SubtitlesOctopus({video: this._element, subUrl: request.subtitle.url, workerUrl: 'js/subtitles-octopus-worker.js'});
+          this.worker = new SubtitlesOctopus({video: this.node, subUrl: request.subtitle.url, workerUrl: 'js/subtitles-octopus-worker.js'});
           break;
         }
       case 'pause':
-        this._player?.pause();
+        this.player?.pause();
         break;
       case 'play':
-        this._player?.play();
+        this.player?.play();
         break;
       case 'seek':
-        this._player?.currentTime(request.time);
+        this.player?.currentTime(request.time);
         break;
     }
   }
@@ -66,21 +65,27 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
   }
 
   private clearSubtitle() {
-    const tracks = this._player?.remoteTextTracks();
-    if (tracks) Array.from(tracks).forEach(x => this._player?.removeRemoteTextTrack(app.unsafe(x)));
-    this._worker?.dispose();
-    delete this._worker;
+    const tracks = this.player?.remoteTextTracks();
+    if (tracks) Array.from(tracks).forEach(x => this.player?.removeRemoteTextTrack(app.unsafe(x)));
+    this.worker?.dispose();
+    delete this.worker;
   }
 
-  private onCreate(element: HTMLVideoElement | null) {
-    if (!element || this._element) return;
-    this._element = element;
-    this._player = videojs(element, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
-      if (!this._player) return;
-      app.Dispatcher.attach(this.props.bridge, this._player);
+  private onCreate(node: HTMLVideoElement | null) {
+    if (!node || this.node) return;
+    this.node = node;
+    this.player = videojs(node, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
+      if (!this.player) return;
+      app.Dispatcher.attach(this.props.bridge, this.player);
       this.props.bridge.subscribe(this);
       this.props.bridge.dispatchEvent({type: 'ready'});
     });
+  }
+
+  private onDestroy() {
+    this.player?.dispose()
+    this.props.bridge.dispatchEvent({type: 'destroy'});
+    this.worker?.dispose();
   }
 }
 

@@ -9,7 +9,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainTitleViewM
     return (
       <mui.AppBar className={this.classes.appBar}>
         <mui.Toolbar className={this.classes.toolBar}>
-          <mui.IconButton className={this.classes.iconButton} onClick={() => this.props.vm.leave()}>
+          <mui.IconButton className={this.classes.iconButton} onClick={() => app.core.view.leave()}>
             <app.icons.ArrowBackIos />
           </mui.IconButton>
           <mui.Grid className={this.classes.title}>
