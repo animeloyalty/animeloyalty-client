@@ -47,7 +47,7 @@ body {
 
 .vjs-text-track-display .vjs-text-track-cue > div {
 	-webkit-text-stroke: black;
-	-webkit-text-stroke-width: max(0.2vmin, 2px);
+	-webkit-text-stroke-width: max(0.2vmin, 1px);
 	background: transparent !important;
 	font-family: Trebuchet MS !important;
 	font-size: max(6vmin, 30px);
