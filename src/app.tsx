@@ -4,7 +4,6 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:next episode preloader
 // TODO:quality selection?let the API serve all streams and their qualities?
 
 // TODO:font sizing of ass
