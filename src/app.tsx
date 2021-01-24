@@ -4,7 +4,6 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:size of loader
 // TODO:vw/vh/vmin with app.sz
 // TODO:css -> @global jss
 // TODO:image->text scroll

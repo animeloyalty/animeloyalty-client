@@ -11,8 +11,10 @@ class Component extends app.BaseComponent<typeof Styles, {open: boolean}> {
 const Styles = mui.createStyles({
   icon: {
     animation: 'none',
-    left: '50%',
+    height: `${app.sz(30)} !important`,
+    width: `${app.sz(30)} !important`,
     position: 'fixed',
+    left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)'
   }
