@@ -7,9 +7,18 @@ import * as React from 'react';
 class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
-      <mui.Grid className={this.classes.container}>
-        <mui.Grid className={this.classes.seriesContainer}>
-          {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
+      <mui.Grid>
+        <mui.AppBar>
+          <mui.Tabs classes={{root: this.classes.tabBar, indicator: "indicator"}} value={this.props.vm.providerName}>
+            <mui.Tab className={this.classes.tab} label="CrunchyRoll" value="crunchyroll" onClick={() => this.props.vm.changeProvider('crunchyroll')} />
+            <mui.Tab className={this.classes.tab} label="Funimation" value="funimation" onClick={() => this.props.vm.changeProvider('funimation')}  />
+          </mui.Tabs>
+        </mui.AppBar>
+        <mui.Grid className={this.classes.container}>
+          <app.LoaderComponent open={this.props.vm.loader.isLoading} />
+          <mui.Grid className={this.classes.seriesContainer}>
+            {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
+          </mui.Grid>
         </mui.Grid>
       </mui.Grid>
     );
@@ -17,8 +26,20 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
 }
 
 const Styles = mui.createStyles({
+  tabBar: {
+    height: app.sz(30),
+    minHeight: 0,
+    '& .indicator': {height: app.sz(2), width: `${app.sz(140)} !important`}
+  },
+  tab: {
+    fontSize: app.sz(10),
+    minHeight: app.sz(30),
+    minWidth: app.sz(140),
+    padding: app.sz(5)
+  },
   container: {
-    overflow: 'hidden'
+    overflow: 'hidden',
+    paddingTop: app.sz(30)
   },
   seriesContainer: {
     display: 'grid',
