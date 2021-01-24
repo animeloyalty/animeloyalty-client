@@ -12,7 +12,7 @@ export const SliderComponent = mui.withStyles(() => ({
     height: app.sz(2)
   },
   thumb: {
-    borderRadius: app.sz(5),
+    borderRadius: app.sz(10),
     marginTop: 0,
     height: app.sz(10),
     width: app.sz(10),
@@ -20,7 +20,7 @@ export const SliderComponent = mui.withStyles(() => ({
     '&:hover': {boxShadow: 'none'},
     '&.Mui-focusVisible': {boxShadow: 'none'},
     '&.MuiSlider-active': {boxShadow: 'none'},
-    '&:after': {bottom: app.sz(-6), left: app.sz(-6), right: app.sz(-6), top: app.sz(-6)}
+    '&:after': {bottom: app.sz(-5), left: app.sz(-5), right: app.sz(-5), top: app.sz(-5)}
   }
 }))(mui.Slider);
 

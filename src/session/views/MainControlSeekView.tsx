@@ -24,7 +24,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSee
 
 const Styles = mui.createStyles({
   slider: {
-    padding: `${app.sz(4)} 0`,
+    padding: `${app.sz(5)} 0`,
     position: 'absolute',
     top: 0,
     transform: 'translateY(-50%)'

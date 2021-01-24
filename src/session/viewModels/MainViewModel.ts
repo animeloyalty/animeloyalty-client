@@ -50,22 +50,18 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         break;
       case 'error':
         throw new Error('TODO');
-      case 'pause':
-        this.clearSchedule();
-        break;
       case 'playing':
         this.isWaiting = false;
         this.schedule();
         break;
       case 'seeked':
         this.isWaiting = false;
+        this.schedule();
         break;
       case 'seeking':
         this.isWaiting = true;
-        this.clearSchedule();
         break;
       case 'waiting':
-        this.clearSchedule();
         this.isWaiting = true;
         break;
     }
@@ -115,6 +111,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
     this.clearHide();
     this.clearSchedule();
     this.hideTimeout = setTimeout(() => {
+      if (!this.control.isPlaying || this.isWaiting) return;
       document.body.requestPointerLock();
       this.isHidden = true;
     }, app.settings.hideTimeout);
