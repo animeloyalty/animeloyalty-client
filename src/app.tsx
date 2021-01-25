@@ -4,12 +4,9 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO: img bg visible always as a border
 // TODO: tab loading, switch back, loader still visible, concurrency of results, etc.
-
+// TODO:private _
 // TODO:synopsis and series info etc
-// TODO:image->text scroll?
-// TODO:image loads...
 // TODO:infinite load
 // TODO:search,filters
 
