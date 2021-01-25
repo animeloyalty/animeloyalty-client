@@ -85,9 +85,6 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   @mobx.observable
   readonly control = new app.MainControlViewModel(this.bridge, this.navigator);
 
-  @mobx.observable
-  readonly title = new app.MainTitleViewModel(this.navigator);
-
   @mobx.action
   private removeHide() {
     if (!this.isHidden) return;
