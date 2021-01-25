@@ -13,16 +13,18 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
   render() {
     return (
       <mui.Grid className={this.classes.container}>
-        <mui.IconButton className={this.classes.iconButton} disabled={!this.props.vm.canSelect} onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>
+        <mui.IconButton className={this.classes.iconButton}
+          disabled={!this.props.vm.canSelect}
+          onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>
           <app.icons.Subtitles />
         </mui.IconButton>
-        <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement="top-end">
+        <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} placement="top-end">
           <mui.Paper className={this.classes.menu}>
             <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
               <mui.MenuList className={this.classes.menuList} onClick={() => this.setState({anchorEl: undefined})}>
-                {this.renderMenuItem()}
+                {this.menuItem()}
                 <mui.Divider />
-                {this.props.vm.subtitles.map((subtitle) => this.renderMenuItem(subtitle))}
+                {this.props.vm.subtitles.map((subtitle) => this.menuItem(subtitle))}
               </mui.MenuList>
             </mui.ClickAwayListener>
           </mui.Paper>
@@ -31,7 +33,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
     );
   }
 
-  private renderMenuItem(subtitle?: app.ISubtitle) {
+  private menuItem(subtitle?: app.ISubtitle) {
     const displayName = subtitle
       ? subtitle.displayName
       : language.subtitle;

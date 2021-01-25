@@ -45,7 +45,8 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         this.removeSchedule();
         break;
       case 'ended':
-        this.onEnd();
+        if (this.navigator.hasNext) this.navigator.openNext();
+        else app.core.view.leave();
         break;
       case 'error':
         throw new Error('TODO');
@@ -60,7 +61,9 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         this.isWaiting = true;
         break;
       case 'timeupdate':
-        this.onTimeUpdate(event.time, event.duration);
+        if (this.didPreload || event.duration - event.time > app.settings.preloadTreshold) break;
+        this.didPreload = true;
+        this.navigator.preloadNext();
         break;
       case 'waiting':
         this.isWaiting = true;
@@ -86,22 +89,6 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   readonly title = new app.MainTitleViewModel(this.navigator);
 
   @mobx.action
-  private onEnd() {
-    if (this.navigator.hasNext) {
-      this.navigator.openNext();
-    } else {
-      app.core.view.leave();
-    }
-  }
-  
-  @mobx.action
-  private onTimeUpdate(time: number, duration: number) {
-    if (this.didPreload || duration - time > app.settings.preloadTreshold) return;
-    this.didPreload = true;
-    this.navigator.preloadNext();
-  }
-
-  @mobx.action
   private removeHide() {
     if (!this.isHidden) return;
     document.exitPointerLock();
@@ -119,7 +106,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
     this.removeHide();
     this.removeSchedule();
     this.hideTimeout = setTimeout(() => {
-      if (!this.control.isPlaying || this.isWaiting) return;
+      if (!this.control.isPlaying || this.isHidden || this.isWaiting) return;
       document.body.requestPointerLock();
       this.isHidden = true;
     }, app.settings.hideTimeout);

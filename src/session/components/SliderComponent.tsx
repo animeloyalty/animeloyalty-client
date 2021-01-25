@@ -5,7 +5,7 @@ export const SliderComponent = mui.withStyles(() => ({
   rail: {
     borderRadius: 0,
     height: app.sz(2),
-    width: (props: StreamSliderProps) => (props.max ? 100 / props.max * props.buffered : 0) + '%'
+    width: (props: mui.SliderProps & {buffered: number}) => (props.max ? 100 / props.max * props.buffered : 0) + '%'
   },
   track: {
     borderRadius: 0,
@@ -23,7 +23,3 @@ export const SliderComponent = mui.withStyles(() => ({
     '&:after': {bottom: app.sz(-5), left: app.sz(-5), right: app.sz(-5), top: app.sz(-5)}
   }
 }))(mui.Slider);
-
-type StreamSliderProps = mui.SliderProps & {
-  buffered: number;
-};
