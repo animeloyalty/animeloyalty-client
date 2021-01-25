@@ -1,7 +1,8 @@
 import * as app from '..';
 import * as mobx from 'mobx';
-const languageKey = 'language';
-const languageNone = 'none';
+import {language} from '../language';
+const preferredKey = 'preferredLanguage';
+const preferredNone = 'none';
 
 export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   constructor(
@@ -17,24 +18,24 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   @mobx.action
   clear() {
     if (!this.canSelect || !this.selectedSubtitle) return;
-    app.core.store.set(languageKey, languageNone);
-    this.bridge.dispatchRequest({type: 'clearSubtitle'});
+    app.core.store.set(preferredKey, preferredNone);
     this.selectedSubtitle = undefined;
+    this.bridge.dispatchRequest({type: 'clearSubtitle'});
   }
 
   @mobx.action
   select(subtitle: app.ISubtitle) {
     if (!this.canSelect || this.selectedSubtitle === subtitle) return;
-    app.core.store.set(languageKey, subtitle.language);
-    this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
+    app.core.store.set(preferredKey, subtitle.language);
     this.selectedSubtitle = subtitle;
+    this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
   }
 
   @mobx.action
   onVideoRequest(event: app.VideoRequest) {
     switch (event.type) {
       case 'subtitles':
-        this.subtitles = event.subtitles.sort((a, b) => a.displayName.localeCompare(b.displayName));
+        this.subtitles = event.subtitles.map(x => ({...x, displayName: translate(x)})).sort((a, b) => a.displayName.localeCompare(b.displayName));
         this.loadSubtitle();
         break;
     }
@@ -52,19 +53,33 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   subtitles: Array<app.ISubtitle> = [];
 
   private loadSubtitle() {
-    const language = app.core.store.getString(languageKey, 'eng');
-    if (language === languageNone || this.tryLoadSubtitle(language)) return;
+    const preferred = app.core.store.getString(preferredKey, 'eng');
+    if (preferred === preferredNone || this.tryLoadSubtitle(preferred)) return;
     this.tryLoadSubtitle('eng');
   }
 
   private tryLoadSubtitle(language: string | null) {
     const subtitle = this.subtitles.find(x => x.language === language);
     if (subtitle) {
-      this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
       this.selectedSubtitle = subtitle;
+      this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
       return true;
     } else {
       return false;
     }
+  }
+}
+
+function translate(subtitle: app.ISubtitle) {
+  switch (subtitle.language) {
+    case 'ara': return language.subtitleAra;
+    case 'eng': return language.subtitleEng;
+    case 'fre': return language.subtitleFre;
+    case 'ger': return language.subtitleGer;
+    case 'ita': return language.subtitleIta;
+    case 'por': return language.subtitlePor;
+    case 'rus': return language.subtitleRus;
+    case 'spa': return language.subtitleSpa;
+    default: throw new Error();
   }
 }
