@@ -27,7 +27,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {vm: app.MainContr
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton}
             disabled={!this.props.vm.isLoaded}
-            onClick={() => this.props.vm.seekRewind()}>
+            onClick={() => this.props.vm.seekBackward()}>
             <app.icons.FastRewind />
           </mui.IconButton>
           <mui.IconButton className={this.classes.iconButton}
