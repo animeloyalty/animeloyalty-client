@@ -44,6 +44,9 @@ export class InputManager {
       case 'Enter':
         this._sendKeyEvent(event, event.altKey ? {type: 'fullscreen'} : {type: 'enter'});
         break;
+      case 'F11':
+        this._sendKeyEvent(event, {type: 'fullscreen'});
+        break;
       case 'KeyF':
         this._sendKeyEvent(event, {type: 'fullscreen'});
         break;

@@ -9,7 +9,7 @@ import * as ReactDOM from 'react-dom';
 // TODO:private _
 // TODO:synopsis and series info etc
 
-// ElectronShell: Disable escape to exit fullscreen/mouselock, disable F11 (in+out), disable fullscreen gesture restriction
+// ElectronShell: Disable escape to exit fullscreen/mouselock, disable fullscreen gesture restriction?
 
 @mobxReact.observer
 class App extends React.Component {
