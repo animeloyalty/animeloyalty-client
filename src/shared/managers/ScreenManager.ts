@@ -37,7 +37,7 @@ export class ScreenManager implements app.IInputHandler {
 
   private async enterAsync() {
     try {
-      await document.body.requestFullscreen();
+      await document.documentElement.requestFullscreen();
       app.core.store.set(fullscreenKey, true);
       this.isFullscreen = true;
     } catch {
