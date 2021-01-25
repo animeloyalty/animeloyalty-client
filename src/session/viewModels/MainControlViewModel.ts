@@ -68,17 +68,17 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
   }
 
   @mobx.action
-  seekForward() {
+  seekBackward() {
     if (!this.isLoaded) return;
-    this.currentTime = Math.min(this.currentTime + app.settings.seekForward, this.currentDuration);
+    this.currentTime = Math.max(this.currentTime - app.settings.seekBackward, 0);
     this.isSeeking = true;
     this.schedule();
   }
 
   @mobx.action
-  seekBackward() {
+  seekForward() {
     if (!this.isLoaded) return;
-    this.currentTime = Math.max(this.currentTime - app.settings.seekBackward, 0);
+    this.currentTime = Math.min(this.currentTime + app.settings.seekForward, this.currentDuration);
     this.isSeeking = true;
     this.schedule();
   }
