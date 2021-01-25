@@ -1,3 +1,3 @@
 export const language = {
-  none: 'None'
+  subtitleNone: 'None'
 };
