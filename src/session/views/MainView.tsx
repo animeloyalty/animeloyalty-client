@@ -6,7 +6,7 @@ import videojs from 'video.js';
 
 @mobxReact.observer
 class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
-  private node?: HTMLVideoElement;
+  private element?: HTMLVideoElement;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
 
@@ -30,15 +30,10 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
         this.player?.src({src: request.url, type: request.videoType});
         break;
       case 'loadSubtitle':
-        if (request.subtitle.type === 'vtt') {
-          this.clearSubtitle();
-          this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
-          break;
-        } else {
-          this.clearSubtitle();
-          this.worker = new SubtitlesOctopus({video: this.node, subUrl: request.subtitle.url, workerUrl: 'js/subtitles-octopus-worker.js'});
-          break;
-        }
+        this.clearSubtitle();
+        if (request.subtitle.type === 'vtt') this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
+        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl: 'js/subtitles-octopus-worker.js'});
+        break;
       case 'pause':
         this.player?.pause();
         break;
@@ -71,10 +66,10 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
     delete this.worker;
   }
 
-  private onCreate(node: HTMLVideoElement | null) {
-    if (!node || this.node) return;
-    this.node = node;
-    this.player = videojs(node, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
+  private onCreate(element: HTMLVideoElement | null) {
+    if (!element || this.element) return;
+    this.element = element;
+    this.player = videojs(element, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
       if (!this.player) return;
       app.Dispatcher.attach(this.props.bridge, this.player);
       this.props.bridge.subscribe(this);
@@ -83,8 +78,8 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
   }
 
   private onDestroy() {
-    this.player?.dispose()
     this.props.bridge.dispatchEvent({type: 'destroy'});
+    this.player?.dispose()
     this.worker?.dispose();
   }
 }

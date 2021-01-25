@@ -50,7 +50,8 @@ class Component extends app.BaseInputComponent<typeof Styles, {vm: app.MainContr
         </mui.Grid>
         <mui.Grid className={this.classes.endBar}>
           <app.MainControlSubtitleView vm={this.props.vm.subtitle} />
-          <mui.IconButton className={this.classes.iconButton} onClick={() => app.core.screen.toggleFullscreen()}>
+          <mui.IconButton className={this.classes.iconButton}
+            onClick={() => app.core.screen.toggleFullscreen()}>
             {app.core.screen.isFullscreen
               ? <app.icons.FullscreenExit />
               : <app.icons.Fullscreen />}
