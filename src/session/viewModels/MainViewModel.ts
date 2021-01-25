@@ -2,8 +2,9 @@ import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
-  private didPreload?: boolean;
+  private clickTimeout?: number;
   private hideTimeout?: NodeJS.Timeout;
+  private skipPreload?: boolean;
 
   constructor(
     private readonly bridge: app.Bridge,
@@ -38,6 +39,17 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   }
 
   @mobx.action
+  onVideoClick() {
+    if (this.clickTimeout && this.clickTimeout >= Date.now()) {
+      app.core.screen.toggleFullscreen();
+      this.control.togglePlay();
+    } else {
+      this.clickTimeout = Date.now() + app.settings.clickTimeout;
+      this.control.togglePlay();
+    }
+  }
+
+  @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'destroy':
@@ -61,19 +73,14 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         this.isWaiting = true;
         break;
       case 'timeupdate':
-        if (this.didPreload || event.duration - event.time > app.settings.preloadTreshold) break;
-        this.didPreload = true;
+        if (this.skipPreload || event.duration - event.time > app.settings.preloadTreshold) break;
         this.navigator.preloadNext();
+        this.skipPreload = true;
         break;
       case 'waiting':
         this.isWaiting = true;
         break;
     }
-  }
-
-  @mobx.action
-  togglePlay() {
-    this.control.togglePlay();
   }
 
   @mobx.observable

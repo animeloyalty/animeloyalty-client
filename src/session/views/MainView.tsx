@@ -49,7 +49,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
   render() {
     return (
       <mui.Grid className={this.props.vm.isHidden ? this.classes.containerHidden : this.classes.container}>
-        <video className="video-js" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.togglePlay()} />
+        <video className="video-js" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.onVideoClick()} />
         <app.LoaderComponent open={this.props.vm.isWaiting} />
         <app.MainControlView className={this.classes.ui} vm={this.props.vm.control} />
       </mui.Grid>
