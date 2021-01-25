@@ -31,7 +31,7 @@ class Component extends app.BaseComponent<typeof Styles, {className?: string, pr
 
 const Styles = mui.createStyles({
   toolBar: {
-    backgroundColor: 'rgba(51, 51, 51, 0.5)',
+    backgroundColor: 'rgba(50, 50, 50, 0.5)',
     height: app.sz(30),
     minHeight: 0,
     paddingLeft: 0

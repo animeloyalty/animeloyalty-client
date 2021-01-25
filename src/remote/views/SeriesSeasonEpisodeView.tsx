@@ -1,3 +1,4 @@
+import LazyLoad from 'react-lazyload';
 import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
@@ -8,8 +9,14 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonEp
   render() {
     return (
       <mui.Grid className={this.classes.container} onClick={() => this.props.vm.open()}>
-        <img className={this.classes.image} src={this.props.vm.imageUrl} />
-        <mui.Typography className={this.classes.textContent}>{this.props.vm.displayName}</mui.Typography>
+        <LazyLoad once resize>
+          <mui.Grid className={this.classes.imageContainer}>
+            <img className={this.classes.image} src={this.props.vm.imageUrl} onLoad={(ev) => ev.currentTarget.style.opacity = '1'} />
+            </mui.Grid>
+        </LazyLoad>
+        <mui.Typography className={this.classes.textContent}>
+          {this.props.vm.displayName}
+        </mui.Typography>
       </mui.Grid>
     );
   }
@@ -18,23 +25,30 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonEp
 const Styles = mui.createStyles({
   container: {
     cursor: 'pointer',
-    height: '10vw',
-    padding: '0.75vw',
+    height: '8vw',
+    padding: app.sz(5),
     transition: 'padding 0.25s ease',
     '&:hover': {padding: 0},
-    '&:hover $image': {borderColor: app.theme.palette.secondary.main},
-    '&:hover $textContent': {padding: '0 0.75vw'}
+    '&:hover $imageContainer': {borderColor: app.theme.palette.secondary.main},
+    '&:hover $textContent': {padding: `0 ${app.sz(5)}`},
+    '& .lazyload-wrapper': {height: '100%'}
+  },
+  imageContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    border: `${app.sz(2)} solid ${app.theme.palette.primary.main}`,
+    borderRadius: app.sz(12),
+    height: '100%'
   },
   image: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    border: '0.25vw solid transparent',
-    borderRadius: '1vw',
+    borderRadius: app.sz(10),
     objectFit: 'cover',
-    height: 'calc(100% - 2vw)',
+    opacity: 0,
+    height: '100%',
+    transition: 'opacity 0.25s ease',
     width: '100%'
   },
   textContent: {
-    fontSize: '1.25vw',
+    fontSize: app.sz(10),
     textAlign: 'center',
     transition: 'padding 0.25s ease',
     overflow: 'hidden',
