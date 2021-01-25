@@ -12,7 +12,7 @@ export class SeriesController extends React.Component<{vm: app.SeriesViewModel}>
 
   render() {
     return (
-      <app.HeaderTitleComponent title={this.props.vm.title}>
+      <app.HeaderTitleComponent primary={this.props.vm.title}>
         {this.props.vm.loader.isLoading
           ? <app.LoaderComponent open={true} />
           : <app.SeriesView vm={this.props.vm} />}

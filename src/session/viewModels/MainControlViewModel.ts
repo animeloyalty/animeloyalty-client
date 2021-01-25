@@ -120,6 +120,24 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
     return this.navigator.hasPrevious;
   }
   
+  @mobx.computed
+  get titlePrimary() {
+    const current = this.navigator.current;
+    const name = isFinite(parseFloat(current.episodeName))
+      ? current.episodeName.padStart(2, '0')
+      : current.episodeName;
+    return current.episodeTitle
+      ? `Episode ${name} - ${current.episodeTitle}`
+      : `Episode ${name}`;
+  }
+
+  @mobx.computed
+  get titleSecondary() {
+    return this.navigator.current.seriesName === this.navigator.current.seasonName
+      ? `${this.navigator.current.seriesName}`
+      : `${this.navigator.current.seriesName} ● ${this.navigator.current.seasonName}`;
+  }
+  
   @mobx.observable
   currentBuffer = 0;
 
