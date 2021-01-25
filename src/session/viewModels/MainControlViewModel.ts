@@ -2,6 +2,8 @@ import * as app from '..';
 import * as mobx from 'mobx';
 
 export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandler {
+  private seekTimeout?: NodeJS.Timeout;
+
   constructor(
     private readonly bridge: app.Bridge,
     private readonly navigator: app.INavigator
@@ -20,7 +22,7 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
       this.togglePlay();
       return true;
     } else if (event.type === 'arrowLeft') {
-      this.seekRewind();
+      this.seekBackward();
       return true;
     } else if (event.type === 'arrowRight') {
       this.seekForward();
@@ -33,6 +35,9 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
   @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
+      case 'destroy':
+        this.removeSchedule();
+        break;
       case 'loadedmetadata':
         this.currentDuration = event.duration;
         break;
@@ -67,15 +72,15 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
     if (!this.isLoaded) return;
     this.currentTime = this.currentTime + app.settings.seekForward;
     this.isSeeking = true;
-    this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
+    this.schedule();
   }
 
   @mobx.action
-  seekRewind() {
+  seekBackward() {
     if (!this.isLoaded) return;
-    this.currentTime = this.currentTime - app.settings.seekRewind;
+    this.currentTime = this.currentTime - app.settings.seekBackward;
     this.isSeeking = true;
-    this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
+    this.schedule();
   }
 
   @mobx.action
@@ -132,4 +137,16 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
 
   @mobx.observable
   readonly subtitle = new app.MainControlSubtitleViewModel(this.bridge);
+
+  @mobx.action
+  private removeSchedule() {
+    if (!this.seekTimeout) return;
+    clearTimeout(this.seekTimeout);
+  }
+
+  @mobx.action
+  private schedule() {
+    this.removeSchedule();
+    this.seekTimeout = setTimeout(() => this.bridge.dispatchRequest({type: 'seek', time: this.currentTime}), app.settings.seekTimeout);
+  }
 }
