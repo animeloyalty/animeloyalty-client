@@ -1,5 +1,3 @@
-import * as ace from 'animesync';
-
 export interface IBridgeHandler {
   onVideoEvent?(event: VideoEvent): void;
   onVideoRequest?(event: VideoRequest): void;
@@ -16,15 +14,18 @@ export interface INavigator {
 }
 
 export interface INavigatorEpisode {
-  seriesName: string;
-  seasonName: string;
-  episodeName: string;
-  episodeTitle?: string;
+  readonly seriesName: string;
+  readonly seasonName: string;
+  readonly episodeName: string;
+  readonly episodeTitle?: string;
 }
 
-export interface ISubtitle extends ace.api.RemoteStreamSubtitle {
-  displayName: string;
-}
+export interface ISubtitle {
+  readonly displayName?: string;
+  readonly language: 'ara' | 'fre' | 'ger' | 'ita' | 'eng' | 'por' | 'rus' | 'spa';
+  readonly type: 'ass' | 'vtt';
+  readonly url: string;
+};
 
 export type VideoEvent =
   {type: 'create'} |

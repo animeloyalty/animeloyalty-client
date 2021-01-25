@@ -1,6 +1,5 @@
 import * as app from '..';
 import * as mobx from 'mobx';
-import {language} from '../language';
 import {session} from '../..';
 
 export class StreamViewModel implements session.IBridgeHandler {
@@ -28,9 +27,8 @@ export class StreamViewModel implements session.IBridgeHandler {
   async refreshAsync() {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
-      const subtitles = result.value.subtitles.map(subtitle => ({displayName: language[subtitle.language], ...subtitle}));
       this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});
-      this.bridge.dispatchRequest({type: 'subtitles', subtitles});
+      this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
     } else {
       throw new Error('TODO');
     }

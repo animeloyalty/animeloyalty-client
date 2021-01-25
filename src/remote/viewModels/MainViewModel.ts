@@ -6,7 +6,7 @@ const providerKey = 'provider';
 export class MainViewModel {
   constructor() {
     this.hasMorePages = false;
-    this.providerName = app.core.store.getStringEnum(providerKey, 'crunchyroll');
+    this.providerName = app.core.store.get(providerKey, 'crunchyroll');
     this.series = [];
   }
 
