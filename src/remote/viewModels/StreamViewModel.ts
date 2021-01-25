@@ -18,7 +18,7 @@ export class StreamViewModel implements session.IBridgeHandler {
   @mobx.action
   onVideoEvent(event: session.VideoEvent) {
     switch (event.type) {
-      case 'ready':
+      case 'create':
         this.refreshAsync();
         break;
     }
