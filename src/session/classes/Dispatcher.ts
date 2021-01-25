@@ -27,7 +27,7 @@ export class Dispatcher {
 
 function time<T>(type: T, player: videojs.Player) {
   const buffer = Math.floor(player.buffered().end(0));
-  const duration = Math.floor(player.duration());
+  const duration = Math.ceil(player.duration());
   const time = Math.floor(player.currentTime());
   return {type, buffer, duration, time};
 }
