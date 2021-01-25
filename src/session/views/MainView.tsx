@@ -78,7 +78,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
       if (!this.player) return;
       app.Dispatcher.attach(this.props.bridge, this.player);
       this.props.bridge.subscribe(this);
-      this.props.bridge.dispatchEvent({type: 'ready'});
+      this.props.bridge.dispatchEvent({type: 'create'});
     });
   }
 

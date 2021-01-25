@@ -10,7 +10,6 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
   @mobx.action
   attach() {
     this.bridge.subscribe(this);
-    this.seek.attach();
     this.subtitle.attach();
     return this;
   }
@@ -37,62 +36,72 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
       case 'loadedmetadata':
         this.currentDuration = event.duration;
         break;
-      case 'play':
-        this.isPlaying = true;
-        break;
-      case 'pause':
-        this.isPlaying = false;
-        break;
-      case 'seeking':
-        this.currentTime = event.time;
+      case 'seeked':
+        this.isSeeking = false;
         break;
       case 'timeupdate':
+        this.currentBuffer = event.buffer;
         this.currentDuration = event.duration;
-        this.currentTime = event.time;
+        if (!this.isSeeking) this.currentTime = event.time;
         break;
       case 'waiting':
-        this.currentTime = event.time;
+        if (!this.isSeeking) this.currentTime = event.time;
         break;
     }
   }
   
   @mobx.action
   openNext() {
-    if (!this.navigator.hasNext) return;
+    if (!this.hasNext) return;
     this.navigator.openNext();
   }
   
   @mobx.action
   openPrevious() {
-    if (!this.navigator.hasPrevious) return;
+    if (!this.hasPrevious) return;
     this.navigator.openPrevious();
   }
 
   @mobx.action
   seekForward() {
-    if (!this.canSeek) return;
-    const time = this.currentTime + app.settings.seekForward;
-    this.bridge.dispatchRequest({type: 'seek', time});
-    this.currentTime = time;
+    if (!this.isLoaded) return;
+    this.currentTime = this.currentTime + app.settings.seekForward;
+    this.isSeeking = true;
+    this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
   }
 
   @mobx.action
   seekRewind() {
-    if (!this.canSeek) return;
-    const time = this.currentTime - app.settings.seekRewind;
-    this.bridge.dispatchRequest({type: 'seek', time});
+    if (!this.isLoaded) return;
+    this.currentTime = this.currentTime - app.settings.seekRewind;
+    this.isSeeking = true;
+    this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
+  }
+
+  @mobx.action
+  seekStart(time: number) {
+    if (!this.isLoaded) return;
     this.currentTime = time;
+    this.isSeeking = true;
+  }
+
+  @mobx.action
+  seekStop(time: number) {
+    if (!this.isLoaded) return;
+    this.currentTime = time;
+    this.isSeeking = true;
+    this.bridge.dispatchRequest({type: 'seek', time});
   }
 
   @mobx.action
   togglePlay() {
-    if (!this.canSeek) return;
-    this.bridge.dispatchRequest(this.isPlaying ? {type: 'pause'} : {type: 'play'});
+    if (!this.isLoaded) return;
     this.isPlaying = !this.isPlaying;
+    this.bridge.dispatchRequest(this.isPlaying ? {type: 'play'} : {type: 'pause'});
   }
 
   @mobx.computed
-  get canSeek() {
+  get isLoaded() {
     return Boolean(this.currentDuration);
   }
 
@@ -105,6 +114,9 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
   get hasPrevious() {
     return this.navigator.hasPrevious;
   }
+  
+  @mobx.observable
+  currentBuffer = 0;
 
   @mobx.observable
   currentDuration = 0;
@@ -116,8 +128,8 @@ export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandl
   isPlaying = true;
 
   @mobx.observable
-  readonly seek = new app.MainControlSeekViewModel(this.bridge);
-  
+  isSeeking = false;
+
   @mobx.observable
   readonly subtitle = new app.MainControlSubtitleViewModel(this.bridge);
 }

@@ -4,9 +4,14 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:image->text scroll
-// TODO:image loads...
+// TODO: img bg visible always as a border
+// TODO: tab loading, switch back, loader still visible, concurrency of results, etc.
+
 // TODO:synopsis and series info etc
+// TODO:image->text scroll?
+// TODO:image loads...
+// TODO:infinite load
+// TODO:search,filters
 
 // ElectronShell: Disable escape to exit fullscreen/mouselock, disable F11 (in+out), disable fullscreen gesture restriction
 

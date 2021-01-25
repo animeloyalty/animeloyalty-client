@@ -27,14 +27,12 @@ export interface ISubtitle extends ace.api.RemoteStreamSubtitle {
 }
 
 export type VideoEvent =
+  {type: 'create'} |
   {type: 'destroy'} |
   {type: 'ended'} |
   {type: 'error'} |
   {type: 'loadedmetadata'} & {duration: number} |
-  {type: 'play'} |
-  {type: 'playing'} |
-  {type: 'pause'} |
-  {type: 'ready'} |
+  {type: 'playing'} & {time: number} |
   {type: 'seeked'} & {time: number} |
   {type: 'seeking'} & {time: number} |
   {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
