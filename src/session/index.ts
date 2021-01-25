@@ -3,7 +3,6 @@ export * from './typings';
 export * from './classes/Bridge';
 export * from './classes/Dispatcher';
 export * from './components/SliderComponent';
-export * from './components/TooltipComponent';
 export * from './viewModels/MainControlSubtitleViewModel';
 export * from './viewModels/MainControlViewModel';
 export * from './viewModels/MainTitleViewModel';

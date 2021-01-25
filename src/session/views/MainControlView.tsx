@@ -5,14 +5,6 @@ import * as React from 'react';
 
 @mobxReact.observer
 class Component extends app.BaseInputComponent<typeof Styles, {vm: app.MainControlViewModel}> {
-  state = {
-    thumbComponent: app.unsafe<(props: React.HTMLAttributes<HTMLSpanElement>) => JSX.Element>((props) => (
-      <app.TooltipComponent interactive placement="top" title={app.formatTime(this.props.vm.currentTime)}>
-        <span {...props} />
-      </app.TooltipComponent>
-    ))
-  };
-  
   render() {
     return (
       <mui.AppBar className={this.classes.container}>
@@ -20,8 +12,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {vm: app.MainContr
           <app.SliderComponent className={this.classes.seekBar} color="secondary"
             buffered={this.props.vm.currentBuffer} value={this.props.vm.currentTime} max={this.props.vm.currentDuration}
             onChange={app.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
-            onChangeCommitted={app.unsafe((_: never, x: number) => this.props.vm.seekStop(x))}
-            ThumbComponent={this.state.thumbComponent} />
+            onChangeCommitted={app.unsafe((_: never, x: number) => this.props.vm.seekStop(x))} />
           <mui.Grid className={this.classes.beginBar}>
             <mui.Typography className={this.classes.beginBarText}>
               {app.formatTime(this.props.vm.currentTime)} / {app.formatTime(this.props.vm.currentDuration)}

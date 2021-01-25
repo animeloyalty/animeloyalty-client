@@ -34,7 +34,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
   private renderMenuItem(subtitle?: app.ISubtitle) {
     const displayName = subtitle
       ? subtitle.displayName
-      : language.none;
+      : language.subtitleNone;
     const isChecked = subtitle
       ? this.props.vm.selectedSubtitle === subtitle
       : this.props.vm.selectedSubtitle == null;
