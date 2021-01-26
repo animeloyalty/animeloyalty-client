@@ -32,7 +32,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridg
       case 'loadSubtitle':
         this.clearSubtitle();
         if (request.subtitle.type === 'vtt') this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
-        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl: 'js/subtitles-octopus-worker.js'});
+        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl: 'subtitles-octopus-4.0.0/subtitles-octopus-worker.js'});
         break;
       case 'pause':
         this.player?.pause();
