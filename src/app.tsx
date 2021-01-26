@@ -5,7 +5,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 // TODO:infinite load
-// TODO: tab loading, switch back, loader still visible, concurrency of results, etc.
 // TODO:private _
 // TODO:synopsis and series info etc
 

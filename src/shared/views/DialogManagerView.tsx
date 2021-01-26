@@ -6,8 +6,8 @@ import * as React from 'react';
 @mobxReact.observer
 class Component extends app.BaseComponent<typeof Styles> {
   render() {
-    return app.core.dialog.items.map((item, index) => (
-      <mui.Dialog key={item.id} fullWidth maxWidth={false} open={index === app.core.dialog.items.length - 1}>
+    return app.core.dialog.items.map((item, i) => (
+      <mui.Dialog key={i} fullWidth maxWidth={false} open={i === app.core.dialog.items.length - 1}>
         <mui.DialogContent className={this.classes.content}>
           <mui.DialogContentText>
             {item.body}
@@ -17,8 +17,8 @@ class Component extends app.BaseComponent<typeof Styles> {
           </pre>}
         </mui.DialogContent>
         <mui.DialogActions>
-          {item.buttons.map((button, index) => (
-            <mui.Button key={index} color={index === item.buttons.length - 1 ? 'primary' : 'default'} onClick={() => item.send(index)}>
+          {item.buttons.map((button, i) => (
+            <mui.Button key={i} color={i === item.buttons.length - 1 ? 'primary' : 'default'} onClick={() => item.send(i)}>
               {button}
             </mui.Button>
           ))}

@@ -22,9 +22,9 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
           <mui.Paper className={this.classes.menu}>
             <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
               <mui.MenuList className={this.classes.menuList} onClick={() => this.setState({anchorEl: undefined})}>
-                {this.menuItem()}
+                {this.menuItem(0)}
                 <mui.Divider />
-                {this.props.vm.subtitles.map((subtitle) => this.menuItem(subtitle))}
+                {this.props.vm.subtitles.map((subtitle, i) => this.menuItem(i + 1, subtitle))}
               </mui.MenuList>
             </mui.ClickAwayListener>
           </mui.Paper>
@@ -33,7 +33,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
     );
   }
 
-  private menuItem(subtitle?: app.ISubtitle) {
+  private menuItem(i: number, subtitle?: app.ISubtitle) {
     const displayName = subtitle
       ? subtitle.displayName
       : language.subtitle;
@@ -44,7 +44,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
       ? () => this.props.vm.select(subtitle)
       : () => this.props.vm.clear();
     return (
-      <mui.MenuItem className={this.classes.menuListItem} key={displayName} onClick={onClick}>
+      <mui.MenuItem className={this.classes.menuListItem} key={i} onClick={onClick}>
         <mui.FormControlLabel control={<mui.Radio checked={isChecked} />} label={displayName} />
       </mui.MenuItem>
     );

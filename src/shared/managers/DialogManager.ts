@@ -8,9 +8,8 @@ export class DialogManager {
   @mobx.action
   async openAsync(body: string, buttons: string[], ...errors: any[]) {
     return await new Promise<number>((resolve) => {
-      const id = this.items.length + 1;
       const errorTexts = errors.map(convertErrorText).filter(Boolean).map((errorText) => errorText!);
-      this.items.push({body, buttons, errorTexts, id, send: (index: number) => {
+      this.items.push({body, buttons, errorTexts, send: (index: number) => {
         this.items.pop();
         resolve(index);
       }});
@@ -27,7 +26,6 @@ export class DialogManager {
     body: string;
     buttons: string[];
     errorTexts: string[];
-    id: number;
     send: (index: number) => void;
   }[];
 }
