@@ -5,17 +5,17 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.MainSeriesViewModel}> {
+class Component extends app.BaseComponent<typeof Styles, {height: string, imageUrl: string, text: string, onClick: () => void}> {
   render() {
     return (
-      <mui.Grid className={this.classes.container} onClick={() => this.props.vm.open()}>
+      <mui.Grid className={this.classes.container} style={{height: this.props.height}} onClick={this.props.onClick}>
         <LazyLoad once resize>
           <mui.Grid className={this.classes.imageContainer}>
-            <img className={this.classes.image} src={this.props.vm.imageUrl} onLoad={(ev) => ev.currentTarget.style.opacity = '1'} />
+            <img className={this.classes.image} src={this.props.imageUrl} onLoad={(ev) => ev.currentTarget.style.opacity = '1'} />
           </mui.Grid>
         </LazyLoad>
         <mui.Typography className={this.classes.textContent}>
-          {this.props.vm.title}
+          {this.props.text}
         </mui.Typography>
       </mui.Grid>
     );
@@ -25,7 +25,6 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainSeriesView
 const Styles = mui.createStyles({
   container: {
     cursor: 'pointer',
-    height: '20vw',
     padding: app.sz(5),
     transition: 'padding 0.25s ease',
     '&:hover': {padding: 0},
@@ -57,4 +56,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const MainSeriesView = mui.withStyles(Styles)(Component);
+export const ImageComponent = mui.withStyles(Styles)(Component);
