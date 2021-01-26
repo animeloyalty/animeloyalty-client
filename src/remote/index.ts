@@ -2,6 +2,7 @@ export * from '../shared';
 export * from './classes/Navigator';
 export * from './classes/NavigatorEpisode';
 export * from './components/ImageComponent';
+export * from './components/MountComponent';
 export * from './controllers/MainController';
 export * from './controllers/SeriesController';
 export * from './controllers/StreamController';

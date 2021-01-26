@@ -7,7 +7,7 @@ import * as React from 'react';
 class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonViewModel}> {
   render() {
     return (
-      <mui.Grid className={this.classes.container}>
+      <mui.Grid>
         <mui.Typography>
           {this.props.vm.title}
         </mui.Typography>
@@ -22,16 +22,13 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonVi
 }
 
 const Styles = mui.createStyles({
-  container: {
-    overflow: 'hidden'
-  },
   episodeContainer: {
     display: 'grid',
-    gridGap: '1.5vw 2vw',
+    gridGap: '2vw',
     gridTemplateColumns: 'repeat(auto-fill, calc(84vw / 6))',
     justifyContent: 'center',
-    padding: '1.5vw 2vw',
-    width: '100vw'
+    padding: '2vw',
+    width: '100%'
   }
 });
 
