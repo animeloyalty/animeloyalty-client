@@ -4,9 +4,9 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:infinite load
 // TODO:private _
 // TODO:synopsis and series info etc
+// TODO:error handling TODOs
 
 // ElectronShell: Disable escape to exit fullscreen/mouselock, disable fullscreen gesture restriction?
 

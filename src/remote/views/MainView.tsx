@@ -1,3 +1,4 @@
+import LazyLoad from 'react-lazyload';
 import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
@@ -15,11 +16,14 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
           </mui.Tabs>
         </mui.AppBar>
         <mui.Grid className={this.classes.container}>
-          <app.LoaderComponent open={this.props.vm.loader.isLoading} />
+          <app.LoaderComponent vm={this.props.vm.loader} />
           <mui.Grid className={this.classes.seriesContainer}>
             {this.props.vm.series.map((vm, i) => <app.ImageComponent key={i} height="20vw" onClick={() => vm.open()}
               imageUrl={vm.imageUrl}
               text={vm.title} />)}
+            {this.props.vm.hasSeries && <LazyLoad resize unmountIfInvisible>
+              <app.MountComponent onMount={() => this.props.vm.tryNextAsync()} />
+            </LazyLoad>}
           </mui.Grid>
         </mui.Grid>
       </mui.Grid>
@@ -40,16 +44,15 @@ const Styles = mui.createStyles({
     padding: app.sz(5)
   },
   container: {
-    overflow: 'hidden',
     paddingTop: app.sz(30)
   },
   seriesContainer: {
     display: 'grid',
-    gridGap: '1.5vw 2vw',
+    gridGap: '2vw',
     gridTemplateColumns: 'repeat(auto-fill, calc(84vw / 6))',
     justifyContent: 'center',
-    padding: '1.5vw 2vw',
-    width: '100vw'
+    padding: '2vw',
+    width: '100%'
   }
 });
 

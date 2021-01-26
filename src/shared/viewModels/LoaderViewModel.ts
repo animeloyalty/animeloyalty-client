@@ -11,11 +11,29 @@ export class LoaderViewModel {
     }
   }
 
+  @mobx.action
+  async quietAsync<T>(runAsync: () => Promise<T>) {
+    try {
+      this.quietCount++;
+      return await runAsync();
+    } finally {
+      this.quietCount--;
+    }
+  }
+
   @mobx.computed
   get isLoading() {
-    return this.loadCount !== 0;
+    return Boolean(this.loadCount || this.quietCount);
+  }
+
+  @mobx.computed
+  get isQuiet() {
+    return this.loadCount <= this.quietCount;
   }
 
   @mobx.observable
   private loadCount = 0;
+
+  @mobx.observable
+  private quietCount = 0;
 }

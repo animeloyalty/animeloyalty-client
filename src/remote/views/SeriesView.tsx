@@ -8,6 +8,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesViewMode
   render() {
     return (
       <mui.Grid>
+        <app.LoaderComponent vm={this.props.vm.loader} />
         {this.props.vm.seasons.map((vm, i) => <app.SeriesSeasonView key={i} vm={vm} />)}
       </mui.Grid>
     );
