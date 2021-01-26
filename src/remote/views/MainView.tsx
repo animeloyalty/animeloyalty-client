@@ -17,7 +17,9 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
         <mui.Grid className={this.classes.container}>
           <app.LoaderComponent open={this.props.vm.loader.isLoading} />
           <mui.Grid className={this.classes.seriesContainer}>
-            {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
+            {this.props.vm.series.map((vm, i) => <app.ImageComponent key={i} height="20vw" onClick={() => vm.open()}
+              imageUrl={vm.imageUrl}
+              text={vm.title} />)}
           </mui.Grid>
         </mui.Grid>
       </mui.Grid>
