@@ -14,9 +14,7 @@ export class MainViewModel {
   changeProvider(providerName: ace.api.RemoteQueryPopular['providerName']) {
     if (providerName === this.providerName) return;
     app.core.store.set(providerKey, providerName);
-    this.providerName = providerName;
-    this.series = [];
-    this.refreshAsync();
+    app.core.view.replace(app.MainController.createController());
   }
 
   @mobx.action
