@@ -33,9 +33,14 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   }
 
   @mobx.action
-  onInputMouse() {
-    this.schedule();
-    return false;
+  onInputMouse(event: app.InputMouseEvent) {
+    if (this.isHidden && event.type === 'down') {
+      this.onVideoClick();
+      return true;
+    } else {
+      this.schedule();
+      return false;
+    }
   }
 
   @mobx.action
