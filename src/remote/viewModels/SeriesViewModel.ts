@@ -28,6 +28,11 @@ export class SeriesViewModel {
     });
   }
 
+  @mobx.computed
+  get hasGenres() {
+    return Boolean(this.genres.length);
+  }
+
   @mobx.observable
   genres: ace.api.RemoteSeries['genres'];
   

@@ -13,7 +13,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {className?: strin
           secondary={this.props.vm.titleSecondary} />
         <mui.AppBar className={this.classes.container}>
           {this.props.vm.isLoaded && <mui.Grid>
-            <app.SliderComponent className={this.classes.seekBar} color="secondary"
+            <app.SliderComponent className={this.classes.seekBar}
               buffered={this.props.vm.currentBuffer} value={this.props.vm.currentTime} max={this.props.vm.currentDuration}
               onChange={app.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
               onChangeCommitted={app.unsafe((_: never, x: number) => this.props.vm.seekStop(x))} />
@@ -91,7 +91,7 @@ const Styles = mui.createStyles({
     transform: 'translateY(-50%)'
   },
   beginBarText: {
-    fontSize: app.sz(10)
+    fontSize: app.sz(12)
   },
   centerBar: {
     position: 'absolute',
@@ -106,7 +106,7 @@ const Styles = mui.createStyles({
     transform: 'translateY(-50%)'
   },
   iconButton: {
-    padding: app.sz(5),
+    padding: app.sz(7),
     '& svg': {fontSize: app.sz(15)}
   }
 });

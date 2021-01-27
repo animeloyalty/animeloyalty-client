@@ -12,10 +12,10 @@ class Component extends app.BaseComponent<typeof Styles, {className?: string, pr
               <app.icons.ArrowBackIos />
             </mui.IconButton>
             <mui.Grid className={this.classes.title}>
-              {this.props.primary && <mui.Typography className={this.classes.titlePrimary}>
+              {this.props.primary && <mui.Typography className={this.classes.titleText}>
                 {this.props.primary}
               </mui.Typography>}
-              {this.props.secondary && <mui.Typography className={this.classes.titleSecondary}>
+              {this.props.secondary && <mui.Typography className={this.classes.titleText} color="textSecondary">
                 {this.props.secondary}
               </mui.Typography>}
             </mui.Grid>
@@ -37,7 +37,7 @@ const Styles = mui.createStyles({
     paddingLeft: 0
   },
   iconButton: {
-    padding: app.sz(6),
+    padding: app.sz(7),
     paddingLeft: app.sz(10),
     paddingRight: app.sz(4),
     '& svg': {fontSize: app.sz(15)}
@@ -46,15 +46,8 @@ const Styles = mui.createStyles({
     flex: 1,
     width: 0
   },
-  titlePrimary: {
-    fontSize: app.sz(10),
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
-  },
-  titleSecondary: {
-    color: '#AAA',
-    fontSize: app.sz(10),
+  titleText: {
+    fontSize: app.sz(12),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'

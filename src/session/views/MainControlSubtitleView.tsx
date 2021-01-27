@@ -18,8 +18,8 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
           onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>
           <app.icons.Subtitles />
         </mui.IconButton>
-        <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} placement="top-end">
-          <mui.Paper className={this.classes.menu}>
+        <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement="bottom-end">
+          <mui.Paper className={this.classes.menu} elevation={0} square={true}>
             <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
               <mui.MenuList className={this.classes.menuList} onClick={() => this.setState({anchorEl: undefined})}>
                 {this.menuItem(0)}
@@ -56,10 +56,11 @@ const Styles = mui.createStyles({
     display: 'inline-block'
   },
   iconButton: {
-    padding: app.sz(5),
+    padding: app.sz(7),
     '& svg': {fontSize: app.sz(15)}
   },
   menu: {
+    backgroundColor: 'rgba(50, 50, 50, 0.5)',
     transform: `translateX(${app.sz(28)})`
   },
   menuList: {
@@ -67,7 +68,7 @@ const Styles = mui.createStyles({
   },
   menuListItem: {
     '& svg': {height: app.sz(10), width: app.sz(10)},
-    '& .MuiFormControlLabel-label': {fontSize: app.sz(10)},
+    '& .MuiFormControlLabel-label': {fontSize: app.sz(12)},
     '& .MuiRadio-root': {padding: app.sz(5)}
   }
 });
