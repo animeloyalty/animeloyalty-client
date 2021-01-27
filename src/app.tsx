@@ -4,9 +4,11 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// TODO:private _
-// TODO:synopsis and series info etc
+// TODO: isPremium visibility
+// TODO:think of showing episode synopsis somewhere... or just cut it out completely?
+// TODO:small delay on loading stream for next chapter? like seek, if you tap a bunch of times, it should just load the episode we want, not all.
 // TODO:error handling TODOs
+// TODO:private _
 
 // ElectronShell: Disable escape to exit fullscreen/mouselock, disable fullscreen gesture restriction?
 

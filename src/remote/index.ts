@@ -1,6 +1,7 @@
 export * from '../shared';
 export * from './classes/Navigator';
 export * from './classes/NavigatorEpisode';
+export * from './components/ImageButtonComponent';
 export * from './components/ImageComponent';
 export * from './components/MountComponent';
 export * from './controllers/MainController';

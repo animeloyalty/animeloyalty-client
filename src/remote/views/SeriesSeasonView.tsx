@@ -8,26 +8,30 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonVi
   render() {
     return (
       <mui.Grid>
-        <mui.Typography>
+        <mui.Typography className={this.classes.title}>
           {this.props.vm.title}
         </mui.Typography>
-        <mui.Grid className={this.classes.episodeContainer}>
-          {this.props.vm.episodes.map((vm, i) => <app.ImageComponent key={i} height="8vw" onClick={() => vm.open()}
+        <mui.Paper className={this.classes.episodeContainer} square={true}>
+          {this.props.vm.episodes.map((vm, i) => <app.ImageButtonComponent key={i} height="8vw" onClick={() => vm.open()}
             imageUrl={vm.imageUrl}
             text={vm.displayName} />)}
-        </mui.Grid>
+        </mui.Paper>
       </mui.Grid>
     );
   }
 }
 
 const Styles = mui.createStyles({
+  title: {
+    fontSize: app.sz(12),
+    padding: app.sz(5)
+  },
   episodeContainer: {
     display: 'grid',
-    gridGap: '2vw',
-    gridTemplateColumns: 'repeat(auto-fill, calc(84vw / 6))',
+    gridGap: '1vw',
+    gridTemplateColumns: 'repeat(auto-fill, calc((100% - 6vw) / 7))',
     justifyContent: 'center',
-    padding: '2vw',
+    padding: '1vw',
     width: '100%'
   }
 });

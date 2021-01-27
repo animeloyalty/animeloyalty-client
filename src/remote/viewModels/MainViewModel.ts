@@ -31,7 +31,7 @@ export class MainViewModel {
         this.series.push(...series.map(x => new app.MainSeriesViewModel(x)));
         series.forEach(x => this.existingUrls[x.url] = true);
       } else {
-        throw new Error('TODO');
+        throw new Error('TODO: This could be during a lazy load!');
       }
     });
   }

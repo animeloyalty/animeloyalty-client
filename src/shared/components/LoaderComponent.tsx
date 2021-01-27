@@ -9,9 +9,9 @@ class Component extends app.BaseComponent<typeof Styles, {open?: boolean, quiet?
     if (!this.props.open && !this.props.vm?.isLoading) {
       return false;
     } else if (!this.props.quiet && !this.props.vm?.isQuiet) {
-      return <mui.CircularProgress className={this.classes.circular} color="secondary" />;
+      return <mui.CircularProgress className={this.classes.circular} />;
     } else {
-      return <mui.LinearProgress className={this.classes.linear} color="secondary" />;
+      return <mui.LinearProgress className={this.classes.linear} />;
     }
   }
 }
