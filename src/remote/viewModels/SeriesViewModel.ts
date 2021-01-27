@@ -16,7 +16,7 @@ export class SeriesViewModel {
     await this.loader.loadAsync(async () => {
       const result = await app.core.api.remote.seriesAsync({url: this.url});
       if (result.value) {
-        this.genres = result.value.genres;
+        this.genres = result.value.genres.map(x => x.substr(0, 1).toUpperCase() + x.substr(1)).sort();
         this.imageUrl = result.value.imageUrl;
         this.seasons = result.value.seasons.map((_, seasonIndex) => new app.SeriesSeasonViewModel(result.value, seasonIndex));
         this.synopsis = result.value.synopsis;
