@@ -56,20 +56,20 @@ const Styles = mui.createStyles({
     display: 'inline-block'
   },
   iconButton: {
-    padding: app.sz(7),
+    padding: app.sz(8),
     '& svg': {fontSize: app.sz(15)}
   },
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
-    transform: `translateX(${app.sz(28)})`
+    transform: `translateX(${app.sz(32)})`
   },
   menuList: {
-    padding: `${app.sz(5)} 0`
+    padding: 0,
   },
   menuListItem: {
-    '& svg': {height: app.sz(10), width: app.sz(10)},
+    '& svg': {height: app.sz(12), width: app.sz(12)},
     '& .MuiFormControlLabel-label': {fontSize: app.sz(12)},
-    '& .MuiRadio-root': {padding: app.sz(5)}
+    '& .MuiRadio-root': {padding: app.sz(8)}
   }
 });
 

@@ -12,14 +12,14 @@ export const SliderComponent = mui.withStyles(() => ({
     height: app.sz(2)
   },
   thumb: {
-    borderRadius: app.sz(10),
+    borderRadius: app.sz(12),
     marginTop: 0,
-    height: app.sz(10),
-    width: app.sz(10),
+    height: app.sz(12),
+    width: app.sz(12),
     transform: `translateY(calc(-50% + ${app.sz(1)}))`,
     '&:hover': {boxShadow: 'none'},
     '&.Mui-focusVisible': {boxShadow: 'none'},
     '&.MuiSlider-active': {boxShadow: 'none'},
-    '&:after': {bottom: app.sz(-5), left: app.sz(-5), right: app.sz(-5), top: app.sz(-5)}
+    '&:after': {bottom: app.sz(-8), left: app.sz(-8), right: app.sz(-8), top: app.sz(-8)}
   }
 }))(mui.Slider);

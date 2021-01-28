@@ -73,20 +73,20 @@ const Styles = mui.createStyles({
   },
   container: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
-    height: app.sz(30),
+    height: app.sz(32),
     position: 'absolute',
     bottom: 0,
     top: 'inherit'
   },
   seekBar: {
-    padding: `${app.sz(5)} 0`,
+    padding: `${app.sz(8)} 0`,
     position: 'absolute',
     top: 0,
     transform: 'translateY(-50%)'
   },
   beginBar: {
     position: 'absolute',
-    left: app.sz(10),
+    left: app.sz(8),
     top: '50%',
     transform: 'translateY(-50%)'
   },
@@ -106,7 +106,7 @@ const Styles = mui.createStyles({
     transform: 'translateY(-50%)'
   },
   iconButton: {
-    padding: app.sz(7),
+    padding: app.sz(8),
     '& svg': {fontSize: app.sz(15)}
   }
 });

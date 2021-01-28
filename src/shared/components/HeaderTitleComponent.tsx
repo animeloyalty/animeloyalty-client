@@ -32,14 +32,15 @@ class Component extends app.BaseComponent<typeof Styles, {className?: string, pr
 const Styles = mui.createStyles({
   toolBar: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
-    height: app.sz(30),
+    height: app.sz(32),
     minHeight: 0,
-    paddingLeft: 0
+    padding: 0
   },
   iconButton: {
-    padding: app.sz(7),
-    paddingLeft: app.sz(10),
-    paddingRight: app.sz(4),
+    marginRight: app.sz(2),
+    padding: app.sz(8),
+    paddingLeft: app.sz(12),
+    paddingRight: app.sz(5),
     '& svg': {fontSize: app.sz(15)}
   },
   title: {
@@ -53,7 +54,7 @@ const Styles = mui.createStyles({
     whiteSpace: 'nowrap'
   },
   children: {
-    paddingTop: app.sz(30)
+    paddingTop: app.sz(32)
   }
 });
 

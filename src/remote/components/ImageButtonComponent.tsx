@@ -34,21 +34,21 @@ const Styles = mui.createStyles({
     '& .lazyload-wrapper': {height: '100%'}
   },
   imageGrowContainer: {
-    padding: app.sz(5),
+    padding: app.sz(4),
     transition: 'padding 0.25s ease',
   },
   imageBorderContainer: {
     border: `${app.sz(2)} solid transparent`,
-    borderRadius: app.sz(12),
+    borderRadius: app.sz(14),
     height: '100%'
   },
   imageBackContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: app.sz(10),
+    borderRadius: app.sz(12),
     height: '100%'
   },
   image: {
-    borderRadius: app.sz(10),
+    borderRadius: app.sz(12),
     objectFit: 'cover',
     opacity: 0,
     height: '100%',

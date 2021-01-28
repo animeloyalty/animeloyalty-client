@@ -37,25 +37,25 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
 
 const Styles = mui.createStyles({
   tabBar: {
-    height: app.sz(30),
+    height: app.sz(32),
     minHeight: 0,
-    '& .MuiTabs-indicator': {height: app.sz(2), width: `${app.sz(140)} !important`}
+    '& .MuiTabs-indicator': {height: app.sz(2), width: `${app.sz(160)} !important`}
   },
   tab: {
     fontSize: app.sz(12),
-    minHeight: app.sz(30),
-    minWidth: app.sz(140),
-    padding: app.sz(5)
+    minHeight: app.sz(32),
+    minWidth: app.sz(160),
+    textTransform: 'none'
   },
   container: {
-    paddingTop: app.sz(30)
+    paddingTop: app.sz(32)
   },
   seriesContainer: {
     display: 'grid',
-    gridGap: '2vw',
+    gridGap: '1vw 2vw',
     gridTemplateColumns: 'repeat(auto-fill, calc((100% - 10vw) / 6))',
     justifyContent: 'center',
-    padding: '2vw',
+    padding: '1vw 2vw',
     width: '100%'
   }
 });

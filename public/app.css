@@ -13,7 +13,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 12px;
+  width: max(2.4vmin, 12px);
 }
 
 ::-webkit-scrollbar-track {
@@ -22,8 +22,8 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #FA0;
-  border-radius: 8px;
-  border: 4px solid #333;
+  border-radius: max(1.6vmin, 8px);
+  border: max(0.8vmin, 4px) solid #333;
 }
 
 .vjs-text-track-display > div {

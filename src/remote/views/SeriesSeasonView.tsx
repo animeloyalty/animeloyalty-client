@@ -24,7 +24,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonVi
 const Styles = mui.createStyles({
   title: {
     fontSize: app.sz(12),
-    padding: app.sz(5)
+    padding: app.sz(8)
   },
   episodeContainer: {
     display: 'grid',

@@ -19,8 +19,8 @@ class Component extends app.BaseComponent<typeof Styles, {open?: boolean, quiet?
 const Styles = mui.createStyles({
   circular: {
     animation: 'none',
-    height: `${app.sz(30)} !important`,
-    width: `${app.sz(30)} !important`,
+    height: `${app.sz(32)} !important`,
+    width: `${app.sz(32)} !important`,
     position: 'fixed',
     left: '50%',
     top: '50%',
