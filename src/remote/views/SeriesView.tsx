@@ -5,7 +5,7 @@ import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesViewModel}> {
+class Component extends app.BaseInputComponent<typeof Styles, {vm: app.SeriesViewModel}> {
   render() {
     return (
       <app.HeaderTitleComponent primary={this.props.vm.title}>
