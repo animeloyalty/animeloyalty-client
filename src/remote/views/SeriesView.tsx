@@ -8,7 +8,7 @@ import {language} from '../language';
 class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesViewModel}> {
   render() {
     return (
-      <mui.Grid>
+      <app.HeaderTitleComponent primary={this.props.vm.title}>
         <app.LoaderComponent vm={this.props.vm.loader} />
         {!this.props.vm.loader.isLoading && <mui.Grid>
           <mui.Paper className={this.classes.container} square={true}>
@@ -26,7 +26,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesViewMode
           </mui.Paper>
           {this.props.vm.seasons.map((vm, i) => <app.SeriesSeasonView key={i} vm={vm} />)}
         </mui.Grid>}
-      </mui.Grid>
+      </app.HeaderTitleComponent>
     );
   }
 }

@@ -7,7 +7,7 @@
 # Debugging
 
 1. Open this folder with `Visual Studio Code`.
-2. Run `npm test` in the `Terminal` to start the development server.
+2. Run `npm run dev` in the `Terminal` to start the development server.
 3. Press `F5` and wait for `Chrome` to appear and start debugging.
 
 # Publishing

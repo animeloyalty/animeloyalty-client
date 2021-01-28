@@ -12,9 +12,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonVi
           {this.props.vm.title}
         </mui.Typography>
         <mui.Paper className={this.classes.episodeContainer} square={true}>
-          {this.props.vm.episodes.map((vm, i) => <app.ImageButtonComponent key={i} height="8vw" onClick={() => vm.open()}
-            imageUrl={vm.imageUrl}
-            text={vm.displayName} />)}
+          {this.props.vm.episodes.map((vm, i) => <app.SeriesSeasonEpisodeView key={i} vm={vm} />)}
         </mui.Paper>
       </mui.Grid>
     );
