@@ -2,13 +2,23 @@ import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class SeriesViewModel {
+export class SeriesViewModel implements app.IInputHandler {
   constructor(title: string, url: string) {
     this.genres = [];
     this.imageUrl = '';
     this.seasons = [];
     this.title = title;
     this.url = url;
+  }
+
+  @mobx.action
+  onInputKey(event: app.InputKeyEvent) {
+    if (event.type === 'escape') {
+      app.core.view.leave();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @mobx.action
