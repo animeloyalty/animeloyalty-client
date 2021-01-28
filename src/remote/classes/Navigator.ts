@@ -3,6 +3,8 @@ import * as app from '..';
 import {session} from '../..';
 
 export class Navigator implements session.INavigator {
+  private skipDelay?: boolean;
+  
   private constructor(private series: ace.api.RemoteSeries, private index: number) {
     this.episodes = series.seasons.reduce((p, s) => p.concat(s.episodes.map(e => new app.NavigatorEpisode(series, s, e))), [] as Array<app.NavigatorEpisode>);
     this.current = this.episodes[this.index];
@@ -17,21 +19,21 @@ export class Navigator implements session.INavigator {
   openNext() {
     if (!this.hasNext) return;
     const navigator = new Navigator(this.series, this.index + 1);
-    const controller = app.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl);
+    const controller = app.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl, this.skipDelay ?? false);
     app.core.view.replace(controller);
   }
 
   openPrevious() {
     if (!this.hasPrevious) return;
     const navigator = new Navigator(this.series, this.index - 1);
-    const controller = app.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl);
+    const controller = app.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl, this.skipDelay ?? false);
     app.core.view.replace(controller);
   }
 
   preloadNext() {
     if (!this.hasNext) return;
-    const url = this.episodes[this.index + 1].episodeUrl;
-    app.core.api.remote.streamAsync({url}).catch(() => undefined);
+    app.core.api.remote.streamAsync({url: this.episodes[this.index + 1].episodeUrl}).catch(() => undefined);
+    this.skipDelay = true;
   }
 
   readonly current: app.NavigatorEpisode
