@@ -45,7 +45,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSub
       : () => this.props.vm.clear();
     return (
       <mui.MenuItem className={this.classes.menuListItem} key={i} onClick={onClick}>
-        <mui.FormControlLabel control={<mui.Radio checked={isChecked} />} label={displayName} />
+        <mui.FormControlLabel control={<mui.Radio checked={isChecked} color="primary" />} label={displayName} />
       </mui.MenuItem>
     );
   }

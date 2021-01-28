@@ -10,7 +10,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
     return (
       <mui.Grid>
         <mui.AppBar>
-          <mui.Tabs className={this.classes.tabBar} value={this.props.vm.providerName}>
+          <mui.Tabs className={this.classes.tabBar} indicatorColor="primary" value={this.props.vm.providerName}>
             <mui.Tab className={this.classes.tab}
               label="CrunchyRoll" value="crunchyroll"
               onClick={() => this.props.vm.changeProvider('crunchyroll')} />
@@ -22,9 +22,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
         <mui.Grid className={this.classes.container}>
           <app.LoaderComponent vm={this.props.vm.loader} />
           {this.props.vm.hasSeries && <mui.Paper className={this.classes.seriesContainer} square={true}>
-            {this.props.vm.series.map((vm, i) => <app.ImageButtonComponent key={i} height="20vw" onClick={() => vm.open()}
-              imageUrl={vm.imageUrl}
-              text={vm.title} />)}
+            {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
             <LazyLoad resize unmountIfInvisible>
               <app.MountComponent onMount={() => this.props.vm.tryNextAsync()} />
             </LazyLoad>

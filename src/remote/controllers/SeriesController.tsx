@@ -11,10 +11,6 @@ export class SeriesController extends React.Component<{vm: app.SeriesViewModel}>
   }
 
   render() {
-    return (
-      <app.HeaderTitleComponent primary={this.props.vm.title}>
-        <app.SeriesView vm={this.props.vm} />
-      </app.HeaderTitleComponent>
-    );
+    return <app.SeriesView vm={this.props.vm} />;
   }
 }
