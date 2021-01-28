@@ -20,11 +20,11 @@ class Component extends app.BaseComponent<typeof Styles, {imageUrl: string}> {
 const Styles = mui.createStyles({
   imageBackContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    borderRadius: app.sz(10),
+    borderRadius: app.sz(12),
     height: '100%'
   },
   image: {
-    borderRadius: app.sz(10),
+    borderRadius: app.sz(12),
     objectFit: 'cover',
     opacity: 0,
     height: '100%',
