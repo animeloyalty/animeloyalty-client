@@ -4,6 +4,6 @@
 /webpack
 /typings
 /*.gitattributes
-/*.js
 /*.json
 /*.tgz
+/webpack.*
