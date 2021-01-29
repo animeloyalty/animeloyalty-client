@@ -1,2 +1,3 @@
 const path = require('path');
-module.exports = path.resolve(__dirname, 'public');
+const public = path.resolve(__dirname, 'public');
+module.exports = public;
