@@ -2,6 +2,7 @@ import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
+import {language} from '../language';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewModel}> {
@@ -11,8 +12,10 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewMod
         <mui.Typography className={this.classes.title}>
           {this.props.vm.title}
         </mui.Typography>
-        <mui.Paper className={this.classes.episodeContainer} square={true}>
-          {this.props.vm.episodes.map((vm, i) => <app.SeriesSeasonEpisodeView key={i} vm={vm} />)}
+        <mui.Paper className={this.props.vm.hasEpisodes ? this.classes.episodeContainer : this.classes.emptyContainer} square={true}>
+          {this.props.vm.hasEpisodes
+            ? this.props.vm.episodes.map((vm, i) => <app.SeriesSeasonEpisodeView key={i} vm={vm} />)
+            : <mui.Typography className={this.classes.title}>{language.seriesSeason}</mui.Typography>}
         </mui.Paper>
       </mui.Grid>
     );
@@ -31,6 +34,10 @@ const Styles = mui.createStyles({
     justifyContent: 'center',
     padding: '1vw',
     width: '100%'
+  },
+  emptyContainer: {
+    fontSize: app.sz(12),
+    padding: app.sz(8)
   }
 });
 
