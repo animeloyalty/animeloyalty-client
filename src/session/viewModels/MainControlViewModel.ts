@@ -89,6 +89,7 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
     if (!this.isLoaded) return;
     this.currentTime = time;
     this.isSeeking = true;
+    this.removeSchedule();
   }
 
   @mobx.action
@@ -96,7 +97,7 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
     if (!this.isLoaded) return;
     this.currentTime = time;
     this.isSeeking = true;
-    this.bridge.dispatchRequest({type: 'seek', time});
+    this.schedule();
   }
 
   @mobx.action
