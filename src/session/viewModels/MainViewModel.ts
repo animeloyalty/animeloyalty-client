@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
+export class MainViewModel extends app.BaseViewModel implements app.IBridgeHandler, app.IInputHandler {
   private clickTimeout?: number;
   private hideTimeout?: NodeJS.Timeout;
   private skipPreload?: boolean;
@@ -9,7 +9,7 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
   constructor(
     private readonly bridge: app.Bridge,
     private readonly navigator: app.INavigator
-  ) {}
+  ) {super()}
 
   @mobx.action
   attach() {
@@ -65,8 +65,6 @@ export class MainViewModel implements app.IBridgeHandler, app.IInputHandler {
         if (this.navigator.hasNext) this.navigator.openNext();
         else app.core.view.leave();
         break;
-      case 'error':
-        throw new Error('TODO');
       case 'playing':
         this.isWaiting = false;
         this.schedule();

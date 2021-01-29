@@ -5,7 +5,7 @@ import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseInputComponent<typeof Styles, {vm: app.SeriesViewModel}> {
+class Component extends app.BaseViewInputComponent<typeof Styles, {vm: app.SeriesViewModel}> {
   render() {
     return (
       <app.HeaderTitleComponent primary={this.props.vm.title}>
@@ -16,7 +16,7 @@ class Component extends app.BaseInputComponent<typeof Styles, {vm: app.SeriesVie
               <app.ImageComponent imageUrl={this.props.vm.imageUrl} />
             </mui.Grid>
             <mui.Typography className={this.classes.summary}>
-              {this.props.vm.synopsis ?? language.synopsis}
+              {this.props.vm.synopsis ?? language.seriesSynopsis}
             </mui.Typography>
             {this.props.vm.hasGenres && <mui.Grid className={this.classes.genresContainer}>
               <mui.Divider className={this.classes.divider} />

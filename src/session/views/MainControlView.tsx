@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseInputComponent<typeof Styles, {className?: string, vm: app.MainControlViewModel}> {
+class Component extends app.BaseViewInputComponent<typeof Styles, {className?: string, vm: app.MainControlViewModel}> {
   render() {
     return (
       <mui.Grid className={this.props.className}>

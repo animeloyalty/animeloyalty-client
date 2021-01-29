@@ -1,13 +1,13 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainControlViewModel implements app.IBridgeHandler, app.IInputHandler {
+export class MainControlViewModel extends app.BaseViewModel implements app.IBridgeHandler, app.IInputHandler {
   private seekTimeout?: NodeJS.Timeout;
 
   constructor(
     private readonly bridge: app.Bridge,
     private readonly navigator: app.INavigator
-  ) {}
+  ) {super()}
 
   @mobx.action
   attach() {

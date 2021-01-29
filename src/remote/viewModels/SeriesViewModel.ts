@@ -1,9 +1,11 @@
 import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
+import {language} from '../language';
 
-export class SeriesViewModel implements app.IInputHandler {
+export class SeriesViewModel extends app.BaseViewModel implements app.IInputHandler {
   constructor(title: string, url: string) {
+    super();
     this.genres = [];
     this.imageUrl = '';
     this.seasons = [];
@@ -32,8 +34,10 @@ export class SeriesViewModel implements app.IInputHandler {
         this.synopsis = result.value.synopsis;
         this.title = result.value.title;
         this.url = result.value.url;
-      } else {
-        throw new Error('TODO');
+      } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorSeriesBody, language.errorSeriesButtons)) {
+        await this.refreshAsync();
+      } else if (this.isViewMounted) {
+        app.core.view.leave();
       }
     });
   }

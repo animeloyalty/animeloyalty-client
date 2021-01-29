@@ -3,9 +3,10 @@ import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
+import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}> {
+class Component extends app.BaseViewComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
       <mui.Grid>
@@ -21,10 +22,18 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.MainViewModel}
         </mui.AppBar>
         <mui.Grid className={this.classes.container}>
           <app.LoaderComponent vm={this.props.vm.loader} />
+          {this.props.vm.hasError && <mui.Grid className={this.classes.errorContainer}>
+            <mui.IconButton className={this.classes.errorButton} color="primary" onClick={() => this.props.vm.refreshAsync()}>
+              <app.icons.Refresh />
+            </mui.IconButton>
+            <mui.Typography className={this.classes.errorText} color="textSecondary">
+              {language.errorText}
+            </mui.Typography>
+          </mui.Grid>}
           {this.props.vm.hasSeries && <mui.Paper className={this.classes.seriesContainer} square={true}>
             {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
             <LazyLoad resize unmountIfInvisible>
-              <app.MountComponent onMount={() => this.props.vm.tryNextAsync()} />
+              <app.MountComponent onMount={() => this.props.vm.tryMoreAsync()} />
             </LazyLoad>
           </mui.Paper>}
         </mui.Grid>
@@ -47,6 +56,20 @@ const Styles = mui.createStyles({
   },
   container: {
     paddingTop: app.sz(32)
+  },
+  errorContainer: {
+    textAlign: 'center',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  errorButton: {
+    padding: app.sz(8),
+    '& svg': {fontSize: app.sz(45)}
+  },
+  errorText: {
+    fontSize: app.sz(12)
   },
   seriesContainer: {
     display: 'grid',

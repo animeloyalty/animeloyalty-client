@@ -1,15 +1,16 @@
 import * as app from '..';
 import * as mobx from 'mobx';
+import {language} from '../language';
 import {session} from '../..';
 
-export class StreamViewModel implements session.IBridgeHandler {
+export class StreamViewModel extends app.BaseViewModel implements session.IBridgeHandler {
   private navigationTimeout?: NodeJS.Timeout;
   
   constructor(
     readonly bridge: session.Bridge,
     readonly url: string,
     readonly skipDelay = true
-  ) {}
+  ) {super()}
   
   @mobx.action
   attach() {
@@ -24,7 +25,10 @@ export class StreamViewModel implements session.IBridgeHandler {
         this.schedule();
         break;
       case 'destroy':
-        this.clearSchedule();
+        this.removeSchedule();
+        break;
+      case 'error':
+        this.onError();
         break;
     }
   }
@@ -35,19 +39,30 @@ export class StreamViewModel implements session.IBridgeHandler {
     if (result.value) {
       this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
-    } else {
-      throw new Error('TODO');
+    } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
+      await this.loadAsync();
+    } else if (this.isViewMounted) {
+      app.core.view.leave();
     }
   }
 
-  private clearSchedule() {
+  @mobx.action
+  private onError() {
+    app.core.dialog.openAsync(language.errorSessionBody, language.errorStreamButtons).then((x) => x
+      ? this.loadAsync()
+      : app.core.view.leave());
+  }
+
+  @mobx.action
+  private removeSchedule() {
     if (!this.navigationTimeout) return;
     clearTimeout(this.navigationTimeout);
   }
 
+  @mobx.action
   private schedule() {
     if (!this.skipDelay) {
-      this.clearSchedule();
+      this.removeSchedule();
       this.navigationTimeout = setTimeout(() => this.loadAsync(), app.settings.navigationTimeout);
     } else {
       this.loadAsync();

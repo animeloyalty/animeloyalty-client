@@ -52,12 +52,14 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
   @mobx.observable
   subtitles: Array<app.ISubtitle> = [];
 
+  @mobx.action
   private loadSubtitle() {
     const preferred = app.core.store.getString(preferredKey, 'eng');
     if (preferred === preferredNone || this.tryLoadSubtitle(preferred)) return;
     this.tryLoadSubtitle('eng');
   }
 
+  @mobx.action
   private tryLoadSubtitle(language: string | null) {
     const subtitle = this.subtitles.find(x => x.language === language);
     if (subtitle) {

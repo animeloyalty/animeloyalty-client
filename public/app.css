@@ -26,6 +26,10 @@ body {
   border: max(0.8vmin, 4px) solid #333;
 }
 
+.vjs-error-display {
+  display: none;
+}
+
 .vjs-text-track-display > div {
 	margin: 0 !important;
 }
