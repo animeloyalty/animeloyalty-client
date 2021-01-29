@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainViewModel extends app.BaseViewModel implements app.IBridgeHandler, app.IInputHandler {
+export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.IViewHandler {
   private clickTimeout?: number;
   private hideTimeout?: NodeJS.Timeout;
   private skipPreload?: boolean;
@@ -9,14 +9,7 @@ export class MainViewModel extends app.BaseViewModel implements app.IBridgeHandl
   constructor(
     private readonly bridge: app.Bridge,
     private readonly navigator: app.INavigator
-  ) {super()}
-
-  @mobx.action
-  attach() {
-    this.bridge.subscribe(this);
-    this.control.attach();
-    return this;
-  }
+  ) {}
 
   @mobx.action
   onInputKey(event: app.InputKeyEvent) {
@@ -57,10 +50,6 @@ export class MainViewModel extends app.BaseViewModel implements app.IBridgeHandl
   @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
-      case 'destroy':
-        this.removeHide();
-        this.removeSchedule();
-        break;
       case 'ended':
         if (this.navigator.hasNext) this.navigator.openNext();
         else app.core.view.leave();
@@ -84,6 +73,18 @@ export class MainViewModel extends app.BaseViewModel implements app.IBridgeHandl
         this.isWaiting = true;
         break;
     }
+  }
+
+  @mobx.action
+  onViewMount() {
+    this.bridge.subscribe(this);
+  }
+
+  @mobx.action
+  onViewUnmount() {
+    this.bridge.unsubscribe(this);
+    this.removeHide();
+    this.removeSchedule();
   }
 
   @mobx.observable

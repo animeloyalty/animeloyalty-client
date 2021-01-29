@@ -1,8 +1,3 @@
-export interface IBridgeHandler {
-  onVideoEvent?(event: VideoEvent): void;
-  onVideoRequest?(event: VideoRequest): void;
-}
-
 export interface INavigator {
   readonly current: INavigatorEpisode;
   readonly episodes: Array<INavigatorEpisode>;
@@ -27,9 +22,13 @@ export interface ISubtitle {
   readonly url: string;
 };
 
+export interface IVideoHandler {
+  onVideoEvent?(event: VideoEvent): void;
+  onVideoRequest?(event: VideoRequest): void;
+}
+
 export type VideoEvent =
   {type: 'create'} |
-  {type: 'destroy'} |
   {type: 'ended'} |
   {type: 'error'} |
   {type: 'loadedmetadata'} & {duration: number} |

@@ -1,7 +1,7 @@
 import * as app from '..';
 
 export class Bridge {
-  private readonly handlers: Array<app.IBridgeHandler>;
+  private readonly handlers: Array<app.IVideoHandler>;
 
   constructor() {
     this.handlers = [];
@@ -15,7 +15,13 @@ export class Bridge {
     this.handlers.forEach(x => x.onVideoRequest?.call(x, request));
   }
 
-  subscribe(handler: app.IBridgeHandler) {
-    this.handlers.push(handler);
+  subscribe(handler: app.IVideoHandler) {
+    const index = this.handlers.indexOf(handler);
+    if (index === -1) this.handlers.push(handler);
+  }
+
+  unsubscribe(handler: app.IVideoHandler) {
+    const index = this.handlers.indexOf(handler);
+    if (index !== -1) this.handlers.splice(index, 1);
   }
 }

@@ -3,7 +3,7 @@ import * as mobx from 'mobx';
 import {language} from '../language';
 import {session} from '../..';
 
-export class StreamViewModel extends app.BaseViewModel implements session.IBridgeHandler {
+export class StreamViewModel extends app.BaseViewModel implements session.IVideoHandler {
   private navigationTimeout?: NodeJS.Timeout;
   
   constructor(
@@ -13,24 +13,28 @@ export class StreamViewModel extends app.BaseViewModel implements session.IBridg
   ) {super()}
   
   @mobx.action
-  attach() {
-    this.bridge.subscribe(this);
-    return this;
-  }
-
-  @mobx.action
   onVideoEvent(event: session.VideoEvent) {
     switch (event.type) {
       case 'create':
         this.schedule();
         break;
-      case 'destroy':
-        this.removeSchedule();
-        break;
       case 'error':
         this.onError();
         break;
     }
+  }
+
+  @mobx.action
+  onViewMount() {
+    super.onViewMount();
+    this.bridge.subscribe(this);
+  }
+
+  @mobx.action
+  onViewUnmount() {
+    super.onViewUnmount();
+    this.bridge.unsubscribe(this);
+    this.removeSchedule();
   }
 
   @mobx.action
