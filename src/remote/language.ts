@@ -7,7 +7,7 @@ export const language = {
   errorStreamButtons: ['Cancel', 'Retry'],
   errorSessionBody: 'An error occurred. The stream could not be played. Try again momentarily. If this error continues, open a support ticket.',
   errorSessionButtons: ['Cancel', 'Retry'],
-  errorText: '*sad weeb noises*',
+  errorText: 'An error occurred.',
   seriesPremium: 'premium',
   seriesSynopsis: 'No synopsis is available for this series.',
 };
