@@ -13,6 +13,10 @@ export class ViewComponent<TStyles extends mui.StyleRules = {}, TProps extends {
         app.core.input.subscribe(props.vm);
       if (isInputHandler(this.props.vm))
         app.core.input.unsubscribe(this.props.vm);
+      if (isViewHandler(props.vm))
+        props.vm.onViewMount?.call(props.vm);
+      if (isViewHandler(this.props.vm))
+        this.props.vm.onViewUnmount?.call(this.props.vm);
     }
   }
 
