@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonViewModel}> {
+class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewModel}> {
   render() {
     return (
       <mui.Grid>
@@ -34,4 +34,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const SeriesSeasonView = mui.withStyles(Styles)(Component);
+export const SeriesSeasonView = mui.withStyles(Styles)(View);

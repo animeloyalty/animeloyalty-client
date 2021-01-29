@@ -4,7 +4,7 @@ import * as React from 'react';
 import {session} from '../..';
 
 @mobxReact.observer
-export class StreamController extends app.BaseViewComponent<{}, {svm: session.MainViewModel, vm: app.StreamViewModel}> {
+export class StreamController extends app.ViewComponent<{}, {svm: session.MainViewModel, vm: app.StreamViewModel}> {
   static createController(navigator: session.INavigator, url: string, skipDelay = true) {
     const bridge = new session.Bridge();
     const svm = new session.MainViewModel(bridge, navigator).attach();

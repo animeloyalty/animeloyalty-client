@@ -6,7 +6,7 @@ import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseViewComponent<typeof Styles, {vm: app.MainViewModel}> {
+class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
       <mui.Grid>
@@ -21,7 +21,7 @@ class Component extends app.BaseViewComponent<typeof Styles, {vm: app.MainViewMo
           </mui.Tabs>
         </mui.AppBar>
         <mui.Grid className={this.classes.container}>
-          <app.LoaderComponent vm={this.props.vm.loader} />
+          <app.LoaderView vm={this.props.vm.loader} />
           {this.props.vm.hasError && <mui.Grid className={this.classes.errorContainer}>
             <mui.IconButton className={this.classes.errorButton} color="primary" onClick={() => this.props.vm.refreshAsync()}>
               <app.icons.Refresh />
@@ -81,4 +81,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const MainView = mui.withStyles(Styles)(Component);
+export const MainView = mui.withStyles(Styles)(View);

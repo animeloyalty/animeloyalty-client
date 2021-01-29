@@ -1,6 +1,7 @@
-import * as React from 'react';
+import * as app from '..';
+import * as mui from '@material-ui/core';
 
-export class MountComponent extends React.Component<{onMount: () => void}> {
+class Component extends app.BaseComponent<typeof Styles, {onMount: () => void}> {
   componentDidMount() {
     this.props.onMount();
   }
@@ -9,3 +10,8 @@ export class MountComponent extends React.Component<{onMount: () => void}> {
     return false;
   }
 }
+
+const Styles = mui.createStyles({
+});
+
+export const MountComponent = mui.withStyles(Styles)(Component);

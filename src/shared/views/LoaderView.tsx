@@ -4,7 +4,7 @@ import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {open?: boolean, quiet?: boolean, vm?: app.LoaderViewModel}> { 
+class View extends app.ViewComponent<typeof Styles, {open?: boolean, quiet?: boolean, vm?: app.LoaderViewModel}> { 
   render() {
     if (!this.props.open && !this.props.vm?.isLoading) {
       return false;
@@ -34,4 +34,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const LoaderComponent = mui.withStyles(Styles)(Component);
+export const LoaderView = mui.withStyles(Styles)(View);

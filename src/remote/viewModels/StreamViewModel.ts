@@ -34,13 +34,13 @@ export class StreamViewModel extends app.BaseViewModel implements session.IBridg
   }
 
   @mobx.action
-  async loadAsync() {
+  async refreshAsync() {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
       this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
-      await this.loadAsync();
+      await this.refreshAsync();
     } else if (this.isViewMounted) {
       app.core.view.leave();
     }
@@ -49,7 +49,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IBridg
   @mobx.action
   private onError() {
     app.core.dialog.openAsync(language.errorSessionBody, language.errorStreamButtons).then((x) => x
-      ? this.loadAsync()
+      ? this.refreshAsync()
       : app.core.view.leave());
   }
 
@@ -63,9 +63,9 @@ export class StreamViewModel extends app.BaseViewModel implements session.IBridg
   private schedule() {
     if (!this.skipDelay) {
       this.removeSchedule();
-      this.navigationTimeout = setTimeout(() => this.loadAsync(), app.settings.navigationTimeout);
+      this.navigationTimeout = setTimeout(() => this.refreshAsync(), app.settings.navigationTimeout);
     } else {
-      this.loadAsync();
+      this.refreshAsync();
     }
   }
 }

@@ -5,7 +5,7 @@ import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles, {vm: app.MainControlSubtitleViewModel}> {
+class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitleViewModel}> {
   state = {
     anchorEl: undefined,
   };
@@ -73,4 +73,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const MainControlSubtitleView = mui.withStyles(Styles)(Component);
+export const MainControlSubtitleView = mui.withStyles(Styles)(View);

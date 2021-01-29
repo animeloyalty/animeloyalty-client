@@ -4,7 +4,7 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseComponent<typeof Styles> {
+class View extends app.ViewComponent<typeof Styles> {
   render() {
     return app.core.dialog.items.map((item, i) => (
       <mui.Modal key={i} open={i === app.core.dialog.items.length - 1}>
@@ -50,4 +50,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const DialogManagerView = mui.withStyles(Styles)(Component);
+export const DialogManagerView = mui.withStyles(Styles)(View);

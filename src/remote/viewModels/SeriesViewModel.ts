@@ -33,7 +33,6 @@ export class SeriesViewModel extends app.BaseViewModel implements app.IInputHand
         this.seasons = result.value.seasons.map((_, seasonIndex) => new app.SeriesSeasonViewModel(result.value, seasonIndex));
         this.synopsis = result.value.synopsis;
         this.title = result.value.title;
-        this.url = result.value.url;
       } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorSeriesBody, language.errorSeriesButtons)) {
         await this.refreshAsync();
       } else if (this.isViewMounted) {
@@ -63,8 +62,8 @@ export class SeriesViewModel extends app.BaseViewModel implements app.IInputHand
   title: ace.api.RemoteSeries['title'];
 
   @mobx.observable
-  url: ace.api.RemoteSeries['url'];
+  readonly loader = new app.LoaderViewModel();
 
   @mobx.observable
-  readonly loader = new app.LoaderViewModel();
+  readonly url: ace.api.RemoteSeries['url'];
 }
