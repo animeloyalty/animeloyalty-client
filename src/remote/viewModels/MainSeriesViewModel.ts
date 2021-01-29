@@ -16,11 +16,11 @@ export class MainSeriesViewModel {
   }
 
   @mobx.observable
-  imageUrl: ace.api.RemoteSearchSeries['imageUrl'];
+  readonly imageUrl: ace.api.RemoteSearchSeries['imageUrl'];
   
   @mobx.observable
-  title: ace.api.RemoteSearchSeries['title'];
+  readonly title: ace.api.RemoteSearchSeries['title'];
 
   @mobx.observable
-  url: ace.api.RemoteSearchSeries['url'];
+  readonly url: ace.api.RemoteSearchSeries['url'];
 }
