@@ -2,10 +2,20 @@
   "author": "Roel van Uden",
   "description": " Your personal anime collection on your device. Your content, your rules.",
   "license": "MIT",
-  "main": "public",
   "name": "animeloyalty-client",
   "repository": "git://github.com/animeloyalty/animeloyalty-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "keywords": [
+    "animeloyalty",
+    "anime",
+    "download",
+    "crunchyroll",
+    "funimation"
+  ],
+  "engines": {
+    "node": ">= 12.0.0",
+    "npm": ">= 6.0.0"
+  },
   "devDependencies": {
     "@material-ui/core": "4.11.2",
     "@material-ui/icons": "4.11.2",
