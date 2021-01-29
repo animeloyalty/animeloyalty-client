@@ -8,7 +8,6 @@ export class SeriesSeasonEpisodeViewModel {
     this.imageUrl = episode.imageUrl;
     this.isPremium = episode.isPremium;
     this.name = episode.name;
-    this.synopsis = episode.synopsis;
     this.title = episode.title;
     this.url = episode.url;
   }
@@ -31,20 +30,17 @@ export class SeriesSeasonEpisodeViewModel {
   }
   
   @mobx.observable
-  imageUrl: ace.api.RemoteSeriesSeasonEpisode['imageUrl'];
+  readonly imageUrl: ace.api.RemoteSeriesSeasonEpisode['imageUrl'];
 
   @mobx.observable
-  isPremium: ace.api.RemoteSeriesSeasonEpisode['isPremium'];
+  readonly isPremium: ace.api.RemoteSeriesSeasonEpisode['isPremium'];
 
   @mobx.observable
-  name: ace.api.RemoteSeriesSeasonEpisode['name'];
+  readonly name: ace.api.RemoteSeriesSeasonEpisode['name'];
 
   @mobx.observable
-  synopsis: ace.api.RemoteSeriesSeasonEpisode['synopsis'];
+  readonly title: ace.api.RemoteSeriesSeasonEpisode['title'];
 
   @mobx.observable
-  title: ace.api.RemoteSeriesSeasonEpisode['title'];
-
-  @mobx.observable
-  url: ace.api.RemoteSeriesSeasonEpisode['url'];
+  readonly url: ace.api.RemoteSeriesSeasonEpisode['url'];
 }

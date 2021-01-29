@@ -15,8 +15,8 @@ export class SeriesSeasonViewModel {
   }
 
   @mobx.observable
-  episodes: Array<app.SeriesSeasonEpisodeViewModel>;
+  readonly episodes: Array<app.SeriesSeasonEpisodeViewModel>;
   
   @mobx.observable
-  title: ace.api.RemoteSeriesSeason['title'];
+  readonly title: ace.api.RemoteSeriesSeason['title'];
 }

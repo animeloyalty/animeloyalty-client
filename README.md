@@ -7,9 +7,5 @@
 # Debugging
 
 1. Open this folder with `Visual Studio Code`.
-2. Run `npm run dev` in the `Terminal` to start the development server.
+2. Run `animesync server` (see https://github.com/Deathspike/animesync).
 3. Press `F5` and wait for `Chrome` to appear and start debugging.
-
-# Publishing
-
-1. Run `npm pack` in the directory and use the `.tgz` output file.
