@@ -9,5 +9,6 @@ export const language = {
   errorSessionButtons: ['Cancel', 'Retry'],
   errorText: 'An error occurred.',
   seriesPremium: 'premium',
-  seriesSynopsis: 'No synopsis is available for this series.',
+  seriesSeason: 'There are no episodes available for this season.',
+  seriesSynopsis: 'There is no synopsis available for this series.',
 };

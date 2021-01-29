@@ -9,6 +9,11 @@ export class SeriesSeasonViewModel {
     this.title = season.title;
   }
 
+  @mobx.computed
+  get hasEpisodes() {
+    return Boolean(this.episodes.length);
+  }
+
   @mobx.observable
   episodes: Array<app.SeriesSeasonEpisodeViewModel>;
   
