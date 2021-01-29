@@ -13,7 +13,7 @@ class Component extends app.BaseComponent<typeof Styles, {vm: app.SeriesSeasonEp
         text={this.props.vm.displayName}>
         {this.props.vm.isPremium && <mui.Grid className={this.classes.container}>
           <mui.Typography className={this.classes.premium} color="textSecondary">
-            {language.premium}
+            {language.seriesPremium}
           </mui.Typography>
         </mui.Grid>}
       </app.ImageButtonComponent>

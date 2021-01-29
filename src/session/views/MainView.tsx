@@ -5,13 +5,12 @@ import * as React from 'react';
 import videojs from 'video.js';
 
 @mobxReact.observer
-class Component extends app.BaseInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
+class Component extends app.BaseViewInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
   private element?: HTMLVideoElement;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
 
   componentDidMount() {
-    super.componentDidMount();
     document.body.style.overflow = 'hidden';
   }
   

@@ -6,10 +6,9 @@ export class DialogManager {
   }
 
   @mobx.action
-  async openAsync(body: string, buttons: string[], ...errors: any[]) {
+  async openAsync(body: string, buttons: string[]) {
     return await new Promise<number>((resolve) => {
-      const errorTexts = errors.map(convertErrorText).filter(Boolean).map((errorText) => errorText!);
-      this.items.push({body, buttons, errorTexts, send: (index: number) => {
+      this.items.push({body, buttons, onClick: (index: number) => {
         this.items.pop();
         resolve(index);
       }});
@@ -23,15 +22,9 @@ export class DialogManager {
 
   @mobx.observable
   items: {
-    body: string;
-    buttons: string[];
-    errorTexts: string[];
-    send: (index: number) => void;
+    body: string,
+    buttons: string[],
+    error?: string,
+    onClick: (index: number) => void;
   }[];
-}
-
-function convertErrorText(error?: any) {
-  if (error instanceof Error) return error.stack;
-  else if (error) return String(error) || undefined;
-  else return;
 }

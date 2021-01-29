@@ -9,7 +9,7 @@ let view: app.ViewManager;
 
 export const core = {
   get api() {
-    api ??= new ace.api.ServerApi('http://127.0.0.1:6583/'); // TODO
+    api ??= new ace.api.ServerApi('http://127.0.0.1:6583/');
     return api;
   },
 
