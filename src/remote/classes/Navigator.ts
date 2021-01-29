@@ -18,15 +18,17 @@ export class Navigator implements session.INavigator {
 
   openNext() {
     if (!this.hasNext) return;
+    const skipDelay = this.skipDelay ?? false;
     const navigator = new Navigator(this.series, this.index + 1);
-    const controller = app.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl, this.skipDelay ?? false);
+    const controller = app.StreamController.createController(navigator, this.episodes[this.index + 1].episodeUrl, skipDelay);
     app.core.view.replace(controller);
   }
 
   openPrevious() {
     if (!this.hasPrevious) return;
+    const skipDelay = this.skipDelay ?? false;
     const navigator = new Navigator(this.series, this.index - 1);
-    const controller = app.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl, this.skipDelay ?? false);
+    const controller = app.StreamController.createController(navigator, this.episodes[this.index - 1].episodeUrl, skipDelay);
     app.core.view.replace(controller);
   }
 
