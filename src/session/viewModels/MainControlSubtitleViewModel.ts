@@ -4,16 +4,10 @@ import {language} from '../language';
 const preferredKey = 'preferredLanguage';
 const preferredNone = 'none';
 
-export class MainControlSubtitleViewModel implements app.IBridgeHandler {
+export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IViewHandler {
   constructor(
     private readonly bridge: app.Bridge
   ) {}
-
-  @mobx.action
-  attach() {
-    this.bridge.subscribe(this);
-    return this;
-  }
 
   @mobx.action
   clear() {
@@ -39,6 +33,16 @@ export class MainControlSubtitleViewModel implements app.IBridgeHandler {
         this.loadSubtitle();
         break;
     }
+  }
+  
+  @mobx.action
+  onViewMount() {
+    this.bridge.subscribe(this);
+  }
+
+  @mobx.action
+  onViewUnmount() {
+    this.bridge.unsubscribe(this);
   }
 
   @mobx.computed

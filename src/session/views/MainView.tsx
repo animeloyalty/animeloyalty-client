@@ -5,7 +5,7 @@ import * as React from 'react';
 import videojs from 'video.js';
 
 @mobxReact.observer
-class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
+class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
   private element?: HTMLVideoElement;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
@@ -74,7 +74,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   }
 
   private onDestroy() {
-    this.props.bridge.dispatchEvent({type: 'destroy'});
+    this.props.bridge.unsubscribe(this);
     this.player?.dispose()
     this.worker?.dispose();
   }

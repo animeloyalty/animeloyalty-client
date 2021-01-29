@@ -1,20 +1,13 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainControlViewModel extends app.BaseViewModel implements app.IBridgeHandler, app.IInputHandler {
+export class MainControlViewModel implements app.IInputHandler, app.IVideoHandler, app.IViewHandler {
   private seekTimeout?: NodeJS.Timeout;
 
   constructor(
     private readonly bridge: app.Bridge,
     private readonly navigator: app.INavigator
-  ) {super()}
-
-  @mobx.action
-  attach() {
-    this.bridge.subscribe(this);
-    this.subtitle.attach();
-    return this;
-  }
+  ) {}
 
   @mobx.action
   onInputKey(event: app.InputKeyEvent) {
@@ -35,9 +28,6 @@ export class MainControlViewModel extends app.BaseViewModel implements app.IBrid
   @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
-      case 'destroy':
-        this.removeSchedule();
-        break;
       case 'loadedmetadata':
         this.currentDuration = event.duration;
         break;
@@ -55,6 +45,17 @@ export class MainControlViewModel extends app.BaseViewModel implements app.IBrid
     }
   }
   
+  @mobx.action
+  onViewMount() {
+    this.bridge.subscribe(this);
+  }
+
+  @mobx.action
+  onViewUnmount() {
+    this.bridge.unsubscribe(this);
+    this.removeSchedule();
+  }
+
   @mobx.action
   openNext() {
     if (!this.hasNext) return;

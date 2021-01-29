@@ -8,8 +8,8 @@ export class Dispatcher {
   ) {}
 
   static attach(bridge: app.Bridge, player: videojs.Player) {
-    const distributor = new Dispatcher(bridge, player);
-    distributor.attach();
+    const dispatcher = new Dispatcher(bridge, player);
+    dispatcher.attach();
   }
 
   attach() {
