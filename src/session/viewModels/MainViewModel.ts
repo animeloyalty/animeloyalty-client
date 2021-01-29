@@ -83,7 +83,6 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
   @mobx.action
   onViewUnmount() {
     this.bridge.unsubscribe(this);
-    this.removeHide();
     this.removeSchedule();
   }
 
@@ -95,14 +94,12 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
 
   @mobx.observable
   readonly control = new app.MainControlViewModel(this.bridge, this.navigator);
-
+  
   @mobx.action
   private removeHide() {
-    if (!this.isHidden) return;
-    document.exitPointerLock();
     this.isHidden = false;
   }
-  
+
   @mobx.action
   private removeSchedule() {
     if (!this.hideTimeout) return;
@@ -114,8 +111,7 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
     this.removeHide();
     this.removeSchedule();
     this.hideTimeout = setTimeout(() => {
-      if (!this.control.isPlaying || this.isHidden || this.isWaiting) return;
-      document.body.requestPointerLock();
+      if (!this.control.isPlaying || this.isWaiting) return;
       this.isHidden = true;
     }, app.settings.hideTimeout);
   }
