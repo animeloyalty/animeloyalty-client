@@ -75,6 +75,7 @@ const Styles = mui.createStyles({
     display: 'grid',
     gridGap: '1vw 2vw',
     gridTemplateColumns: 'repeat(auto-fill, calc((100% - 10vw) / 6))',
+    gridTemplateRows: '22vw',
     justifyContent: 'center',
     padding: '1vw 2vw',
     width: '100%'
