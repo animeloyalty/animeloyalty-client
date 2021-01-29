@@ -3,7 +3,7 @@
   "description": " Your personal anime collection on your device. Your content, your rules.",
   "license": "MIT",
   "name": "animeloyalty-client",
-  "repository": "git://github.com/Deathspike/animeloyalty-client",
+  "repository": "git://github.com/animeloyalty/animeloyalty-client",
   "version": "0.1.0",
   "devDependencies": {
     "@material-ui/core": "4.11.2",
