@@ -58,4 +58,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const HeaderTitleComponent = mui.withStyles(Styles)(Component);
+export const HeaderComponent = mui.withStyles(Styles)(Component);

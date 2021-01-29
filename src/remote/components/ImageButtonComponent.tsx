@@ -1,9 +1,7 @@
 import * as app from '..';
-import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-@mobxReact.observer
 class Component extends app.BaseComponent<typeof Styles, {height: string, imageUrl: string, text: string, onClick: () => void}> {
   render() {
     return (

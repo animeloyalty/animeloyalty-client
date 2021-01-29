@@ -3,7 +3,7 @@ import * as mobxReact from 'mobx-react';
 import * as React from 'react';
 
 @mobxReact.observer
-export class SeriesController extends React.Component<{vm: app.SeriesViewModel}> {
+export class SeriesController extends app.ViewComponent<{}, {vm: app.SeriesViewModel}> {
   static createController(title: string, url: string) {
     const vm = new app.SeriesViewModel(title, url);
     vm.refreshAsync();

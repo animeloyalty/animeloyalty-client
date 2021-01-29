@@ -1,9 +1,9 @@
 import * as app from '..';
 import * as mobxReact from 'mobx-react';
-import * as React from 'react';
+import * as mui from '@material-ui/core';
 
 @mobxReact.observer
-export class ViewManagerView extends React.Component {
+class View extends app.ViewComponent {
   componentDidUpdate() {
     const x = app.core.view.current.x;
     const y = app.core.view.current.y;
@@ -14,3 +14,8 @@ export class ViewManagerView extends React.Component {
     return app.core.view.current.view;
   }
 }
+
+const Styles = mui.createStyles({
+});
+
+export const ViewManagerView = mui.withStyles(Styles)(View);

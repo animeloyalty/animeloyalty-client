@@ -5,11 +5,11 @@ import * as React from 'react';
 import {language} from '../language';
 
 @mobxReact.observer
-class Component extends app.BaseViewInputComponent<typeof Styles, {vm: app.SeriesViewModel}> {
+class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesViewModel}> {
   render() {
     return (
-      <app.HeaderTitleComponent primary={this.props.vm.title}>
-        <app.LoaderComponent vm={this.props.vm.loader} />
+      <app.HeaderComponent primary={this.props.vm.title}>
+        <app.LoaderView vm={this.props.vm.loader} />
         {!this.props.vm.loader.isLoading && <mui.Grid>
           <mui.Paper className={this.classes.container} square={true}>
             <mui.Grid className={this.classes.imageContainer}>
@@ -26,7 +26,7 @@ class Component extends app.BaseViewInputComponent<typeof Styles, {vm: app.Serie
           </mui.Paper>
           {this.props.vm.seasons.map((vm, i) => <app.SeriesSeasonView key={i} vm={vm} />)}
         </mui.Grid>}
-      </app.HeaderTitleComponent>
+      </app.HeaderComponent>
     );
   }
 }
@@ -61,4 +61,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const SeriesView = mui.withStyles(Styles)(Component);
+export const SeriesView = mui.withStyles(Styles)(View);

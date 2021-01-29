@@ -4,11 +4,11 @@ import * as mui from '@material-ui/core';
 import * as React from 'react';
 
 @mobxReact.observer
-class Component extends app.BaseViewInputComponent<typeof Styles, {className?: string, vm: app.MainControlViewModel}> {
+class View extends app.ViewComponent<typeof Styles, {className?: string, vm: app.MainControlViewModel}> {
   render() {
     return (
       <mui.Grid className={this.props.className}>
-        <app.HeaderTitleComponent className={this.classes.appBar}
+        <app.HeaderComponent className={this.classes.appBar}
           primary={this.props.vm.titlePrimary}
           secondary={this.props.vm.titleSecondary} />
         <mui.AppBar className={this.classes.container}>
@@ -111,4 +111,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const MainControlView = mui.withStyles(Styles)(Component);
+export const MainControlView = mui.withStyles(Styles)(View);

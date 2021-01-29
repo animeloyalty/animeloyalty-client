@@ -3,6 +3,11 @@ export interface IInputHandler {
   onInputMouse?(event: InputMouseEvent, handled: boolean): boolean;
 }
 
+export interface IViewHandler {
+  onViewMount?(): void;
+  onViewUnmount?(): void;
+}
+
 export type InputKeyEvent = 
   {type: 'arrowLeft'} |
   {type: 'arrowRight'} |

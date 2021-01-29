@@ -5,7 +5,7 @@ import * as React from 'react';
 import videojs from 'video.js';
 
 @mobxReact.observer
-class Component extends app.BaseViewInputComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
+class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IBridgeHandler {
   private element?: HTMLVideoElement;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
@@ -49,7 +49,7 @@ class Component extends app.BaseViewInputComponent<typeof Styles, {bridge: app.B
     return (
       <mui.Grid className={this.props.vm.isHidden ? this.classes.containerHidden : this.classes.container}>
         <video className="video-js" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.onVideoClick()} />
-        <app.LoaderComponent open={this.props.vm.isWaiting} />
+        <app.LoaderView open={this.props.vm.isWaiting} />
         <app.MainControlView className={this.classes.ui} vm={this.props.vm.control} />
       </mui.Grid>
     );
@@ -94,4 +94,4 @@ const Styles = mui.createStyles({
   }
 });
 
-export const MainView = mui.withStyles(Styles)(Component);
+export const MainView = mui.withStyles(Styles)(View);

@@ -16,7 +16,8 @@ export class InputManager {
   }
   
   subscribe(handler: app.IInputHandler) {
-    this._handlers.push(handler);
+    const index = this._handlers.indexOf(handler);
+    if (index === -1) this._handlers.push(handler);
   }
 
   unsubscribe(handler: app.IInputHandler) {
