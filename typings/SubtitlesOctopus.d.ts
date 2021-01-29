@@ -1,8 +1,4 @@
 declare class SubtitlesOctopus {
-  constructor(options: {
-    video?: HTMLVideoElement,
-    subUrl: string,
-    workerUrl: string
-  });
+  constructor(options: {subUrl: string, video?: HTMLVideoElement, workerUrl: string});
   dispose(): void;
 }

@@ -17,8 +17,11 @@ class App extends React.Component {
   }
 }
 
-(function() {
+app.shared.unsafe(window).checkStartup = () => {
   app.shared.core.screen.checkStartup();
+};
+
+(function() {
   app.shared.core.view.open(app.remote.MainController.createController());
   ReactDOM.render(<App />, document.getElementById('container'));
 })();
