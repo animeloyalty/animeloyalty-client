@@ -2,5 +2,8 @@
 /dist
 /src
 /webpack
+/typings
+/*.gitattributes
+/*.js
 /*.json
 /*.tgz

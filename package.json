@@ -2,6 +2,7 @@
   "author": "Roel van Uden",
   "description": " Your personal anime collection on your device. Your content, your rules.",
   "license": "MIT",
+  "main": "public",
   "name": "animeloyalty-client",
   "repository": "git://github.com/animeloyalty/animeloyalty-client",
   "version": "0.1.0",
