@@ -1,2 +1,2 @@
-public/subtitles-octopus-* -linguist-vendored
-public/video-js-* -linguist-vendored
+public/subtitles-octopus-* linguist-vendored
+public/video-js-* linguist-vendored
