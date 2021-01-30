@@ -33,6 +33,7 @@ export type VideoEvent =
   {type: 'error'} & {time: number} |
   {type: 'loadedmetadata'} & {duration: number} |
   {type: 'playing'} & {time: number} |
+  {type: 'progress'} & {buffer: number} |
   {type: 'seeked'} & {time: number} |
   {type: 'seeking'} & {time: number} |
   {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
