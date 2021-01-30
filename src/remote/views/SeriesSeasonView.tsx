@@ -26,7 +26,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewMod
   }
 
   private calculateHeight(numOfEpisodes: number) {
-    const numberOfRows = Math.floor(numOfEpisodes / 7) + Math.min(numOfEpisodes % 7, 1);
+    const numberOfRows = Math.ceil(numOfEpisodes / 7);
     const numberOfGaps = numberOfRows - 1;
     const heightGaps = numberOfGaps * 1;
     const heightRows = numberOfRows * 10;
@@ -44,10 +44,10 @@ const Styles = mui.createStyles({
     display: 'grid',
     gridGap: '1vw',
     gridTemplateColumns: 'repeat(auto-fill, calc((100% - 6vw) / 7))',
-    gridTemplateRows: '10vw',
     justifyContent: 'center',
     padding: '1vw',
-    width: '100%'
+    width: '100%',
+    '& > *': {height: '10vw'}
   },
   emptyContainer: {
     fontSize: app.sz(12),
