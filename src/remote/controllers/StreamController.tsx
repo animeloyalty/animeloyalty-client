@@ -8,7 +8,7 @@ export class StreamController extends app.ViewComponent<{}, {svm: session.MainVi
   static createController(navigator: session.INavigator, url: string, skipDelay = true) {
     const bridge = new session.Bridge();
     const svm = new session.MainViewModel(bridge, navigator);
-    const vm = new app.StreamViewModel(bridge, url, skipDelay);
+    const vm = new app.StreamViewModel(bridge, navigator, url, skipDelay);
     return <StreamController svm={svm} vm={vm} />;
   }
 

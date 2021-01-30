@@ -28,6 +28,9 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
   @mobx.action
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
+      case 'error':
+        this.isSeeking = true;
+        break;
       case 'loadedmetadata':
         this.currentDuration = event.duration;
         break;

@@ -30,7 +30,7 @@ export interface IVideoHandler {
 export type VideoEvent =
   {type: 'create'} |
   {type: 'ended'} |
-  {type: 'error'} |
+  {type: 'error'} & {time: number} |
   {type: 'loadedmetadata'} & {duration: number} |
   {type: 'playing'} & {time: number} |
   {type: 'seeked'} & {time: number} |
