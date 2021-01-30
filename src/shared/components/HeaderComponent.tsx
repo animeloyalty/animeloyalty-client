@@ -49,6 +49,7 @@ const Styles = mui.createStyles({
   },
   titleText: {
     fontSize: app.sz(12),
+    lineHeight: app.sz(14),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'
