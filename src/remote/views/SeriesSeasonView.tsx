@@ -31,7 +31,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewMod
     const heightGaps = numberOfGaps * 1;
     const heightRows = numberOfRows * 10;
     const heightPadding = 2 * 1;
-    return `calc(${heightRows + heightGaps + heightPadding}vw)`;
+    return `max(${heightRows + heightGaps + heightPadding}vw, ${app.sz(50)})`;
   }
 }
 
