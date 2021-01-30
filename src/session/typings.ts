@@ -36,7 +36,7 @@ export type VideoEvent =
   {type: 'progress'} & {buffer: number} |
   {type: 'seeked'} & {time: number} |
   {type: 'seeking'} & {time: number} |
-  {type: 'timeupdate'} & {buffer: number, duration: number, time: number} |
+  {type: 'timeupdate'} & {duration: number, time: number} |
   {type: 'waiting'} & {time: number};
   
 export type VideoRequest =
