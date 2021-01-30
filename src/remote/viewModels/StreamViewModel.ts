@@ -8,6 +8,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   
   constructor(
     readonly bridge: session.Bridge,
+    readonly navigator: session.INavigator,
     readonly url: string,
     readonly skipDelay = true
   ) {super()}
@@ -19,7 +20,10 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
         this.schedule();
         break;
       case 'error':
-        this.onError();
+        this.onError(event.time);
+        break;
+      case 'timeupdate':
+        this.hasError = false;
         break;
     }
   }
@@ -38,24 +42,32 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   }
 
   @mobx.action
-  async refreshAsync() {
+  async refreshAsync(): Promise<boolean> {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
       this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
+      return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
-      await this.refreshAsync();
+      return await this.refreshAsync();
     } else if (this.isViewMounted) {
       app.core.view.leave();
+      return false;
+    } else {
+      return false;
     }
   }
 
   @mobx.action
-  private onError() {
+  private onError(time: number) {
+    if (!this.hasError) return this.tryRecover(time);
     app.core.dialog.openAsync(language.errorSessionBody, language.errorStreamButtons).then((x) => x
-      ? this.refreshAsync()
+      ? this.tryRecover(time)
       : app.core.view.leave());
   }
+
+  @mobx.observable
+  private hasError = false;
 
   @mobx.action
   private removeSchedule() {
@@ -71,5 +83,13 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
     } else {
       this.refreshAsync();
     }
+  }
+
+  @mobx.action
+  private tryRecover(time: number) {
+    this.hasError = true;
+    this.refreshAsync().then((x) => x
+      ? this.bridge.dispatchRequest({type: 'seek', time})
+      : this.onError(time));
   }
 }

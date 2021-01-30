@@ -14,7 +14,7 @@ export class Dispatcher {
 
   attach() {
     this.player.on('ended', () => this.bridge.dispatchEvent({type: 'ended'}));
-    this.player.on('error', () => this.bridge.dispatchEvent({type: 'error'}));
+    this.player.on('error', () => this.bridge.dispatchEvent(time('error', this.player)));
     this.player.on('loadedmetadata', () => this.bridge.dispatchEvent(time('loadedmetadata', this.player)));
     this.player.on('playing', () => this.bridge.dispatchEvent(time('playing', this.player)));
     this.player.on('seeked', () => this.bridge.dispatchEvent(time('seeked', this.player)));
