@@ -29,6 +29,7 @@ const Styles = mui.createStyles({
   linear: {
     height: app.sz(2),
     width: '100%',
+    zIndex: 1,
     position: 'fixed',
     bottom: 0
   }
