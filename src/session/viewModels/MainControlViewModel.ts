@@ -44,8 +44,6 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
         this.isSeeking = false;
         break;
       case 'timeupdate':
-        this.currentBuffer = event.buffer;
-        this.currentDuration = event.duration;
         if (!this.isSeeking) this.currentTime = event.time;
         break;
       case 'waiting':

@@ -26,7 +26,7 @@ export class Dispatcher {
   }
 }
 
-function time<T>(type: T, player: videojs.Player) {
+function time(type: app.VideoEvent['type'], player: videojs.Player) {
   const buffer = Math.floor(player.buffered().end(0));
   const duration = Math.ceil(player.duration());
   const time = Math.floor(player.currentTime());
