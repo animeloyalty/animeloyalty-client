@@ -17,6 +17,7 @@ export class Dispatcher {
     this.player.on('error', () => this.bridge.dispatchEvent(time('error', this.player)));
     this.player.on('loadedmetadata', () => this.bridge.dispatchEvent(time('loadedmetadata', this.player)));
     this.player.on('playing', () => this.bridge.dispatchEvent(time('playing', this.player)));
+    this.player.on('progress', () => this.bridge.dispatchEvent(time('progress', this.player)));
     this.player.on('seeked', () => this.bridge.dispatchEvent(time('seeked', this.player)));
     this.player.on('seeking', () => this.bridge.dispatchEvent(time('seeking', this.player)));
     this.player.on('timeupdate', () => this.bridge.dispatchEvent(time('timeupdate', this.player)));

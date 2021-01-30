@@ -34,6 +34,9 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
       case 'loadedmetadata':
         this.currentDuration = event.duration;
         break;
+      case 'progress':
+        this.currentBuffer = event.buffer;
+        break;
       case 'seeking':
         this.isSeeking = false;
         break;
