@@ -14,7 +14,7 @@ export class InputManager {
     document.addEventListener('mouseup', this.onMouseEvent.bind(this));
     return this;
   }
-  
+ 
   subscribe(handler: app.IInputHandler) {
     const index = this.handlers.indexOf(handler);
     if (index === -1) this.handlers.push(handler);

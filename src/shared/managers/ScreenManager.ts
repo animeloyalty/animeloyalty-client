@@ -10,9 +10,10 @@ export class ScreenManager implements app.IInputHandler {
   }
 
   @mobx.action
-  checkStartup() {
-    if (!app.core.store.getBoolean(fullscreenKey, false)) return;
+  checkStartup(isElectron: boolean) {
+    if (!app.core.store.getBoolean(fullscreenKey, false) || !isElectron) return false;
     this.toggleFullscreen();
+    return true;
   }
   
   @mobx.action
