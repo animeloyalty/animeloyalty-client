@@ -5,5 +5,7 @@ export const settings = {
   preloadTreshold: 180,
   seekBackward: 15,
   seekForward: 30,
-  seekTimeout: 600
+  seekTimeout: 600,
+  videoBuffer: 120,
+  videoBufferMax: 150
 };
