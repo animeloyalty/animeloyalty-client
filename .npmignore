@@ -5,5 +5,4 @@
 /typings
 /*.gitattributes
 /*.json
-/*.tgz
-/webpack.*
+/!(index).js
