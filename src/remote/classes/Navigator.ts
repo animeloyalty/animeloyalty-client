@@ -34,7 +34,7 @@ export class Navigator implements session.INavigator {
 
   preloadNext() {
     if (!this.hasNext) return;
-    app.core.api.remote.streamAsync({url: this.episodes[this.index + 1].episodeUrl}).catch(() => undefined);
+    app.core.api.remote.streamAsync({url: this.episodes[this.index + 1].episodeUrl}).catch(() => {});
     this.skipDelay = true;
   }
 
