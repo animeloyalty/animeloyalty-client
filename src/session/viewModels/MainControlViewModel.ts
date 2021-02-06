@@ -51,6 +51,15 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
         break;
     }
   }
+
+  @mobx.action
+  onVideoRequest(event: app.VideoRequest) {
+    switch (event.type) {
+      case 'loadSource':
+        this.isSeeking = this.currentTime !== 0;
+        break;
+    }
+  }
   
   @mobx.action
   onViewMount() {
@@ -161,6 +170,9 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
 
   @mobx.observable
   isSeeking = false;
+
+  @mobx.observable
+  readonly source = new app.MainControlSourceViewModel(this.bridge);
 
   @mobx.observable
   readonly subtitle = new app.MainControlSubtitleViewModel(this.bridge);

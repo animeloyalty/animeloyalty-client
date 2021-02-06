@@ -1,3 +1,4 @@
+import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
@@ -45,7 +46,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   async refreshAsync(): Promise<boolean> {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
-      this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.sources[0].url}); // TODO: sources
+      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources)});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
       return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
@@ -92,4 +93,12 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
       ? this.bridge.dispatchRequest({type: 'seek', time})
       : this.onError(time));
   }
+}
+
+function groupQualities(sources: Array<ace.api.RemoteStreamSource>) {
+  return sources.reduce((p, s) => {
+    const c = p.find(x => x.bandwidth === s.bandwidth && x.resolutionX === s.resolutionX && x.resolutionY === s.resolutionY);
+    if (c) return c.urls.push(s.url) ? p : p;
+    return p.concat({bandwidth: s.bandwidth, resolutionX: s.resolutionX, resolutionY: s.resolutionY, urls: [s.url]});
+  }, [] as Array<session.ISource>)
 }
