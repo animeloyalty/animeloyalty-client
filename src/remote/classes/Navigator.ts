@@ -13,7 +13,7 @@ export class Navigator implements session.INavigator {
   }
 
   static create(series: ace.api.RemoteSeries, seasonIndex: number, episodeIndex: number) {
-    return new Navigator(series, series.seasons.slice(0, seasonIndex).reduce((p, season) => p + season.episodes.length, episodeIndex));
+    return new Navigator(series, series.seasons.slice(0, seasonIndex).reduce((p, s) => p + s.episodes.length, episodeIndex));
   }
 
   openNext() {

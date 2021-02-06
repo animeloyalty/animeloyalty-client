@@ -26,12 +26,12 @@ export class InputManager {
   }
 
   private dispatchKeyEvent(source: KeyboardEvent, event: app.InputKeyEvent) {
-    if (!this.handlers.slice().reverse().reduce((p, c) => c.onInputKey?.call(c, event, p) || p, false)) return;
+    if (!this.handlers.slice().reverse().reduce((p, h) => h.onInputKey?.call(h, event, p) || p, false)) return;
     source.preventDefault();
   }
   
   private dispatchMouseEvent(source: MouseEvent, event: app.InputMouseEvent) {
-    if (!this.handlers.slice().reverse().reduce((p, c) => c.onInputMouse?.call(c, event, p) || p, false)) return;
+    if (!this.handlers.slice().reverse().reduce((p, h) => h.onInputMouse?.call(h, event, p) || p, false)) return;
     source.preventDefault();
   }
 

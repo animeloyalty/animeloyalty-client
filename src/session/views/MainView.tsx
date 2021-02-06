@@ -7,6 +7,7 @@ import videojs from 'video.js';
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
   private element?: HTMLVideoElement;
+  private loadTime?: number;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
 
@@ -19,14 +20,25 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
     document.body.style.removeProperty('overflow');
     this.onDestroy();
   }
+  
+  onVideoEvent(event: app.VideoEvent) {
+    switch (event.type) {
+      case 'loadedmetadata':
+        if (!this.loadTime) break;
+        this.player?.currentTime(this.loadTime);
+        delete this.loadTime;
+        break;
+    }
+  }
 
   onVideoRequest(request: app.VideoRequest) {
     switch (request.type) {
       case 'clearSubtitle':
         this.clearSubtitle();
         break;
-      case 'loadStream':
-        this.player?.src({src: request.url, type: request.videoType});
+      case 'loadSource':
+        this.loadTime = this.player?.currentTime();
+        this.player?.src(request.source.urls.map(x => ({src: x, type: 'application/x-mpegURL'})));
         break;
       case 'loadSubtitle':
         this.clearSubtitle();

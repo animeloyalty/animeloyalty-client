@@ -6,13 +6,21 @@ export class StoreManager {
   getBoolean(key: string, defaultValue: boolean) {
     return /^true$/.test(this.getString(key, String(defaultValue)));
   }
+
+  getNumber(key: string, defaultValue: number) {
+    return Number(this.getString(key, String(defaultValue)));
+  }
   
   getString(key: string, defaultValue: string) {
     return localStorage.getItem(getKey(key)) ?? defaultValue;
   }
 
-  set(key: string, value: boolean | string) {
-    localStorage.setItem(getKey(key), String(value));
+  set(key: string, value?: boolean | number | string) {
+    if (typeof value === 'undefined') {
+      localStorage.removeItem(getKey(key));
+    } else {
+      localStorage.setItem(getKey(key), String(value));
+    }
   }
 }
 

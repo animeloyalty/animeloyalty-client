@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
-const preferredKey = 'preferredLanguage';
+const preferredKey = 'preferredSubtitle';
 const preferredNone = 'none';
 
 export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IViewHandler {
@@ -29,7 +29,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   onVideoRequest(event: app.VideoRequest) {
     switch (event.type) {
       case 'subtitles':
-        this.subtitles = event.subtitles.map(x => ({...x, displayName: translate(x)})).sort((a, b) => a.displayName.localeCompare(b.displayName));
+        this.subtitles = event.subtitles.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => a.displayName.localeCompare(b.displayName));
         this.loadSubtitle();
         break;
     }
@@ -76,7 +76,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   }
 }
 
-function translate(subtitle: app.ISubtitle) {
+function getDisplayName(subtitle: app.ISubtitle) {
   switch (subtitle.language) {
     case 'ara': return language.subtitleAra;
     case 'eng': return language.subtitleEng;

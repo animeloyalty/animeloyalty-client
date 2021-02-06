@@ -15,6 +15,14 @@ export interface INavigatorEpisode {
   readonly episodeTitle?: string;
 }
 
+export interface ISource {
+  readonly displayName?: string;
+  readonly bandwidth?: number;
+  readonly resolutionX?: number;
+  readonly resolutionY?: number;
+  readonly urls: Array<string>;
+}
+
 export interface ISubtitle {
   readonly displayName?: string;
   readonly language: 'ara' | 'fre' | 'ger' | 'ita' | 'eng' | 'por' | 'rus' | 'spa';
@@ -41,9 +49,10 @@ export type VideoEvent =
   
 export type VideoRequest =
   {type: 'clearSubtitle'} |
-  {type: 'loadStream', videoType: 'application/x-mpegURL', url: string} |
+  {type: 'loadSource', source: ISource} |
   {type: 'loadSubtitle', subtitle: ISubtitle} |
   {type: 'pause'} |
   {type: 'play'} |
   {type: 'seek', time: number} |
+  {type: 'sources', sources: Array<ISource>} |
   {type: 'subtitles', subtitles: Array<ISubtitle>};
