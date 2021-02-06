@@ -12,21 +12,21 @@ export class MainViewModel extends app.BaseViewModel {
   constructor() {
     super();
     this.knownUrls = {};
-    this.providerName = app.core.store.get(providerKey, 'crunchyroll');
+    this.provider = app.core.store.get(providerKey, ace.api.RemoteProviderId.CrunchyRoll);
     this.series = [];
   }
   
   @mobx.action
-  changeProvider(providerName: ace.api.RemoteQueryPopular['providerName']) {
-    if (providerName === this.providerName) return;
-    app.core.store.set(providerKey, providerName);
+  changeProvider(provider: ace.api.RemoteProviderId) {
+    if (provider === this.provider) return;
+    app.core.store.set(providerKey, provider);
     app.core.view.replace(app.MainController.createController());
   }
   
   @mobx.action
   async refreshAsync() {
     await this.loader.loadAsync(async () => {
-      const result = await app.core.api.remote.popularAsync({providerName: this.providerName});
+      const result = await app.core.api.remote.pageAsync({provider: this.provider});
       if (result.value) {
         this.series = [];
         this.process(result.value);
@@ -41,7 +41,7 @@ export class MainViewModel extends app.BaseViewModel {
     if (!this.hasMorePages) return;
     this.hasMorePages = false;
     await this.loader.quietAsync(async () => {
-      const result = await app.core.api.remote.popularAsync({providerName: this.providerName, pageNumber: this.pageNumber + 1});
+      const result = await app.core.api.remote.pageAsync({provider: this.provider, pageNumber: this.pageNumber + 1});
       if (result.value) {
         this.process(result.value);
         this.pageNumber++;
@@ -71,7 +71,7 @@ export class MainViewModel extends app.BaseViewModel {
   readonly loader = new app.LoaderViewModel();
   
   @mobx.observable
-  readonly providerName: ace.api.RemoteQueryPopular['providerName'];
+  readonly provider: ace.api.RemoteProviderId;
 
   @mobx.action
   private process(search: ace.api.RemoteSearch) {

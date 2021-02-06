@@ -45,7 +45,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   async refreshAsync(): Promise<boolean> {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
-      this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.url});
+      this.bridge.dispatchRequest({type: 'loadStream', videoType: 'application/x-mpegURL', url: result.value.sources[0].url}); // TODO: sources
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
       return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
