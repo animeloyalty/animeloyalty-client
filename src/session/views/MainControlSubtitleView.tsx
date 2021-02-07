@@ -6,29 +6,19 @@ import {language} from '../language';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitleViewModel}> {
-  state = {
-    anchorEl: undefined,
-  };
-
   render() {
     return (
       <mui.Grid className={this.classes.container}>
-        <mui.IconButton className={this.classes.iconButton}
-          disabled={!this.props.vm.canSelect}
-          onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>
-          <app.icons.Subtitles />
-        </mui.IconButton>
-        <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement="bottom-end">
-          <mui.Paper className={this.classes.menu} elevation={0} square={true}>
-            <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
-              <mui.MenuList className={this.classes.menuList} onClick={() => this.setState({anchorEl: undefined})}>
-                {this.menuItem(0)}
-                <mui.Divider />
-                {this.props.vm.subtitles.map((subtitle, i) => this.menuItem(i + 1, subtitle))}
-              </mui.MenuList>
-            </mui.ClickAwayListener>
-          </mui.Paper>
-        </mui.Popper>
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} placement="bottom-end">
+          <mui.IconButton disabled={!this.props.vm.canSelect}>
+            <app.icons.Subtitles />
+          </mui.IconButton>
+          <mui.Grid>
+            {this.menuItem(0)}
+            <mui.Divider />
+            {this.props.vm.subtitles.map((subtitle, i) => this.menuItem(i + 1, subtitle))}
+          </mui.Grid>
+        </app.MenuComponent>
       </mui.Grid>
     );
   }
@@ -44,7 +34,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
       ? () => this.props.vm.select(subtitle)
       : () => this.props.vm.clear();
     return (
-      <mui.MenuItem className={this.classes.menuListItem} key={i} onClick={onClick}>
+      <mui.MenuItem key={i} onClick={onClick}>
         <mui.FormControlLabel control={<mui.Radio checked={isChecked} color="primary" />} label={displayName} />
       </mui.MenuItem>
     );
@@ -55,21 +45,9 @@ const Styles = mui.createStyles({
   container: {
     display: 'inline-block'
   },
-  iconButton: {
-    padding: app.sz(8),
-    '& svg': {fontSize: app.sz(15)}
-  },
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
     transform: `translateX(${app.sz(32)})`
-  },
-  menuList: {
-    padding: 0,
-  },
-  menuListItem: {
-    '& svg': {height: app.sz(12), width: app.sz(12)},
-    '& .MuiFormControlLabel-label': {fontSize: app.sz(12)},
-    '& .MuiRadio-root': {padding: app.sz(8)}
   }
 });
 

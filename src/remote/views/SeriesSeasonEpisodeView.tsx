@@ -11,7 +11,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonEpisode
       <app.ImageButtonComponent height="8vw" onClick={() => this.props.vm.open()}
         imageUrl={this.props.vm.imageUrl}
         text={this.props.vm.displayName}>
-        {this.props.vm.isPremium && <mui.Grid className={this.classes.container}>
+        {this.props.vm.isPremium && <mui.Grid className={this.classes.premiumContainer}>
           <mui.Typography className={this.classes.premium} color="textSecondary">
             {language.seriesPremium}
           </mui.Typography>
@@ -22,7 +22,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonEpisode
 }
 
 const Styles = mui.createStyles({
-  container: {
+  premiumContainer: {
     backgroundColor: app.theme.palette.secondary.main,
     borderBottomLeftRadius: app.sz(12),
     borderBottomRightRadius: app.sz(12),

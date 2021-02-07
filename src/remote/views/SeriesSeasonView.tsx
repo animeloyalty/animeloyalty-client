@@ -11,14 +11,14 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewMod
     const height = this.calculateHeight(this.props.vm.episodes.length);
     return (
       <mui.Grid>
-        <mui.Typography className={this.classes.title}>
+        <mui.Typography className={this.classes.container}>
           {this.props.vm.title}
         </mui.Typography>
         <LazyLoad height={height} resize unmountIfInvisible>
-          <mui.Paper className={this.props.vm.hasEpisodes ? this.classes.episodeContainer : this.classes.emptyContainer} style={{height}}>
+          <mui.Paper className={this.props.vm.hasEpisodes ? this.classes.episodeContainer : this.classes.container} style={{height}}>
             {this.props.vm.hasEpisodes
               ? this.props.vm.episodes.map((vm, i) => <app.SeriesSeasonEpisodeView key={i} vm={vm} />)
-              : <mui.Typography className={this.classes.title}>{language.seriesSeason}</mui.Typography>}
+              : <mui.Typography className={this.classes.container}>{language.seriesSeason}</mui.Typography>}
           </mui.Paper>
         </LazyLoad>
       </mui.Grid>
@@ -36,8 +36,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesSeasonViewMod
 }
 
 const Styles = mui.createStyles({
-  title: {
-    fontSize: app.sz(12),
+  container: {
     padding: app.sz(8)
   },
   episodeContainer: {
@@ -48,10 +47,6 @@ const Styles = mui.createStyles({
     padding: '1vw',
     width: '100%',
     '& > *': {height: '10vw'}
-  },
-  emptyContainer: {
-    fontSize: app.sz(12),
-    padding: app.sz(8)
   }
 });
 
