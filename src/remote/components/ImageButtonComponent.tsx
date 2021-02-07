@@ -38,7 +38,6 @@ const Styles = mui.createStyles({
     height: '100%'
   },
   textContent: {
-    fontSize: app.sz(12),
     textAlign: 'center',
     overflow: 'hidden',
     textOverflow: 'ellipsis',

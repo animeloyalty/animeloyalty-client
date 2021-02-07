@@ -26,7 +26,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
             <mui.IconButton className={this.classes.errorButton} color="primary" onClick={() => this.props.vm.refreshAsync()}>
               <app.icons.Refresh />
             </mui.IconButton>
-            <mui.Typography className={this.classes.errorText} color="textSecondary">
+            <mui.Typography color="textSecondary">
               {language.errorText}
             </mui.Typography>
           </mui.Grid>}
@@ -67,9 +67,6 @@ const Styles = mui.createStyles({
   errorButton: {
     padding: app.sz(8),
     '& svg': {fontSize: app.sz(45)}
-  },
-  errorText: {
-    fontSize: app.sz(12)
   },
   seriesContainer: {
     display: 'grid',

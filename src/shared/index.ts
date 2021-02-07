@@ -7,6 +7,7 @@ export * from './common/icons';
 export * from './common/theme';
 export * from './components/BaseComponent';
 export * from './components/HeaderComponent';
+export * from './components/MenuComponent';
 export * from './components/ViewComponent';
 export * from './managers/DialogManager';
 export * from './managers/InputManager';

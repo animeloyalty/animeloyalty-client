@@ -9,7 +9,7 @@ class View extends app.ViewComponent<typeof Styles> {
     return app.core.dialog.items.map((item, i) => (
       <mui.Modal key={i} open={i === app.core.dialog.items.length - 1}>
         <mui.Paper className={this.classes.container}>
-          <mui.Typography className={this.classes.body}>
+          <mui.Typography>
             {item.body}
           </mui.Typography>
           <mui.Grid className={this.classes.buttonContainer}>
@@ -35,18 +35,12 @@ const Styles = mui.createStyles({
     top: '50%',
     transform: 'translate(-50%, -50%)'
   },
-  body: {
-    fontSize: app.sz(12)
-  },
   buttonContainer: {
     textAlign: 'right'
   },
   button: {
-    fontSize: app.sz(12),
     marginLeft: app.sz(8),
-    marginTop: app.sz(8),
-    minWidth: 0,
-    padding: `0 ${app.sz(8)}`
+    marginTop: app.sz(8)
   }
 });
 

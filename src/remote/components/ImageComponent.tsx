@@ -6,7 +6,7 @@ import * as React from 'react';
 class Component extends app.BaseComponent<typeof Styles, {imageUrl: string}> {
   render() {
     return (
-      <mui.Grid className={this.classes.container}>
+      <mui.Grid className={this.classes.imageContainer}>
         <LazyLoad once resize>
           <img className={this.classes.image} src={this.props.imageUrl} onLoad={(ev) => ev.currentTarget.style.opacity = '1'} />
         </LazyLoad>
@@ -17,7 +17,7 @@ class Component extends app.BaseComponent<typeof Styles, {imageUrl: string}> {
 }
 
 const Styles = mui.createStyles({
-  container: {
+  imageContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: app.sz(12),
     height: '100%',

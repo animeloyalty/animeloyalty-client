@@ -8,7 +8,7 @@ class Component extends app.BaseComponent<typeof Styles, {className?: string, pr
       <mui.Grid>
         <mui.AppBar className={this.props.className}>
           <mui.Toolbar className={this.classes.toolBar}>
-            <mui.IconButton className={this.classes.iconButton} onClick={() => app.core.view.leave()}>
+            <mui.IconButton className={this.classes.toolBarButton} onClick={() => app.core.view.leave()}>
               <app.icons.ArrowBackIos />
             </mui.IconButton>
             <mui.Grid className={this.classes.title}>
@@ -31,25 +31,18 @@ class Component extends app.BaseComponent<typeof Styles, {className?: string, pr
 
 const Styles = mui.createStyles({
   toolBar: {
-    backgroundColor: 'rgba(50, 50, 50, 0.5)',
-    height: app.sz(32),
-    minHeight: 0,
-    padding: 0
+    backgroundColor: 'rgba(50, 50, 50, 0.5)'
   },
-  iconButton: {
+  toolBarButton: {
     marginRight: app.sz(2),
-    padding: app.sz(8),
     paddingLeft: app.sz(12),
-    paddingRight: app.sz(5),
-    '& svg': {fontSize: app.sz(15)}
+    paddingRight: app.sz(5)
   },
   title: {
     flex: 1,
     width: 0
   },
   titleText: {
-    fontSize: app.sz(12),
-    lineHeight: app.sz(14),
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap'

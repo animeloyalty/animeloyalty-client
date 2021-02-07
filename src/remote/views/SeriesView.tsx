@@ -42,7 +42,6 @@ const Styles = mui.createStyles({
     width: app.sz(128)
   },
   summary: {
-    fontSize: app.sz(12),
     height: app.sz(192 - 50),
     overflow: 'auto',
     wordBreak: 'break-word'
@@ -50,8 +49,7 @@ const Styles = mui.createStyles({
   genresContainer: {
     height: app.sz(50),
     overflow: 'hidden',
-    '& .MuiChip-label': {padding: app.sz(8)},
-    '& .MuiChip-root': {borderRadius: app.sz(8), fontSize: app.sz(12), height: 'unset', marginRight: app.sz(8)}
+    '& .MuiChip-root': {marginRight: app.sz(8)}
   },
   divider: {
     margin: `${app.sz(8)} 0`
