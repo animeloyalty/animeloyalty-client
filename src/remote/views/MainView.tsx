@@ -11,14 +11,88 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
     return (
       <mui.Grid>
         <mui.AppBar>
-          <mui.Tabs className={this.classes.tabBar} indicatorColor="primary" value={this.props.vm.provider}>
-            <mui.Tab className={this.classes.tab}
-              label="Crunchyroll" value={app.api.RemoteProviderId.CrunchyRoll}
-              onClick={() => this.props.vm.changeProvider(app.api.RemoteProviderId.CrunchyRoll)} />
-            <mui.Tab className={this.classes.tab}
-              label="Funimation" value={app.api.RemoteProviderId.Funimation}
-              onClick={() => this.props.vm.changeProvider(app.api.RemoteProviderId.Funimation)}  />
-          </mui.Tabs>
+          <mui.Toolbar>
+            <mui.Grid className={this.classes.toolBarPage}>
+              <app.MenuComponent className={this.classes.providerMenu} placement="bottom-start">
+                <mui.Typography className={this.classes.providerHeader}>
+                  Crunchyroll
+                </mui.Typography>
+                <mui.Grid>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio checked color="primary" />} label="Crunchyroll" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Funimation" />
+                  </mui.MenuItem>
+                  <mui.Divider />
+                  <mui.MenuItem>
+                    <mui.FormControlLabel label="Settings" control={(
+                      <mui.IconButton className={this.classes.settingsIcon}>
+                        <app.icons.Settings />
+                      </mui.IconButton>
+                    )} />
+                  </mui.MenuItem>
+                </mui.Grid>
+              </app.MenuComponent>
+              <mui.Typography className={this.classes.headerPage}>
+                Popular
+              </mui.Typography>
+              <mui.Typography className={this.classes.headerPage} color="textSecondary">
+                Simulcasts
+              </mui.Typography>
+              <mui.Typography className={this.classes.headerPage} color="textSecondary">
+                Updated
+              </mui.Typography>
+              <app.MenuComponent placement="bottom-start">
+                <mui.Typography className={this.classes.headerPage} color="textSecondary">
+                  Seasons
+                </mui.Typography>
+                <mui.Grid>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Winter 2021" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Fall 2020" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Summer 2020" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Spring 2020" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Radio color="primary" />} label="Winter 2020" />
+                  </mui.MenuItem>
+                </mui.Grid>
+              </app.MenuComponent>
+              <app.MenuComponent placement="bottom-start">
+                <mui.Typography className={this.classes.headerPage} color="textSecondary">
+                  Genres
+                </mui.Typography>
+                <mui.Grid>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Checkbox color="primary" />} label="Action" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Checkbox color="primary" />} label="Adventure" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Checkbox color="primary" />} label="Comedy" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Checkbox color="primary" />} label="Drama" />
+                  </mui.MenuItem>
+                  <mui.MenuItem>
+                    <mui.FormControlLabel control={<mui.Checkbox color="primary" />} label="Fantasy" />
+                  </mui.MenuItem>
+                </mui.Grid>
+              </app.MenuComponent>
+            </mui.Grid>
+            <mui.InputBase className={this.classes.search} />
+            <mui.IconButton className={this.classes.searchIcon}>
+              <app.icons.Search />
+            </mui.IconButton>
+          </mui.Toolbar>
         </mui.AppBar>
         <mui.Grid className={this.classes.container}>
           <app.LoaderView vm={this.props.vm.loader} />
@@ -30,9 +104,11 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
               {language.errorText}
             </mui.Typography>
           </mui.Grid>}
-          {this.props.vm.hasSeries && <mui.Paper className={this.classes.seriesContainer} square={true}>
-            {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
-            <LazyLoad resize unmountIfInvisible>
+          {this.props.vm.hasSeries && <mui.Paper square={true}>
+            <mui.Grid className={this.classes.seriesContainer}>
+              {this.props.vm.series.map((vm, i) => <app.MainSeriesView key={i} vm={vm} />)}
+            </mui.Grid>
+            <LazyLoad offset={128} resize unmountIfInvisible>
               <app.MountComponent onMount={() => this.props.vm.tryMoreAsync()} />
             </LazyLoad>
           </mui.Paper>}
@@ -43,16 +119,42 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
 }
 
 const Styles = mui.createStyles({
-  tabBar: {
-    height: app.sz(32),
-    minHeight: 0,
-    '& .MuiTabs-indicator': {height: app.sz(2), width: `${app.sz(160)} !important`}
+  toolBarPage: {
+    display: 'flex',
+    flex: 1
   },
-  tab: {
-    fontSize: app.sz(12),
-    minHeight: app.sz(32),
-    minWidth: app.sz(160),
-    textTransform: 'none'
+  settingsIcon: {
+    marginLeft: app.sz(-2)
+  },
+  providerMenu: {
+    transform: `translateX(${app.sz(-4)})`
+  },
+  providerHeader: {
+    color: app.theme.palette.primary.main,
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    padding: app.sz(8),
+    width: app.sz(96),
+    '&:hover': {color: app.theme.palette.primary.light}
+  },
+  headerPage: {
+    cursor: 'pointer',
+    lineHeight: app.sz(32),
+    paddingRight: app.sz(16),
+    '&:hover': {color: app.theme.palette.primary.main}
+  },
+  search: {
+    backgroundColor: app.theme.palette.secondary.contrastText,
+    color: '#303030',
+    paddingRight: app.sz(16),
+    width: '20%'
+  },
+  searchIcon: {
+    color: '#303030',
+    pointerEvents: 'none',
+    position: 'absolute',
+    right: app.sz(-4)
   },
   container: {
     paddingTop: app.sz(32)
