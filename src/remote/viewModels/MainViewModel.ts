@@ -1,4 +1,3 @@
-import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
@@ -12,12 +11,12 @@ export class MainViewModel extends app.BaseViewModel {
   constructor() {
     super();
     this.knownUrls = {};
-    this.provider = app.core.store.get(providerKey, ace.api.RemoteProviderId.CrunchyRoll);
+    this.provider = app.core.store.get(providerKey, app.api.RemoteProviderId.CrunchyRoll);
     this.series = [];
   }
   
   @mobx.action
-  changeProvider(provider: ace.api.RemoteProviderId) {
+  changeProvider(provider: app.api.RemoteProviderId) {
     if (provider === this.provider) return;
     app.core.store.set(providerKey, provider);
     app.core.view.replace(app.MainController.createController());
@@ -71,10 +70,10 @@ export class MainViewModel extends app.BaseViewModel {
   readonly loader = new app.LoaderViewModel();
   
   @mobx.observable
-  readonly provider: ace.api.RemoteProviderId;
+  readonly provider: app.api.RemoteProviderId;
 
   @mobx.action
-  private process(search: ace.api.RemoteSearch) {
+  private process(search: app.api.RemoteSearch) {
     const series = search.series.filter(x => !this.knownUrls[x.url]);
     this.hasMorePages = search.hasMorePages;
     this.series.push(...series.map(x => new app.MainSeriesViewModel(x)));

@@ -1,3 +1,4 @@
+export {api} from 'animesync';
 export * from './core';
 export * from './settings';
 export * from './typings';

@@ -1,5 +1,4 @@
 import LazyLoad from 'react-lazyload';
-import * as ace from 'animesync';
 import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
@@ -14,11 +13,11 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
         <mui.AppBar>
           <mui.Tabs className={this.classes.tabBar} indicatorColor="primary" value={this.props.vm.provider}>
             <mui.Tab className={this.classes.tab}
-              label="CrunchyRoll" value={ace.api.RemoteProviderId.CrunchyRoll}
-              onClick={() => this.props.vm.changeProvider(ace.api.RemoteProviderId.CrunchyRoll)} />
+              label="Crunchyroll" value={app.api.RemoteProviderId.CrunchyRoll}
+              onClick={() => this.props.vm.changeProvider(app.api.RemoteProviderId.CrunchyRoll)} />
             <mui.Tab className={this.classes.tab}
-              label="Funimation" value={ace.api.RemoteProviderId.Funimation}
-              onClick={() => this.props.vm.changeProvider(ace.api.RemoteProviderId.Funimation)}  />
+              label="Funimation" value={app.api.RemoteProviderId.Funimation}
+              onClick={() => this.props.vm.changeProvider(app.api.RemoteProviderId.Funimation)}  />
           </mui.Tabs>
         </mui.AppBar>
         <mui.Grid className={this.classes.container}>

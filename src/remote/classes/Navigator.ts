@@ -1,18 +1,17 @@
-import * as ace from 'animesync';
 import * as app from '..';
 import {session} from '../..';
 
 export class Navigator implements session.INavigator {
   private skipDelay?: boolean;
   
-  private constructor(private series: ace.api.RemoteSeries, private index: number) {
+  private constructor(private series: app.api.RemoteSeries, private index: number) {
     this.episodes = series.seasons.reduce((p, s) => p.concat(s.episodes.map(e => new app.NavigatorEpisode(series, s, e))), [] as Array<app.NavigatorEpisode>);
     this.current = this.episodes[this.index];
     this.hasNext = this.index < this.episodes.length - 1;
     this.hasPrevious = this.index > 0;
   }
 
-  static create(series: ace.api.RemoteSeries, seasonIndex: number, episodeIndex: number) {
+  static create(series: app.api.RemoteSeries, seasonIndex: number, episodeIndex: number) {
     return new Navigator(series, series.seasons.slice(0, seasonIndex).reduce((p, s) => p + s.episodes.length, episodeIndex));
   }
 

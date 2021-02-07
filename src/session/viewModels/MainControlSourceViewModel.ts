@@ -4,6 +4,8 @@ import {language} from '../language';
 const preferredKey = 'preferredSource';
 
 export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewHandler {
+  private loadTime?: number;
+
   constructor(
     private readonly bridge: app.Bridge
   ) {}
@@ -12,15 +14,30 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   select(source: app.ISource) {
     if (!this.canSelect || this.selectedSource === source) return;
     app.core.store.set(preferredKey, source.resolutionY);
+    this.loadTime = this.currentTime;
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});
   }
 
   @mobx.action
-  onVideoRequest(event: app.VideoRequest) {
+  onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
+      case 'loadedmetadata':
+        if (!this.loadTime) return;
+        this.bridge.dispatchRequest({type: 'seek', time: this.loadTime});
+        delete this.loadTime;
+        break;
+      case 'timeupdate':
+        this.currentTime = event.time;
+        break;
+    }
+  }
+
+  @mobx.action
+  onVideoRequest(request: app.VideoRequest) {
+    switch (request.type) {
       case 'sources':
-        this.sources = event.sources.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => (b.resolutionY ?? 0) - (a.resolutionY ?? 0));
+        this.sources = request.sources.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => (b.resolutionY ?? 0) - (a.resolutionY ?? 0));
         this.loadSource();
         break;
     }
@@ -40,6 +57,9 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   get canSelect() {
     return this.sources.length > 1;
   }
+
+  @mobx.observable
+  currentTime = 0;
 
   @mobx.observable
   selectedSource?: app.ISource;
