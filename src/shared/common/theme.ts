@@ -27,10 +27,18 @@ export const theme = mui.createMuiTheme({
       label: {fontSize: app.sz(12), padding: app.sz(8)}
     },
     MuiFormControlLabel: {
+      root: {pointerEvents: 'none'},
       label: {fontSize: app.sz(12)}
     },
     MuiIconButton: {
       root: {padding: app.sz(8)}
+    },
+    MuiInputBase: {
+      root: {fontSize: app.sz(12)},
+      input: {padding: app.sz(6)}
+    },    
+    MuiCheckbox: {
+      root: {padding: app.sz(8), '& svg': {height: app.sz(12), width: app.sz(12)}}
     },
     MuiRadio: {
       root: {padding: app.sz(8), '& svg': {height: app.sz(12), width: app.sz(12)}}
