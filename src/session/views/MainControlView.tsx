@@ -15,8 +15,8 @@ class View extends app.ViewComponent<typeof Styles, {className?: string, vm: app
           {this.props.vm.isLoaded && <mui.Grid>
             <app.SliderComponent className={this.classes.seekBar}
               buffered={this.props.vm.currentBuffer} value={this.props.vm.currentTime} max={this.props.vm.currentDuration}
-              onChange={app.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
-              onChangeCommitted={app.unsafe((_: never, x: number) => this.props.vm.seekStop(x))} />
+              onChange={app.api.unsafe((_: never, x: number) => this.props.vm.seekStart(x))}
+              onChangeCommitted={app.api.unsafe((_: never, x: number) => this.props.vm.seekStop(x))} />
             <mui.Grid className={this.classes.beginBar}>
               <mui.Typography className={this.classes.beginBarText}>
                 {app.formatTime(this.props.vm.currentTime)} / {app.formatTime(this.props.vm.currentDuration)}

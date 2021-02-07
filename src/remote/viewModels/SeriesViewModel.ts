@@ -1,4 +1,3 @@
-import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
@@ -47,23 +46,23 @@ export class SeriesViewModel extends app.BaseViewModel implements app.IInputHand
   }
 
   @mobx.observable
-  genres: ace.api.RemoteSeries['genres'];
+  genres: app.api.RemoteSeries['genres'];
   
   @mobx.observable
-  imageUrl: ace.api.RemoteSeries['imageUrl'];
+  imageUrl: app.api.RemoteSeries['imageUrl'];
 
   @mobx.observable
   seasons: Array<app.SeriesSeasonViewModel>;
 
   @mobx.observable
-  synopsis: ace.api.RemoteSeries['synopsis'];
+  synopsis: app.api.RemoteSeries['synopsis'];
 
   @mobx.observable
-  title: ace.api.RemoteSeries['title'];
+  title: app.api.RemoteSeries['title'];
 
   @mobx.observable
   readonly loader = new app.LoaderViewModel();
 
   @mobx.observable
-  readonly url: ace.api.RemoteSeries['url'];
+  readonly url: app.api.RemoteSeries['url'];
 }

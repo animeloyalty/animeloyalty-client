@@ -1,8 +1,8 @@
-import * as ace from 'animesync';
+import * as app from '..';
 import {session} from '../..';
 
 export class NavigatorEpisode implements session.INavigatorEpisode {
-  constructor(series: ace.api.RemoteSeries, season: ace.api.RemoteSeriesSeason, episode: ace.api.RemoteSeriesSeasonEpisode) {
+  constructor(series: app.api.RemoteSeries, season: app.api.RemoteSeriesSeason, episode: app.api.RemoteSeriesSeasonEpisode) {
     this.episodeName = episode.name;
     this.episodeTitle = episode.title;
     this.episodeUrl = episode.url;

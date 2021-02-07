@@ -7,7 +7,6 @@ import videojs from 'video.js';
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
   private element?: HTMLVideoElement;
-  private loadTime?: number;
   private player?: videojs.Player;
   private worker?: SubtitlesOctopus;
 
@@ -20,16 +19,6 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
     document.body.style.removeProperty('overflow');
     this.onDestroy();
   }
-  
-  onVideoEvent(event: app.VideoEvent) {
-    switch (event.type) {
-      case 'loadedmetadata':
-        if (!this.loadTime) break;
-        this.player?.currentTime(this.loadTime);
-        delete this.loadTime;
-        break;
-    }
-  }
 
   onVideoRequest(request: app.VideoRequest) {
     switch (request.type) {
@@ -37,7 +26,6 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
         this.clearSubtitle();
         break;
       case 'loadSource':
-        this.loadTime = this.player?.currentTime();
         this.player?.src(request.source.urls.map(x => ({src: x, type: 'application/x-mpegURL'})));
         break;
       case 'loadSubtitle':
@@ -68,8 +56,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   }
 
   private clearSubtitle() {
-    const tracks = this.player?.remoteTextTracks();
-    if (tracks) Array.from(tracks).forEach(x => this.player?.removeRemoteTextTrack(app.unsafe(x)));
+    Array.from(this.player?.remoteTextTracks() ?? []).forEach(x => this.player?.removeRemoteTextTrack(app.api.unsafe(x)));
     this.worker?.dispose();
     delete this.worker;
   }
@@ -77,7 +64,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   private onCreate(element: HTMLVideoElement | null) {
     if (!element || this.element) return;
     this.element = element;
-    this.player = videojs(element, app.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
+    this.player = videojs(element, app.api.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
       if (!this.player) return;
       app.Dispatcher.attach(this.props.bridge, this.player);
       this.props.bridge.subscribe(this);

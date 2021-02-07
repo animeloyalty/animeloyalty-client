@@ -1,6 +1,5 @@
-import * as ace from 'animesync';
 import * as app from '.';
-let api: ace.api.ServerApi;
+let api: app.api.ServerApi;
 let dialog: app.DialogManager;
 let input: app.InputManager;
 let screen: app.ScreenManager;
@@ -9,7 +8,7 @@ let view: app.ViewManager;
 
 export const core = {
   get api() {
-    api ??= new ace.api.ServerApi('http://127.0.0.1:6583/');
+    api ??= new app.api.ServerApi('http://127.0.0.1:6583/');
     return api;
   },
 

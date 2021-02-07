@@ -1,9 +1,8 @@
-import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 
 export class SeriesSeasonEpisodeViewModel {
-  constructor(private series: ace.api.RemoteSeries, private seasonIndex: number, private episodeIndex: number) {
+  constructor(private series: app.api.RemoteSeries, private seasonIndex: number, private episodeIndex: number) {
     const episode = series.seasons[seasonIndex].episodes[episodeIndex];
     this.imageUrl = episode.imageUrl;
     this.isPremium = episode.isPremium;
@@ -30,17 +29,17 @@ export class SeriesSeasonEpisodeViewModel {
   }
   
   @mobx.observable
-  readonly imageUrl: ace.api.RemoteSeriesSeasonEpisode['imageUrl'];
+  readonly imageUrl: app.api.RemoteSeriesSeasonEpisode['imageUrl'];
 
   @mobx.observable
-  readonly isPremium: ace.api.RemoteSeriesSeasonEpisode['isPremium'];
+  readonly isPremium: app.api.RemoteSeriesSeasonEpisode['isPremium'];
 
   @mobx.observable
-  readonly name: ace.api.RemoteSeriesSeasonEpisode['name'];
+  readonly name: app.api.RemoteSeriesSeasonEpisode['name'];
 
   @mobx.observable
-  readonly title: ace.api.RemoteSeriesSeasonEpisode['title'];
+  readonly title: app.api.RemoteSeriesSeasonEpisode['title'];
 
   @mobx.observable
-  readonly url: ace.api.RemoteSeriesSeasonEpisode['url'];
+  readonly url: app.api.RemoteSeriesSeasonEpisode['url'];
 }

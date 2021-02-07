@@ -1,4 +1,3 @@
-import * as ace from 'animesync';
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
@@ -95,7 +94,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   }
 }
 
-function groupQualities(sources: Array<ace.api.RemoteStreamSource>) {
+function groupQualities(sources: Array<app.api.RemoteStreamSource>) {
   return sources.reduce((p, s) => {
     const c = p.find(x => x.bandwidth === s.bandwidth && x.resolutionX === s.resolutionX && x.resolutionY === s.resolutionY);
     if (c) return c.urls.push(s.url) ? p : p;

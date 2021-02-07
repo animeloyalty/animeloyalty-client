@@ -18,14 +18,14 @@ class App extends React.Component {
   }
 }
 
-app.shared.unsafe(window).checkStartup = () => {
+app.shared.api.unsafe(window).checkStartup = () => {
   return app.shared.core.screen.checkStartup(true);
 };
 
 (function() {
   app.shared.core.screen.checkStartup(false);
   app.shared.core.view.open(app.remote.MainController.createController());
-  app.shared.unsafe(videojs).Vhs.GOAL_BUFFER_LENGTH = app.shared.settings.videoBuffer;
-  app.shared.unsafe(videojs).Vhs.MAX_GOAL_BUFFER_LENGTH = app.shared.settings.videoBufferMax;
+  app.shared.api.unsafe(videojs).Vhs.GOAL_BUFFER_LENGTH = app.shared.settings.videoBuffer;
+  app.shared.api.unsafe(videojs).Vhs.MAX_GOAL_BUFFER_LENGTH = app.shared.settings.videoBufferMax;
   ReactDOM.render(<App />, document.getElementById('container'));
 })();
