@@ -186,6 +186,8 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
   @mobx.action
   private schedule() {
     this.removeSchedule();
-    this.seekTimeout = setTimeout(() => this.bridge.dispatchRequest({type: 'seek', time: this.currentTime}), app.settings.seekTimeout);
+    this.seekTimeout = setTimeout(() => {
+      this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
+    }, app.settings.seekTimeout);
   }
 }

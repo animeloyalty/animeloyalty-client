@@ -1,8 +1,8 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
-const preferredKey = 'preferredSubtitle';
-const preferredNone = 'none';
+const subtitleKey = 'preferredSubtitle';
+const subtitleNone = 'none';
 
 export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IViewHandler {
   constructor(
@@ -12,7 +12,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   @mobx.action
   clear() {
     if (!this.canSelect || !this.selectedSubtitle) return;
-    app.core.store.set(preferredKey, preferredNone);
+    app.core.store.set(subtitleKey, subtitleNone);
     this.selectedSubtitle = undefined;
     this.bridge.dispatchRequest({type: 'clearSubtitle'});
   }
@@ -20,7 +20,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   @mobx.action
   select(subtitle: app.ISubtitle) {
     if (!this.canSelect || this.selectedSubtitle === subtitle) return;
-    app.core.store.set(preferredKey, subtitle.language);
+    app.core.store.set(subtitleKey, subtitle.language);
     this.selectedSubtitle = subtitle;
     this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
   }
@@ -58,8 +58,8 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
 
   @mobx.action
   private loadSubtitle() {
-    const preferred = app.core.store.getString(preferredKey, 'eng');
-    if (preferred === preferredNone || this.tryLoadSubtitle(preferred)) return;
+    const preferred = app.core.store.getString(subtitleKey, 'eng');
+    if (preferred === subtitleNone || this.tryLoadSubtitle(preferred)) return;
     this.tryLoadSubtitle('eng');
   }
 

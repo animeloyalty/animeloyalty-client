@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
-const preferredKey = 'preferredSource';
+const sourceKey = 'preferredSource';
 
 export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewHandler {
   private loadTime?: number;
@@ -13,7 +13,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   @mobx.action
   select(source: app.ISource) {
     if (!this.canSelect || this.selectedSource === source) return;
-    app.core.store.set(preferredKey, source.resolutionY);
+    app.core.store.set(sourceKey, source.resolutionY);
     this.loadTime = this.currentTime;
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});
@@ -69,7 +69,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
 
   @mobx.action
   private loadSource() {
-    const preferred = app.core.store.getNumber(preferredKey, 1080);
+    const preferred = app.core.store.getNumber(sourceKey, 1080);
     const source = this.sources.filter(x => x.resolutionY && x.resolutionY <= preferred)[0] ?? this.sources[0];
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});
