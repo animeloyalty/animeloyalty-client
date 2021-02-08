@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 
-export class MainSeriesViewModel {
+export class MainPageSeriesViewModel {
   constructor(series: app.api.RemoteSearchSeries) {
     this.imageUrl = series.imageUrl
     this.title = series.title;

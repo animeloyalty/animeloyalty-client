@@ -1,6 +1,6 @@
 export const language = {
-  errorPopularBody: 'An error occurred. The provider could not be opened. Try again momentarily. If this error continues, open a support ticket.',
-  errorPopularButtons: ['Cancel', 'Retry'],
+  errorProviderBody: 'An error occurred. The provider could not be opened. Try again momentarily. If this error continues, open a support ticket.',
+  errorProviderButtons: ['Cancel', 'Retry'],
   errorSeriesBody: 'An error occurred. The series could not be opened. Try again momentarily. If this error continues, open a support ticket.',
   errorSeriesButtons: ['Cancel', 'Retry'],
   errorStreamBody: 'An error occurred. The stream could not be opened. If this is a premium stream, check your login and subscription.',

@@ -11,6 +11,6 @@ export class MainController extends app.ViewComponent<{}, {vm: app.MainViewModel
   }
 
   render() {
-    return <app.MainView key={this.props.vm.provider} vm={this.props.vm} />;
+    return <app.MainView vm={this.props.vm} />;
   }
 }
