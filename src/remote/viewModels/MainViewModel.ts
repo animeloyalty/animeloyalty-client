@@ -101,7 +101,7 @@ export class MainViewModel extends app.BaseViewModel {
     const provider = this.selectedProvider?.id;
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
-    this.page = app.MainPageViewModel.createViewModel(new app.api.RemoteQueryPage({provider, page, options}));
+    this.page = app.MainPageViewModel.createViewModel(this.loader, new app.api.RemoteQueryPage({provider, page, options}));
     this.setPreferred(provider, page, options);
   }
 }

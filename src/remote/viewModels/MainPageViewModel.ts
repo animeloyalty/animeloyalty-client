@@ -4,20 +4,20 @@ import {language} from '../language';
 
 export class MainPageViewModel extends app.BaseViewModel {
   private readonly knownSeries: Record<string, boolean>;
+  private readonly loader: app.LoaderViewModel;
+  private readonly query: app.api.RemoteQueryPage;
   private hasMorePages = false;
-  private pageNumber: number;
-  private pageQuery: app.api.RemoteQueryPage;
+  private pageNumber = 1;
 
-  private constructor(pageQuery: app.api.RemoteQueryPage) {
+  private constructor(loader: app.LoaderViewModel, query: app.api.RemoteQueryPage) {
     super();
     this.knownSeries = {};
-    this.pageNumber = 1;
-    this.pageQuery = pageQuery;
-    this.series = [];
+    this.loader = loader;
+    this.query = query;
   }
 
-  static createViewModel(pageQuery: app.api.RemoteQueryPage) {
-    const vm = new MainPageViewModel(pageQuery);
+  static createViewModel(loader: app.LoaderViewModel, query: app.api.RemoteQueryPage) {
+    const vm = new MainPageViewModel(loader, query);
     vm.refreshAsync();
     return vm;
   }
@@ -25,7 +25,7 @@ export class MainPageViewModel extends app.BaseViewModel {
   @mobx.action
   async refreshAsync() {
     await this.loader.loadAsync(async () => {
-      const model = new app.api.RemoteQueryPage(this.pageQuery);
+      const model = new app.api.RemoteQueryPage(this.query);
       const result = await app.core.api.remote.pageAsync(model);
       if (result.value) {
         this.process(result.value);
@@ -40,7 +40,7 @@ export class MainPageViewModel extends app.BaseViewModel {
     if (!this.hasMorePages) return;
     this.hasMorePages = false;
     await this.loader.quietAsync(async () => {
-      const model = new app.api.RemoteQueryPage(this.pageQuery, {pageNumber: this.pageNumber + 1});
+      const model = new app.api.RemoteQueryPage(this.query, {pageNumber: this.pageNumber + 1});
       const result = await app.core.api.remote.pageAsync(model);
       if (result.value) {
         this.process(result.value);
@@ -65,10 +65,7 @@ export class MainPageViewModel extends app.BaseViewModel {
   }
   
   @mobx.observable
-  readonly loader = new app.LoaderViewModel();
-  
-  @mobx.observable
-  readonly series: Array<app.MainPageSeriesViewModel>;
+  readonly series: Array<app.MainPageSeriesViewModel> = [];
 
   @mobx.action
   private process(search: app.api.RemoteSearch) {
