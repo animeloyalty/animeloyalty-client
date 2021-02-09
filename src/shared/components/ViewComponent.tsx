@@ -1,7 +1,7 @@
 import * as app from '..';
 import * as mui from '@material-ui/core';
 
-export class ViewComponent<TStyles extends mui.StyleRules = {}, TProps extends {vm?: any} = {}> extends app.BaseComponent<TStyles, TProps> {
+export class ViewComponent<TStyles extends mui.StyleRules<string, TProps> = {}, TProps extends {vm?: any} = {}> extends app.BaseComponent<TStyles, TProps> {
   constructor(props: TProps) {
     super(props);
     this.onMount(props);

@@ -20,7 +20,9 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainPageViewModel}>
         </mui.Grid>}
         {this.props.vm.hasSeries && <mui.Paper square={true}>
           <mui.Grid className={this.classes.seriesContainer}>
-            {this.props.vm.series.map((vm, i) => <app.MainPageSeriesView key={i} vm={vm} />)}
+            {this.props.vm.series.map((vm, i) => <app.MainPageSeriesView key={i}
+              height={this.props.vm.isNarrow ? '9vw' : '20vw'}
+              vm={vm} />)}
           </mui.Grid>
           <LazyLoad offset={128} resize unmountIfInvisible>
             <app.MountComponent onMount={() => this.props.vm.tryMoreAsync()} />
@@ -50,7 +52,7 @@ const Styles = mui.createStyles({
     justifyContent: 'center',
     padding: '1vw 2vw',
     width: '100%',
-    '& > *': {height: '22vw'}
+    '& > *': (props: {vm: app.MainPageViewModel}) => ({height: props.vm.isNarrow ? '11vw' : '22vw'})
   }
 });
 
