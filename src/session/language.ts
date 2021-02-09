@@ -1,12 +1,13 @@
 export const language = {
   source: 'Unknown',
-  subtitle: 'None',
-  subtitleAra: 'Arabic',
-  subtitleEng: 'English',
-  subtitleFre: 'French',
-  subtitleGer: 'German',
-  subtitleIta: 'Italian',
-  subtitlePor: 'Portuguese',
-  subtitleRus: 'Russian',
-  subtitleSpa: 'Spanish'
+  subtitle: ['None'],
+  subtitleArMe: ['Arabic', 'Arab'],
+  subtitleDeDe: ['German', 'Germany'],
+  subtitleEnUs: ['English', 'United States'],
+  subtitleEsEs: ['Spanish', 'Spain'],
+  subtitleEsLa: ['Spanish', 'Latin America'],
+  subtitleFrFr: ['French', 'France'],
+  subtitleItIt: ['Italian', 'Italy'],
+  subtitlePtBr: ['Portuguese', 'Brazil'],
+  subtitleRuRu: ['Russian', 'Russia']
 };
