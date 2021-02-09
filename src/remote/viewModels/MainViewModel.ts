@@ -47,6 +47,19 @@ export class MainViewModel extends app.BaseViewModel {
   }
 
   @mobx.action
+  changeSearch(search: string) {
+    this.search = search;
+  }
+
+  @mobx.action
+  submitSearch() {
+    if (!this.search || !this.search.trim() || !this.selectedProvider) return;
+    this.selectedPage = undefined;
+    this.selectedOptions = [];
+    this.page = app.MainPageViewModel.createViewModel(this.loader, new app.api.RemoteQuerySearch({provider: this.selectedProvider.id, query: this.search}));
+  }
+
+  @mobx.action
   async refreshAsync() {
     await this.loader.loadAsync(async () => {
       const result = await app.core.api.remote.contextAsync();
@@ -68,6 +81,9 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.observable
   providers?: Array<app.api.RemoteProvider>;
+
+  @mobx.observable
+  search?: string;
 
   @mobx.observable
   selectedProvider?: app.api.RemoteProvider;
@@ -102,6 +118,7 @@ export class MainViewModel extends app.BaseViewModel {
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
     this.page = app.MainPageViewModel.createViewModel(this.loader, new app.api.RemoteQueryPage({provider, page, options}));
+    this.search = undefined;
     this.setPreferred(provider, page, options);
   }
 }

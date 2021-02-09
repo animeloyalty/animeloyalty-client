@@ -45,7 +45,11 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
                 </app.MenuComponent>
               ))}
             </mui.Grid>
-            <mui.InputBase className={this.classes.search} />
+            <mui.InputBase className={this.classes.search}
+              onBlur={() => this.props.vm.submitSearch()}
+              onChange={(ev) => this.props.vm.changeSearch(ev.currentTarget.value)}
+              onKeyDown={(ev) => ev.key === 'Enter' && ev.currentTarget.blur()}
+              value={this.props.vm.search ?? ''} />
             <mui.IconButton className={this.classes.searchIcon}>
               <app.icons.Search />
             </mui.IconButton>
