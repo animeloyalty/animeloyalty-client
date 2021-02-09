@@ -24,8 +24,8 @@ export interface ISource {
 }
 
 export interface ISubtitle {
-  readonly displayName?: string;
-  readonly language: 'ara' | 'fre' | 'ger' | 'ita' | 'eng' | 'por' | 'rus' | 'spa';
+  readonly displayNames?: Array<string>,
+  readonly language: 'ar-ME' | 'de-DE' | 'en-US' | 'es-ES' | 'es-LA' | 'fr-FR' | 'it-IT' | 'pt-BR' | 'ru-RU';
   readonly type: 'ass' | 'vtt';
   readonly url: string;
 };

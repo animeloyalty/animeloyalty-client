@@ -24,8 +24,8 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
   }
 
   private menuItem(i: number, subtitle?: app.ISubtitle) {
-    const displayName = subtitle
-      ? subtitle.displayName
+    const displayNames = subtitle
+      ? subtitle.displayNames
       : language.subtitle;
     const isChecked = subtitle
       ? this.props.vm.selectedSubtitle === subtitle
@@ -35,7 +35,10 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
       : () => this.props.vm.clear();
     return (
       <mui.MenuItem key={i} onClick={onClick}>
-        <mui.FormControlLabel control={<mui.Radio checked={isChecked} color="primary" />} label={displayName} />
+        <mui.FormControlLabel control={<mui.Radio checked={isChecked} color="primary" />} label={<mui.Grid>
+          <mui.Typography>{displayNames && displayNames[0]}</mui.Typography>
+          <mui.Typography className={this.classes.regionText}>{displayNames && displayNames[1]}</mui.Typography>
+        </mui.Grid>} />
       </mui.MenuItem>
     );
   }
@@ -48,6 +51,9 @@ const Styles = mui.createStyles({
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
     transform: `translateX(${app.sz(32)})`
+  },
+  regionText: {
+    fontStyle: 'italic'
   }
 });
 

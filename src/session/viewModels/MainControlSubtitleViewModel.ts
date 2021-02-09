@@ -29,7 +29,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   onVideoRequest(event: app.VideoRequest) {
     switch (event.type) {
       case 'subtitles':
-        this.subtitles = event.subtitles.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => a.displayName.localeCompare(b.displayName));
+        this.subtitles = event.subtitles.map(x => ({...x, displayNames: getSubtitleNames(x)})).sort((a, b) => a.displayNames[0].localeCompare(b.displayNames[0]));
         this.loadSubtitle();
         break;
     }
@@ -58,9 +58,9 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
 
   @mobx.action
   private loadSubtitle() {
-    const preferred = app.core.store.getString(subtitleKey, 'eng');
+    const preferred = app.core.store.getString(subtitleKey, 'en-US');
     if (preferred === subtitleNone || this.tryLoadSubtitle(preferred)) return;
-    this.tryLoadSubtitle('eng');
+    this.tryLoadSubtitle('en-US');
   }
 
   @mobx.action
@@ -76,16 +76,17 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   }
 }
 
-function getDisplayName(subtitle: app.ISubtitle) {
+function getSubtitleNames(subtitle: app.ISubtitle) {
   switch (subtitle.language) {
-    case 'ara': return language.subtitleAra;
-    case 'eng': return language.subtitleEng;
-    case 'fre': return language.subtitleFre;
-    case 'ger': return language.subtitleGer;
-    case 'ita': return language.subtitleIta;
-    case 'por': return language.subtitlePor;
-    case 'rus': return language.subtitleRus;
-    case 'spa': return language.subtitleSpa;
+    case 'ar-ME': return language.subtitleArMe;
+    case 'de-DE': return language.subtitleDeDe;
+    case 'en-US': return language.subtitleEnUs;
+    case 'es-ES': return language.subtitleEsEs;
+    case 'es-LA': return language.subtitleEsLa;
+    case 'fr-FR': return language.subtitleFrFr;
+    case 'it-IT': return language.subtitleItIt;
+    case 'pt-BR': return language.subtitlePtBr;
+    case 'ru-RU': return language.subtitleRuRu;
     default: throw new Error();
   }
 }

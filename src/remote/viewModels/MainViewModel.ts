@@ -83,7 +83,7 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.action
   private getPreferred() {
-    const provider = app.core.store.get<app.api.RemoteProviderId>(providerKey, app.api.RemoteProviderId.CrunchyRoll);
+    const provider = app.core.store.get<app.api.RemoteProviderId>(providerKey, app.api.RemoteProviderId.Crunchyroll);
     const page = app.core.store.getString(pageKey, '');
     const options = app.core.store.get(optionsKey, '').split(',').filter(Boolean);
     return new app.api.RemoteQueryPage({provider, page, options});
