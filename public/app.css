@@ -44,14 +44,14 @@ body {
 }
 
 .vjs-text-track-display .vjs-text-track-cue > div {
-	-webkit-text-stroke: black;
-	-webkit-text-stroke-width: max(0.2vmin, 1px);
+  -webkit-font-smoothing: antialiased;
 	background: transparent !important;
 	font-family: Trebuchet MS !important;
 	font-size: max(6vmin, 30px);
 	font-weight: bold;
 	inset: auto auto max(5vmin, 25px) auto !important;
 	position: absolute !important;
+  text-shadow: #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px);
 	transform: translateX(-50%);
 	width: 100%;
 }
