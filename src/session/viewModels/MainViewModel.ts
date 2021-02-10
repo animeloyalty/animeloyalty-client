@@ -41,6 +41,7 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
     if (this.clickTimeout && this.clickTimeout >= Date.now()) {
       app.core.screen.toggleFullscreen();
       this.control.togglePlay();
+      delete this.clickTimeout;
     } else {
       this.clickTimeout = Date.now() + app.settings.clickTimeout;
       this.control.togglePlay();
