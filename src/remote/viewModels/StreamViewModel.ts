@@ -97,7 +97,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
 
 function groupQualities(sources: Array<app.api.RemoteStreamSource>) {
   return sources.reduce((p, s) => {
-    const c = p.find(x => x.bandwidth === s.bandwidth && x.resolutionX === s.resolutionX && x.resolutionY === s.resolutionY);
+    const c = p.find(x => x.resolutionX === s.resolutionX && x.resolutionY === s.resolutionY);
     if (c) return c.urls.push(s.url) ? p : p;
     return p.concat({bandwidth: s.bandwidth, resolutionX: s.resolutionX, resolutionY: s.resolutionY, urls: [s.url]});
   }, [] as Array<session.ISource>)
