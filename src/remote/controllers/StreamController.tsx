@@ -5,10 +5,10 @@ import {session} from '../..';
 
 @mobxReact.observer
 export class StreamController extends app.ViewComponent<{}, {svm: session.MainViewModel, vm: app.StreamViewModel}> {
-  static createController(navigator: session.INavigator, url: string, skipDelay = true) {
+  static createController(navigator: session.INavigator, url: string, shouldDelay = false) {
     const bridge = new session.Bridge();
     const svm = new session.MainViewModel(bridge, navigator);
-    const vm = new app.StreamViewModel(bridge, navigator, url, skipDelay);
+    const vm = new app.StreamViewModel(bridge, navigator, url, shouldDelay);
     return <StreamController svm={svm} vm={vm} />;
   }
 

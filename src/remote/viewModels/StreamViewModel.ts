@@ -10,7 +10,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
     readonly bridge: session.Bridge,
     readonly navigator: session.INavigator,
     readonly url: string,
-    readonly skipDelay = true
+    readonly shouldDelay = false
   ) {super()}
   
   @mobx.action
@@ -77,7 +77,7 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
 
   @mobx.action
   private schedule() {
-    if (!this.skipDelay) {
+    if (this.shouldDelay) {
       this.removeSchedule();
       this.navigationTimeout = setTimeout(() => this.refreshAsync(), app.settings.navigationTimeout);
     } else {

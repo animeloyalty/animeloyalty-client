@@ -75,13 +75,13 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
   @mobx.action
   openNext() {
     if (!this.hasNext) return;
-    this.navigator.openNext();
+    this.navigator.openNext(true);
   }
   
   @mobx.action
   openPrevious() {
     if (!this.hasPrevious) return;
-    this.navigator.openPrevious();
+    this.navigator.openPrevious(true);
   }
 
   @mobx.action
@@ -187,7 +187,9 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
   private schedule() {
     this.removeSchedule();
     this.seekTimeout = setTimeout(() => {
-      this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
+      return this.currentTime < this.currentDuration
+        ? this.bridge.dispatchRequest({type: 'seek', time: this.currentTime})
+        : this.bridge.dispatchEvent({type: 'ended'});
     }, app.settings.seekTimeout);
   }
 }
