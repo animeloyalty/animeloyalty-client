@@ -42,6 +42,7 @@ export type VideoEvent =
   {type: 'loadedmetadata'} & {duration: number} |
   {type: 'playing'} & {time: number} |
   {type: 'progress'} & {buffer: number} |
+  {type: 'pause'} & {time: number} |
   {type: 'seeked'} & {time: number} |
   {type: 'seeking'} & {time: number} |
   {type: 'timeupdate'} & {duration: number, time: number} |

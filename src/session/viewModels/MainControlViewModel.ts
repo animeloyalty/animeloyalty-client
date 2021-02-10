@@ -46,6 +46,9 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
       case 'progress':
         this.currentBuffer = event.buffer;
         break;
+      case 'pause':
+        this.isPlaying = false;
+        break;
       case 'seeking':
         this.isSeeking = false;
         break;
