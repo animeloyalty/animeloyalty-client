@@ -58,6 +58,9 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
         this.isWaiting = false;
         this.schedule();
         break;
+      case 'pause':
+        this.schedule();
+        break;
       case 'seeked':
         this.isWaiting = false;
         break;
@@ -78,11 +81,13 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
   @mobx.action
   onViewMount() {
     this.bridge.subscribe(this);
+    this.session.subscribe();
   }
 
   @mobx.action
   onViewUnmount() {
     this.bridge.unsubscribe(this);
+    this.session.unsubscribe();
     this.removeSchedule();
   }
 
@@ -95,6 +100,9 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
   @mobx.observable
   readonly control = new app.MainControlViewModel(this.bridge, this.navigator);
   
+  @mobx.observable
+  readonly session = new app.Session(this.bridge, this.control);
+
   @mobx.action
   private removeHide() {
     this.isHidden = false;
