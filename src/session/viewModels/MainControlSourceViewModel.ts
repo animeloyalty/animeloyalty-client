@@ -23,9 +23,13 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'loadedmetadata':
-        if (!this.seekTime) return;
+        if (!this.seekTime) break;
         this.bridge.dispatchRequest({type: 'seek', time: this.seekTime});
         delete this.seekTime;
+        break;
+      case 'seeking':
+        if (!this.seekTime) break;
+        this.seekTime = event.time;
         break;
       case 'timeupdate':
         this.currentTime = event.time;
