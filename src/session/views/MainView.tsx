@@ -86,7 +86,7 @@ const Styles = mui.createStyles({
   containerHidden: {
     cursor: 'none',
     height: '100vh',
-    '& $ui': {opacity: 0}
+    '& $ui': {opacity: 0, pointerEvents: 'none'}
   },
   ui: {
     opacity: 1,
