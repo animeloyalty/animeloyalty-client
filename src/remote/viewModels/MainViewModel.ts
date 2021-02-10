@@ -6,11 +6,16 @@ const pageKey = 'remotePage';
 const optionsKey = 'remoteOptions';
 
 export class MainViewModel extends app.BaseViewModel {
+  constructor() {
+    super();
+    mobx.observe(this, 'selectedSearch', x => this.nextSearch = x.newValue);
+  }
+
   @mobx.action
   changeProvider(provider: app.api.RemoteProvider) {
     if (this.selectedProvider === provider) return;
     this.selectedProvider = provider;
-    this.selectedPage = provider.pages[0];
+    this.selectedPage = this.selectedSearch ? undefined : provider.pages[0];
     this.selectedOptions = [];
     this.update();
   }
@@ -20,6 +25,7 @@ export class MainViewModel extends app.BaseViewModel {
     if (this.selectedPage === page || page.options.length) return;
     this.selectedPage = page;
     this.selectedOptions = [];
+    this.selectedSearch = undefined;
     this.update();
   }
 
@@ -28,35 +34,43 @@ export class MainViewModel extends app.BaseViewModel {
     if (this.selectedPage !== page) {
       this.selectedPage = page;
       this.selectedOptions = [option];
+      this.selectedSearch = undefined;
       this.update();
     } else if (page.type !== 'mixOf') {
       if (this.selectedOptions[0] === option) return;
       this.selectedOptions = [option];
+      this.selectedSearch = undefined;
       this.update();
     } else if (!this.selectedOptions.includes(option)) {
       this.selectedOptions.push(option);
+      this.selectedSearch = undefined;
       this.update();
     } else if (this.selectedOptions.length !== 1) {
       this.selectedOptions.splice(this.selectedOptions.indexOf(option), 1);
+      this.selectedSearch = undefined;
       this.update();
     } else if (this.selectedProvider) {
       this.selectedPage = this.selectedProvider.pages[0];
       this.selectedOptions = [];
+      this.selectedSearch = undefined;
       this.update();
     }
   }
 
   @mobx.action
   changeSearch(search: string) {
-    this.search = search;
+    this.nextSearch = /^\s*$/.test(search)
+      ? undefined
+      : search;
   }
 
   @mobx.action
   submitSearch() {
-    if (!this.search || !this.search.trim() || !this.selectedProvider) return;
-    this.selectedPage = undefined;
+    if (this.nextSearch === this.selectedSearch || !this.selectedProvider) return;
+    this.selectedPage = this.nextSearch ? undefined : this.selectedProvider.pages[0];
     this.selectedOptions = [];
-    this.page = app.MainPageViewModel.createViewModel(this.loader, new app.api.RemoteQuerySearch({provider: this.selectedProvider.id, query: this.search}));
+    this.selectedSearch = this.nextSearch;
+    this.update();
   }
 
   @mobx.action
@@ -77,13 +91,13 @@ export class MainViewModel extends app.BaseViewModel {
   }
 
   @mobx.observable
+  nextSearch?: string;
+
+  @mobx.observable
   page?: app.MainPageViewModel;
 
   @mobx.observable
   providers?: Array<app.api.RemoteProvider>;
-
-  @mobx.observable
-  search?: string;
 
   @mobx.observable
   selectedProvider?: app.api.RemoteProvider;
@@ -93,6 +107,9 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.observable
   selectedOptions: Array<app.api.RemoteProviderPageOption> = [];
+
+  @mobx.observable
+  selectedSearch?: string;
 
   @mobx.observable
   readonly loader = new app.LoaderViewModel();
@@ -117,8 +134,9 @@ export class MainViewModel extends app.BaseViewModel {
     const provider = this.selectedProvider?.id;
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
-    this.page = app.MainPageViewModel.createViewModel(this.loader, new app.api.RemoteQueryPage({provider, page, options}));
-    this.search = undefined;
+    this.page = app.MainPageViewModel.createViewModel(this.loader, this.selectedSearch
+      ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
+      : new app.api.RemoteQueryPage({provider, page, options}));
     this.setPreferred(provider, page, options);
   }
 }

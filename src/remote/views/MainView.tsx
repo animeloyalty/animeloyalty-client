@@ -46,10 +46,9 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
               ))}
             </mui.Grid>
             <mui.InputBase className={this.classes.search}
-              onBlur={() => this.props.vm.submitSearch()}
               onChange={(ev) => this.props.vm.changeSearch(ev.currentTarget.value)}
-              onKeyDown={(ev) => ev.key === 'Enter' && ev.currentTarget.blur()}
-              value={this.props.vm.search ?? ''} />
+              onKeyDown={(ev) => this.onKeyDown(ev)}
+              value={this.props.vm.nextSearch ?? ''} />
             <mui.IconButton className={this.classes.searchIcon}>
               <app.icons.Search />
             </mui.IconButton>
@@ -60,6 +59,12 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
         </mui.Grid>}
       </mui.Grid>
     );
+  }
+
+  private onKeyDown(ev: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    if (ev.key !== 'Enter') return;
+    this.props.vm.submitSearch();
+    ev.currentTarget.blur();
   }
 }
 
