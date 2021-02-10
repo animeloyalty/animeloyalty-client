@@ -14,11 +14,17 @@ export class MainControlViewModel implements app.IInputHandler, app.IVideoHandle
     if (event.type === 'enter') {
       this.togglePlay();
       return true;
+    } else if (event.type === 'arrowDown') {
+      this.openPrevious();
+      return true;
     } else if (event.type === 'arrowLeft') {
       this.seekBackward();
       return true;
     } else if (event.type === 'arrowRight') {
       this.seekForward();
+      return true;
+    } else if (event.type === 'arrowUp') {
+      this.openNext();
       return true;
     } else {
       return false;
