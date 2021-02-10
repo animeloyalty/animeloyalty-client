@@ -9,8 +9,10 @@ export interface IViewHandler {
 }
 
 export type InputKeyEvent = 
+  {type: 'arrowDown'} |
   {type: 'arrowLeft'} |
   {type: 'arrowRight'} |
+  {type: 'arrowUp'} |
   {type: 'enter'} | 
   {type: 'escape'} |
   {type: 'fullscreen'};

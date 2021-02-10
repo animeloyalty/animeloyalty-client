@@ -38,11 +38,17 @@ export class InputManager {
   private onKeyEvent(event: KeyboardEvent) {
     if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
       switch (event.code) {
+        case 'ArrowDown':
+          this.dispatchKeyEvent(event, {type: 'arrowDown'});
+          break;
         case 'ArrowLeft':
           this.dispatchKeyEvent(event, {type: 'arrowLeft'});
           break;
         case 'ArrowRight':
           this.dispatchKeyEvent(event, {type: 'arrowRight'});
+          break;
+        case 'ArrowUp':
+          this.dispatchKeyEvent(event, {type: 'arrowUp'});
           break;
         case 'Backslash':
           this.dispatchKeyEvent(event, {type: 'fullscreen'});
