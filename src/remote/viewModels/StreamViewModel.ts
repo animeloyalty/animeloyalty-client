@@ -42,10 +42,10 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   }
 
   @mobx.action
-  async refreshAsync(): Promise<boolean> {
+  async refreshAsync(time?: number): Promise<boolean> {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
-      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources)});
+      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources), time});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
       return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
@@ -88,9 +88,10 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   @mobx.action
   private tryRecover(time: number) {
     this.hasError = true;
-    this.refreshAsync().then((x) => x
-      ? this.bridge.dispatchRequest({type: 'seek', time})
-      : this.onError(time));
+    this.refreshAsync(time).then((success) => {
+      if (success) return;
+      this.onError(time);
+    });
   }
 }
 

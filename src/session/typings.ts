@@ -54,5 +54,5 @@ export type VideoRequest =
   {type: 'pause'} |
   {type: 'play'} |
   {type: 'seek', time: number} |
-  {type: 'sources', sources: Array<ISource>} |
+  {type: 'sources', sources: Array<ISource>, time?: number} |
   {type: 'subtitles', subtitles: Array<ISubtitle>};
