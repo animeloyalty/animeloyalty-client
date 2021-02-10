@@ -4,7 +4,7 @@ import {language} from '../language';
 const sourceKey = 'preferredSource';
 
 export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewHandler {
-  private loadTime?: number;
+  private seekTime?: number;
 
   constructor(
     private readonly bridge: app.Bridge
@@ -14,7 +14,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   select(source: app.ISource) {
     if (!this.canSelect || this.selectedSource === source) return;
     app.core.store.set(sourceKey, source.resolutionY);
-    this.loadTime = this.currentTime;
+    this.seekTime = this.currentTime;
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});
   }
@@ -23,9 +23,9 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'loadedmetadata':
-        if (!this.loadTime) return;
-        this.bridge.dispatchRequest({type: 'seek', time: this.loadTime});
-        delete this.loadTime;
+        if (!this.seekTime) return;
+        this.bridge.dispatchRequest({type: 'seek', time: this.seekTime});
+        delete this.seekTime;
         break;
       case 'timeupdate':
         this.currentTime = event.time;
@@ -37,6 +37,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   onVideoRequest(request: app.VideoRequest) {
     switch (request.type) {
       case 'sources':
+        this.seekTime = request.time;
         this.sources = request.sources.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => (b.resolutionY ?? 0) - (a.resolutionY ?? 0));
         this.loadSource();
         break;
