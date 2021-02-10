@@ -3,8 +3,8 @@ export interface INavigator {
   readonly episodes: Array<INavigatorEpisode>;
   readonly hasNext: boolean;
   readonly hasPrevious: boolean;
-  openNext: () => void;
-  openPrevious: () => void;
+  openNext: (shouldDelay: boolean) => void;
+  openPrevious: (shouldDelay: boolean) => void;
   preloadNext: () => void;
 }
 

@@ -51,7 +51,7 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'ended':
-        if (this.navigator.hasNext) this.navigator.openNext();
+        if (this.navigator.hasNext) this.navigator.openNext(false);
         else app.core.view.leave();
         break;
       case 'playing':
