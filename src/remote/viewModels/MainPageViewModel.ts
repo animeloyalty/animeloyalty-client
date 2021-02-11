@@ -25,6 +25,7 @@ export class MainPageViewModel extends app.BaseViewModel {
   
   @mobx.action
   async refreshAsync() {
+    this.hasError = false;
     await this.loader.loadAsync(async () => {
       const result = this.query instanceof app.api.RemoteQuerySearch
         ? await app.core.api.remote.searchAsync(this.query)
@@ -33,6 +34,8 @@ export class MainPageViewModel extends app.BaseViewModel {
         this.process(result.value);
       } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
         await this.refreshAsync();
+      } else {
+        this.hasError = true;
       }
     });
   }
@@ -63,17 +66,24 @@ export class MainPageViewModel extends app.BaseViewModel {
     const isSearch = this.query instanceof app.api.RemoteQuerySearch;
     return isCrunchyroll && isSearch;
   }
-  
-  @mobx.computed
-  get hasError() {
-    return !this.loader.isLoading && !this.hasSeries;
-  }
 
   @mobx.computed
   get hasSeries() {
+    if (this.hasError) return false;
+    if (this.loader.isLoading && !this.loader.isQuiet) return false;
     return this.series.length > 0;
   }
   
+  @mobx.computed
+  get isEmpty() {
+    if (this.hasError) return false;
+    if (this.loader.isLoading) return false;
+    return this.series.length === 0;
+  }
+
+  @mobx.observable
+  hasError = false;
+
   @mobx.observable
   readonly series: Array<app.MainPageSeriesViewModel> = [];
 

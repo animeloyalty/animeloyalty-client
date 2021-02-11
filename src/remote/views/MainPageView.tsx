@@ -10,8 +10,13 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainPageViewModel}>
   render() {
     return (
       <mui.Grid>
-        {this.props.vm.hasError && <mui.Grid className={this.classes.errorContainer}>
-          <mui.IconButton className={this.classes.errorButton} color="primary" onClick={() => this.props.vm.refreshAsync()}>
+        {this.props.vm.isEmpty && <mui.Grid className={this.classes.textContainer}>
+          <mui.Typography color="textSecondary">
+            {language.emptyText}
+          </mui.Typography>
+        </mui.Grid>}
+        {this.props.vm.hasError && <mui.Grid className={this.classes.textContainer}>
+          <mui.IconButton className={this.classes.textButton} color="primary" onClick={() => this.props.vm.refreshAsync()}>
             <app.icons.Refresh />
           </mui.IconButton>
           <mui.Typography color="textSecondary">
@@ -34,14 +39,15 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainPageViewModel}>
 }
 
 const Styles = mui.createStyles({
-  errorContainer: {
+  textContainer: {
     textAlign: 'center',
+    width: app.sz(300),
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)'
   },
-  errorButton: {
+  textButton: {
     padding: app.sz(8),
     '& svg': {fontSize: app.sz(45)}
   },
