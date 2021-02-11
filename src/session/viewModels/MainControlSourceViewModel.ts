@@ -4,8 +4,6 @@ import {language} from '../language';
 const sourceKey = 'preferredSource';
 
 export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewHandler {
-  private seekTime?: number;
-
   constructor(
     private readonly bridge: app.Bridge
   ) {}
@@ -14,7 +12,6 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   select(source: app.ISource) {
     if (!this.canSelect || this.selectedSource === source) return;
     app.core.store.set(sourceKey, source.resolutionY);
-    this.seekTime = this.currentTime;
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});
   }
@@ -23,16 +20,14 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   onVideoEvent(event: app.VideoEvent) {
     switch (event.type) {
       case 'loadedmetadata':
-        if (!this.seekTime) break;
-        this.bridge.dispatchRequest({type: 'seek', time: this.seekTime});
-        delete this.seekTime;
+        this.isLoading = false;
+        this.bridge.dispatchRequest({type: 'seek', time: this.currentTime});
         break;
       case 'seeking':
-        if (!this.seekTime) break;
-        this.seekTime = event.time;
+        this.currentTime = event.time;
         break;
       case 'timeupdate':
-        this.currentTime = event.time;
+        if (!this.isLoading) this.currentTime = event.time;
         break;
     }
   }
@@ -41,7 +36,8 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   onVideoRequest(request: app.VideoRequest) {
     switch (request.type) {
       case 'sources':
-        this.seekTime = request.time;
+        this.currentTime = request.time ?? this.currentTime;
+        this.isLoading = true;
         this.sources = request.sources.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => (b.resolutionY ?? 0) - (a.resolutionY ?? 0));
         this.loadSource();
         break;
@@ -65,6 +61,9 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
 
   @mobx.observable
   currentTime = 0;
+
+  @mobx.observable
+  isLoading = true;
 
   @mobx.observable
   selectedSource?: app.ISource;
