@@ -20,10 +20,10 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
         this.schedule();
         break;
       case 'error':
-        this.onError(event.time);
+        this.onError();
         break;
-      case 'timeupdate':
-        this.hasError = false;
+      case 'retryplaylist':
+        this.onWarning();
         break;
     }
   }
@@ -42,10 +42,10 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   }
 
   @mobx.action
-  async refreshAsync(time?: number): Promise<boolean> {
+  async refreshAsync(): Promise<boolean> {
     const result = await app.core.api.remote.streamAsync({url: this.url});
     if (result.value) {
-      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources), time});
+      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources)});
       this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
       return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
@@ -58,16 +58,26 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
     }
   }
 
+  @mobx.observable
+  private hasError = false;
+
+  @mobx.observable
+  private numberOfWarnings = 0;
+  
   @mobx.action
-  private onError(time: number) {
-    if (!this.hasError) return this.tryRecover(time);
+  private onError() {
+    if (!this.hasError) return this.tryRecover();
     app.core.dialog.openAsync(language.errorSessionBody, language.errorStreamButtons).then((x) => x
-      ? this.tryRecover(time)
+      ? this.tryRecover()
       : app.core.view.leave());
   }
 
-  @mobx.observable
-  private hasError = false;
+  @mobx.action
+  private onWarning() {
+    this.numberOfWarnings++;
+    if (this.numberOfWarnings !== 3) return;
+    this.onError();
+  }
 
   @mobx.action
   private removeSchedule() {
@@ -86,11 +96,12 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   }
 
   @mobx.action
-  private tryRecover(time: number) {
+  private tryRecover() {
     this.hasError = true;
-    this.refreshAsync(time).then((success) => {
-      if (success) return;
-      this.onError(time);
+    this.refreshAsync().then((success) => {
+      if (!success) return this.onError();
+      this.hasError = false;
+      this.numberOfWarnings = 0;
     });
   }
 }

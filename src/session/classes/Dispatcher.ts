@@ -23,6 +23,7 @@ export class Dispatcher {
     this.player.on('seeking', () => this.bridge.dispatchEvent(time('seeking', this.player)));
     this.player.on('timeupdate', () => this.bridge.dispatchEvent(time('timeupdate', this.player)));
     this.player.on('waiting', () => this.bridge.dispatchEvent(time('waiting', this.player)));
+    this.player.tech().on('retryplaylist', () => this.bridge.dispatchEvent(time('retryplaylist', this.player)));
     return this;
   }
 }

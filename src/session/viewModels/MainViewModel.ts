@@ -80,6 +80,16 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
   }
 
   @mobx.action
+  onVideoRequest(request: app.VideoRequest) {
+    switch (request.type) {
+      case 'loadSource':
+        this.isWaiting = true;
+        this.schedule();
+        break;
+    }
+  }
+
+  @mobx.action
   onViewMount() {
     this.bridge.subscribe(this);
     this.session.subscribe();
