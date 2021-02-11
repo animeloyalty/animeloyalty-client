@@ -13,7 +13,7 @@
     "funimation"
   ],
   "engines": {
-    "node": ">= 12.0.0",
+    "node": ">= 14.0.0",
     "npm": ">= 6.0.0"
   },
   "devDependencies": {
