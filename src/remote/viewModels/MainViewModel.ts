@@ -65,29 +65,28 @@ export class MainViewModel extends app.BaseViewModel {
   }
 
   @mobx.action
+  async refreshAsync() {
+    const result = await app.core.api.remote.contextAsync();
+    if (result.value) {
+      const preferred = this.getPreferred();
+      this.providers = result.value;
+      this.selectedProvider = this.providers.find(x => x.id === preferred.provider) ?? this.providers[0];
+      this.selectedPage = this.selectedProvider.pages.find(x => x.id === preferred.page) ?? this.selectedProvider.pages[0];
+      this.selectedOptions = this.selectedPage.options.filter(x => preferred.options?.includes(x.id));
+      this.update();
+    } else if (this.isViewMounted) {
+      await app.core.dialog.openAsync(language.errorContextBody, language.errorContextButtons);
+      await this.refreshAsync();
+    }
+  }
+
+  @mobx.action
   submitSearch() {
     if (this.nextSearch === this.selectedSearch || !this.selectedProvider) return;
     this.selectedPage = this.nextSearch ? undefined : this.selectedProvider.pages[0];
     this.selectedOptions = [];
     this.selectedSearch = this.nextSearch;
     this.update();
-  }
-
-  @mobx.action
-  async refreshAsync() {
-    await this.loader.loadAsync(async () => {
-      const result = await app.core.api.remote.contextAsync();
-      if (result.value) {
-        const preferred = this.getPreferred();
-        this.providers = result.value;
-        this.selectedProvider = this.providers.find(x => x.id === preferred.provider) ?? this.providers[0];
-        this.selectedPage = this.selectedProvider.pages.find(x => x.id === preferred.page) ?? this.selectedProvider.pages[0];
-        this.selectedOptions = this.selectedPage.options.filter(x => preferred.options?.includes(x.id));
-        this.update();
-      } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
-        await this.refreshAsync();
-      }
-    });
   }
 
   @mobx.observable
@@ -111,9 +110,6 @@ export class MainViewModel extends app.BaseViewModel {
   @mobx.observable
   selectedSearch?: string;
 
-  @mobx.observable
-  readonly loader = new app.LoaderViewModel();
-
   @mobx.action
   private getPreferred() {
     const provider = app.core.store.get<app.api.RemoteProviderId>(providerKey, app.api.RemoteProviderId.Crunchyroll);
@@ -134,7 +130,7 @@ export class MainViewModel extends app.BaseViewModel {
     const provider = this.selectedProvider?.id;
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
-    this.page = app.MainPageViewModel.createViewModel(this.loader, this.selectedSearch
+    this.page = app.MainPageViewModel.createViewModel(this.selectedSearch
       ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
       : new app.api.RemoteQueryPage({provider, page, options}));
     this.setPreferred(provider, page, options);

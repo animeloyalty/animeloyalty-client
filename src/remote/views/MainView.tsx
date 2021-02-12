@@ -8,7 +8,6 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
   render() {
     return (
       <mui.Grid>
-        <app.LoaderView vm={this.props.vm.loader} />
         {this.props.vm.providers && this.props.vm.selectedProvider && <mui.AppBar>
           <mui.Toolbar>
             <mui.Grid className={this.classes.navigation}>

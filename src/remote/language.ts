@@ -1,5 +1,7 @@
 export const language = {
   emptyText: 'No series have been found. If you\'re searching for a specific series, try using a different name or provider.',
+  errorContextBody: 'An error occurred. The context could not be opened. Try again momentarily. If this error continues, open a support ticket.',
+  errorContextButtons: ['Retry'],
   errorProviderBody: 'An error occurred. The provider could not be opened. Try again momentarily. If this error continues, open a support ticket.',
   errorProviderButtons: ['Cancel', 'Retry'],
   errorSeriesBody: 'An error occurred. The series could not be opened. Try again momentarily. If this error continues, open a support ticket.',
