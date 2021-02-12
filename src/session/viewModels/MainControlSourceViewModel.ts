@@ -12,7 +12,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   select(source: app.ISource) {
     if (!this.canSelect || this.selectedSource === source) return;
     app.core.store.set(sourceKey, source.resolutionY);
-    this.selectSource(source);
+    this.loadSource(source);
   }
 
   @mobx.action
@@ -37,7 +37,7 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
       case 'sources':
         if (request.time) this.currentTime = request.time;
         this.sources = request.sources.map(x => ({...x, displayName: getDisplayName(x)})).sort((a, b) => (b.resolutionY ?? 0) - (a.resolutionY ?? 0));
-        this.loadSource();
+        this.detectSource();
         break;
     }
   }
@@ -70,14 +70,14 @@ export class MainControlSourceViewModel implements app.IVideoHandler, app.IViewH
   sources: Array<app.ISource> = [];
 
   @mobx.action
-  private loadSource() {
+  private detectSource() {
     const preferred = app.core.store.getNumber(sourceKey, 1080);
     const source = this.sources.filter(x => x.resolutionY && x.resolutionY <= preferred)[0] ?? this.sources[0];
-    this.selectSource(source);
+    this.loadSource(source);
   }
 
   @mobx.action
-  private selectSource(source: app.ISource) {
+  private loadSource(source: app.ISource) {
     this.isLoading = true;
     this.selectedSource = source;
     this.bridge.dispatchRequest({type: 'loadSource', source});

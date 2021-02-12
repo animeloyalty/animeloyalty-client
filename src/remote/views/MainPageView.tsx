@@ -10,6 +10,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainPageViewModel}>
   render() {
     return (
       <mui.Grid>
+        <app.LoaderView vm={this.props.vm.loader} />
         {this.props.vm.isEmpty && <mui.Grid className={this.classes.textContainer}>
           <mui.Typography color="textSecondary">
             {language.emptyText}

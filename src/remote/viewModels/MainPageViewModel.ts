@@ -5,20 +5,18 @@ type QueryPageOrSearch = app.api.RemoteQueryPage | app.api.RemoteQuerySearch;
 
 export class MainPageViewModel extends app.BaseViewModel {
   private readonly knownSeries: Record<string, boolean>;
-  private readonly loader: app.LoaderViewModel;
   private readonly query: QueryPageOrSearch;
   private hasMorePages = false;
   private pageNumber = 1;
 
-  private constructor(loader: app.LoaderViewModel, query: QueryPageOrSearch) {
+  private constructor(query: QueryPageOrSearch) {
     super();
     this.knownSeries = {};
-    this.loader = loader;
     this.query = query;
   }
 
-  static createViewModel(loader: app.LoaderViewModel, query: QueryPageOrSearch) {
-    const vm = new MainPageViewModel(loader, query);
+  static createViewModel(query: QueryPageOrSearch) {
+    const vm = new MainPageViewModel(query);
     vm.refreshAsync();
     return vm;
   }
@@ -26,45 +24,35 @@ export class MainPageViewModel extends app.BaseViewModel {
   @mobx.action
   async refreshAsync() {
     this.hasError = false;
-    await this.loader.loadAsync(async () => {
-      const result = this.query instanceof app.api.RemoteQuerySearch
-        ? await app.core.api.remote.searchAsync(this.query)
-        : await app.core.api.remote.pageAsync(this.query);
-      if (result.value) {
-        this.process(result.value);
-      } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
+    const result = await this.loader.loadAsync(() => this.query instanceof app.api.RemoteQuerySearch
+      ? app.core.api.remote.searchAsync(this.query)
+      : app.core.api.remote.pageAsync(this.query));
+    if (result.value) {
+      this.process(result.value);
+    } else if (this.isViewMounted) {
+      this.hasError = true;
+      if (await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
         await this.refreshAsync();
-      } else {
-        this.hasError = true;
       }
-    });
+    }
   }
-    
+  
   @mobx.action
   async tryMoreAsync() {
     if (!this.hasMorePages) return;
     this.hasMorePages = false;
-    await this.loader.quietAsync(async () => {
-      const result = this.query instanceof app.api.RemoteQuerySearch
-        ? await app.core.api.remote.searchAsync(new app.api.RemoteQuerySearch(this.query, {pageNumber: this.pageNumber + 1}))
-        : await app.core.api.remote.pageAsync(new app.api.RemoteQueryPage(this.query, {pageNumber: this.pageNumber + 1}));
-      if (result.value) {
-        this.process(result.value);
-        this.pageNumber++;
-      } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
-        this.hasMorePages = true;
-        await this.tryMoreAsync();
-      } else {
-        this.hasMorePages = true;
-      }
-    });
-  }
-
-  @mobx.computed
-  get isNarrow() {
-    const isCrunchyroll = this.query.provider === app.api.RemoteProviderId.Crunchyroll;
-    const isSearch = this.query instanceof app.api.RemoteQuerySearch;
-    return isCrunchyroll && isSearch;
+    const result = await this.loader.quietAsync(() => this.query instanceof app.api.RemoteQuerySearch
+      ? app.core.api.remote.searchAsync(new app.api.RemoteQuerySearch(this.query, {pageNumber: this.pageNumber + 1}))
+      : app.core.api.remote.pageAsync(new app.api.RemoteQueryPage(this.query, {pageNumber: this.pageNumber + 1})));
+    if (result.value) {
+      this.process(result.value);
+      this.pageNumber++;
+    } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
+      this.hasMorePages = true;
+      await this.tryMoreAsync();
+    } else {
+      this.hasMorePages = true;
+    }
   }
 
   @mobx.computed
@@ -73,7 +61,7 @@ export class MainPageViewModel extends app.BaseViewModel {
     if (this.loader.isLoading && !this.loader.isQuiet) return false;
     return this.series.length > 0;
   }
-  
+
   @mobx.computed
   get isEmpty() {
     if (this.hasError) return false;
@@ -81,8 +69,18 @@ export class MainPageViewModel extends app.BaseViewModel {
     return this.series.length === 0;
   }
 
+  @mobx.computed
+  get isNarrow() {
+    const isCrunchyroll = this.query.provider === app.api.RemoteProviderId.Crunchyroll;
+    const isSearch = this.query instanceof app.api.RemoteQuerySearch;
+    return isCrunchyroll && isSearch;
+  }
+  
   @mobx.observable
   hasError = false;
+
+  @mobx.observable
+  readonly loader = new app.LoaderViewModel();
 
   @mobx.observable
   readonly series: Array<app.MainPageSeriesViewModel> = [];
