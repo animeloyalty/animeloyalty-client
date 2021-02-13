@@ -27,10 +27,10 @@ export class MainCredentialViewModel extends app.BaseViewModel {
     return await loader.loadAsync(async () => {
       const credential = await app.core.api.setting.credentialAsync();
       if (credential.value) {
-        this.crunchyrollUsername = credential.value.crunchyrollUsername;
-        this.crunchyrollPassword = credential.value.crunchyrollPassword;
-        this.funimationUsername = credential.value.funimationUsername;
-        this.funimationPassword = credential.value.funimationPassword;
+        this.crunchyrollUsername = credential.value.crunchyrollUsername ?? '';
+        this.crunchyrollPassword = credential.value.crunchyrollPassword ?? '';
+        this.funimationUsername = credential.value.funimationUsername ?? '';
+        this.funimationPassword = credential.value.funimationPassword ?? '';
         return true;
       } else {
         return false;
@@ -53,16 +53,16 @@ export class MainCredentialViewModel extends app.BaseViewModel {
   }
 
   @mobx.observable
-  crunchyrollUsername?: string;
+  crunchyrollUsername = '';
   
   @mobx.observable
-  crunchyrollPassword?: string;
+  crunchyrollPassword = '';
 
   @mobx.observable
-  funimationUsername?: string;
+  funimationUsername = '';
 
   @mobx.observable
-  funimationPassword?: string;
+  funimationPassword = '';
 
   @mobx.action
   private createSetting(credential: app.api.SettingCredential) {
