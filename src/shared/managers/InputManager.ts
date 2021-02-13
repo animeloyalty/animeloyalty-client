@@ -36,42 +36,43 @@ export class InputManager {
   }
 
   private onKeyEvent(event: KeyboardEvent) {
-    if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
-      switch (event.code) {
-        case 'ArrowDown':
-          this.dispatchKeyEvent(event, {type: 'arrowDown'});
-          break;
-        case 'ArrowLeft':
-          this.dispatchKeyEvent(event, {type: 'arrowLeft'});
-          break;
-        case 'ArrowRight':
-          this.dispatchKeyEvent(event, {type: 'arrowRight'});
-          break;
-        case 'ArrowUp':
-          this.dispatchKeyEvent(event, {type: 'arrowUp'});
-          break;
-        case 'Backslash':
-          this.dispatchKeyEvent(event, {type: 'fullscreen'});
-          break;
-        case 'Backspace':
-          this.dispatchKeyEvent(event, {type: 'escape'});
-          break;
-        case 'Escape':
-          this.dispatchKeyEvent(event, {type: 'escape'});
-          break;
-        case 'Enter':
-          this.dispatchKeyEvent(event, event.altKey ? {type: 'fullscreen'} : {type: 'enter'});
-          break;
-        case 'F11':
-          this.dispatchKeyEvent(event, {type: 'fullscreen'});
-          break;
-        case 'KeyF':
-          this.dispatchKeyEvent(event, {type: 'fullscreen'});
-          break;
-        case 'Space':
-          this.dispatchKeyEvent(event, {type: 'enter'});
-          break;
-      }
+    if (document.activeElement 
+      && /^input$/i.test(document.activeElement.tagName)
+      && /^(?:text|password)?$/i.test(document.activeElement.getAttribute('type') ?? '')) return;
+    switch (event.code) {
+      case 'ArrowDown':
+        this.dispatchKeyEvent(event, {type: 'arrowDown'});
+        break;
+      case 'ArrowLeft':
+        this.dispatchKeyEvent(event, {type: 'arrowLeft'});
+        break;
+      case 'ArrowRight':
+        this.dispatchKeyEvent(event, {type: 'arrowRight'});
+        break;
+      case 'ArrowUp':
+        this.dispatchKeyEvent(event, {type: 'arrowUp'});
+        break;
+      case 'Backslash':
+        this.dispatchKeyEvent(event, {type: 'fullscreen'});
+        break;
+      case 'Backspace':
+        this.dispatchKeyEvent(event, {type: 'escape'});
+        break;
+      case 'Escape':
+        this.dispatchKeyEvent(event, {type: 'escape'});
+        break;
+      case 'Enter':
+        this.dispatchKeyEvent(event, event.altKey ? {type: 'fullscreen'} : {type: 'enter'});
+        break;
+      case 'F11':
+        this.dispatchKeyEvent(event, {type: 'fullscreen'});
+        break;
+      case 'KeyF':
+        this.dispatchKeyEvent(event, {type: 'fullscreen'});
+        break;
+      case 'Space':
+        this.dispatchKeyEvent(event, {type: 'enter'});
+        break;
     }
   }
 
