@@ -11,7 +11,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesViewModel}> {
       <app.HeaderComponent primary={this.props.vm.title}>
         <app.LoaderView vm={this.props.vm.loader} />
         {!this.props.vm.loader.isLoading && <mui.Grid>
-          <mui.Paper className={this.classes.container} square={true}>
+          <mui.Paper className={this.classes.container} square>
             <mui.Grid className={this.classes.imageContainer}>
               <app.ImageComponent imageUrl={this.props.vm.imageUrl} />
             </mui.Grid>

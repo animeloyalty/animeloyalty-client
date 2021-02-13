@@ -24,17 +24,19 @@ export class MainPageViewModel extends app.BaseViewModel {
   @mobx.action
   async refreshAsync() {
     this.hasError = false;
-    const result = await this.loader.loadAsync(() => this.query instanceof app.api.RemoteQuerySearch
-      ? app.core.api.remote.searchAsync(this.query)
-      : app.core.api.remote.pageAsync(this.query));
-    if (result.value) {
-      this.process(result.value);
-    } else if (this.isViewMounted) {
-      this.hasError = true;
-      if (await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
-        await this.refreshAsync();
+    await this.loader.loadAsync(async () => {
+      const result = this.query instanceof app.api.RemoteQuerySearch
+        ? await app.core.api.remote.searchAsync(this.query)
+        : await app.core.api.remote.pageAsync(this.query);
+      if (result.value) {
+        this.process(result.value);
+      } else if (this.isViewMounted) {
+        this.hasError = true;
+        if (await app.core.dialog.openAsync(language.errorProviderBody, language.errorProviderButtons)) {
+          await this.refreshAsync();
+        }
       }
-    }
+    });
   }
   
   @mobx.action

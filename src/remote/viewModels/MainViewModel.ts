@@ -1,6 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
+import {setting} from '../..';
 const providerKey = 'remoteProvider';
 const pageKey = 'remotePage';
 const optionsKey = 'remoteOptions';
@@ -65,6 +66,12 @@ export class MainViewModel extends app.BaseViewModel {
   }
 
   @mobx.action
+  onSettings(success: boolean) {
+    this.setting = undefined;
+    if (success) this.update();
+  }
+
+  @mobx.action
   async refreshAsync() {
     const result = await app.core.api.remote.contextAsync();
     if (result.value) {
@@ -89,6 +96,13 @@ export class MainViewModel extends app.BaseViewModel {
     this.update();
   }
 
+  @mobx.action
+  async toggleSettingAsync() {
+    if (this.setting) return;
+    this.setting = new setting.MainViewModel(this.onSettings.bind(this));
+    await this.setting.refreshAsync();
+  }
+
   @mobx.observable
   nextSearch?: string;
 
@@ -109,6 +123,9 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.observable
   selectedSearch?: string;
+
+  @mobx.observable
+  setting?: setting.MainViewModel;
 
   @mobx.action
   private getPreferred() {
