@@ -3,6 +3,8 @@ import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 import videojs from 'video.js';
+const fonts = ['assets/default.woff2', 'assets/arabic.woff2'];
+const workerUrl = 'subtitles-octopus-4.0.0/subtitles-octopus-worker.js';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
@@ -31,7 +33,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
       case 'loadSubtitle':
         this.clearSubtitle();
         if (request.subtitle.type === 'vtt') this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
-        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl: 'subtitles-octopus-4.0.0/subtitles-octopus-worker.js'});
+        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl, fonts});
         break;
       case 'pause':
         this.player?.pause();
