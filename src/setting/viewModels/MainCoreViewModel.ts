@@ -13,7 +13,7 @@ export class MainCoreViewModel extends app.BaseViewModel {
       const core = await app.core.api.setting.coreAsync();
       if (core.value) {
         this.chromeHeadless = core.value.chromeHeadless;
-        this.proxyServer = core.value.proxyServer;
+        this.proxyServer = core.value.proxyServer ?? '';
         return true;
       } else {
         return false;
@@ -49,7 +49,7 @@ export class MainCoreViewModel extends app.BaseViewModel {
   hasError = false;
 
   @mobx.observable
-  proxyServer?: string;
+  proxyServer = '';
 
   @mobx.action
   private createSetting(core: app.api.SettingCore) {
