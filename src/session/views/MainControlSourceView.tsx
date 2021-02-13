@@ -15,7 +15,9 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSourceVi
           <mui.Grid>
             {this.props.vm.sources.map((source, i) => (
               <mui.MenuItem key={i} onClick={() => this.props.vm.select(source)}>
-                <mui.FormControlLabel control={<mui.Radio checked={this.props.vm.selectedSource === source} color="primary" />} label={source.displayName} />
+                <mui.FormControlLabel className={this.classes.label} label={source.displayName} control={<mui.Radio
+                  checked={this.props.vm.selectedSource === source}
+                  color="primary" />} />
               </mui.MenuItem>
             ))}
           </mui.Grid>
@@ -31,6 +33,9 @@ const Styles = mui.createStyles({
   },
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)'
+  },
+  label: {
+    pointerEvents: 'none'
   }
 });
 

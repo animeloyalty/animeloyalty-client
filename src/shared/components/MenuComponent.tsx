@@ -20,7 +20,7 @@ export class Component extends app.BaseComponent<typeof Styles, {className?: str
           ? <mui.Grid>{firstChild}</mui.Grid>
           : <mui.Grid onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>{firstChild}</mui.Grid>}
         {menuItems && <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement={this.props.placement}>
-          <mui.Paper className={this.props.className} square={true}>
+          <mui.Paper className={this.props.className} square>
             <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
               <mui.MenuList disablePadding onClick={() => this.setState({anchorEl: undefined})}>
                 {menuItems}

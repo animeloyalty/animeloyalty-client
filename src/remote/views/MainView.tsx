@@ -2,6 +2,7 @@ import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
+import {setting} from '../..';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
@@ -17,13 +18,13 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
                 </mui.Typography>
                 <mui.Grid>
                   {this.props.vm.providers.map((provider, i) => <mui.MenuItem key={i} onClick={() => this.props.vm.changeProvider(provider)}>
-                    <mui.FormControlLabel label={provider.label} control={<mui.Radio
+                    <mui.FormControlLabel className={this.classes.pageMenuLabel} label={provider.label} control={<mui.Radio
                       checked={this.props.vm.selectedProvider === provider}
                       color="primary" />} />
                   </mui.MenuItem>)}
                   <mui.Divider />
-                  <mui.MenuItem>
-                    <mui.FormControlLabel label="Settings" control={<mui.IconButton className={this.classes.settingsIcon}>
+                  <mui.MenuItem onClick={() => this.props.vm.toggleSettingAsync()}>
+                    <mui.FormControlLabel className={this.classes.pageMenuLabel} label="Settings" control={<mui.IconButton>
                       <app.icons.Settings />
                     </mui.IconButton>} />
                   </mui.MenuItem>
@@ -37,7 +38,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
                     {page.label}
                   </mui.Typography>
                   {page.options.map((option, i) => <mui.MenuItem key={i} onClick={() => this.props.vm.changeOption(page, option)}>
-                    <mui.FormControlLabel label={option.label} control={page.type === 'mixOf'
+                    <mui.FormControlLabel className={this.classes.pageMenuLabel} label={option.label} control={page.type === 'mixOf'
                       ? <mui.Checkbox checked={this.props.vm.selectedOptions.includes(option)} color="primary" />
                       : <mui.Radio checked={this.props.vm.selectedOptions.includes(option)} color="primary" />} />
                   </mui.MenuItem>)}
@@ -56,6 +57,9 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
         {this.props.vm.page && <mui.Grid className={this.classes.container}>
           <app.MainPageView vm={this.props.vm.page} />
         </mui.Grid>}
+        {this.props.vm.setting && <mui.Grid>
+          <setting.MainView vm={this.props.vm.setting} />
+        </mui.Grid>}
       </mui.Grid>
     );
   }
@@ -68,9 +72,6 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainViewModel}> {
 }
 
 const Styles = mui.createStyles({
-  settingsIcon: {
-    marginLeft: app.sz(-2)
-  },
   navigation: {
     display: 'flex',
     flex: 1
@@ -91,6 +92,9 @@ const Styles = mui.createStyles({
     maxHeight: app.sz(224),
     overflowY: 'auto'
   },
+  pageMenuLabel: {
+    pointerEvents: 'none'
+  },
   page: {
     cursor: 'pointer',
     lineHeight: app.sz(32),
@@ -98,13 +102,11 @@ const Styles = mui.createStyles({
     '&:hover': {color: app.theme.palette.primary.main}
   },
   search: {
-    backgroundColor: app.theme.palette.secondary.contrastText,
-    color: '#303030',
-    paddingRight: app.sz(16),
-    width: '20%'
+    width: '20%',
+    '& input': {height: app.sz(16), paddingRight: app.sz(24)}
   },
   searchIcon: {
-    color: '#303030',
+    color: app.theme.palette.primary.contrastText,
     pointerEvents: 'none',
     position: 'absolute',
     right: app.sz(-4)

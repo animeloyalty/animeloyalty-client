@@ -1,0 +1,15 @@
+export const language = {
+  core: 'Core Settings',
+  coreChromeHeadless: 'Allow headless browser. Disable when troubleshooting to observe operations.',
+  coreProxyServerLabel: 'Proxy Server',
+  coreProxyServerPlaceholder: 'https://username:password@example.com',
+  credential: 'Credential Settings',
+  credentialCrunchyroll: 'Crunchyroll',
+  credentialFunimation: 'Funimation',
+  credentialPassword: 'Password',
+  credentialUsername: 'Username',
+  errorBody: 'An error occurred. The settings could not be opened. Try again momentarily. If this error continues, open a support ticket.',
+  errorButtons: ['Cancel', 'Retry'],
+  saveNo: 'Cancel',
+  saveYes: 'Save',
+};

@@ -35,7 +35,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
       : () => this.props.vm.clear();
     return (
       <mui.MenuItem key={i} onClick={onClick}>
-        <mui.FormControlLabel control={<mui.Radio checked={isChecked} color="primary" />} label={<mui.Grid>
+        <mui.FormControlLabel className={this.classes.label} control={<mui.Radio checked={isChecked} color="primary" />} label={<mui.Grid>
           <mui.Typography>{displayNames && displayNames[0]}</mui.Typography>
           <mui.Typography className={this.classes.regionText}>{displayNames && displayNames[1]}</mui.Typography>
         </mui.Grid>} />
@@ -51,6 +51,9 @@ const Styles = mui.createStyles({
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)',
     transform: `translateX(${app.sz(32)})`
+  },
+  label: {
+    pointerEvents: 'none'
   },
   regionText: {
     fontStyle: 'italic'

@@ -24,7 +24,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainPageViewModel}>
             {language.errorText}
           </mui.Typography>
         </mui.Grid>}
-        {this.props.vm.hasSeries && <mui.Paper square={true}>
+        {this.props.vm.hasSeries && <mui.Paper square>
           <mui.Grid className={this.classes.seriesContainer}>
             {this.props.vm.series.map((vm, i) => <app.MainPageSeriesView key={i}
               height={this.props.vm.isNarrow ? '9vw' : '20vw'}
