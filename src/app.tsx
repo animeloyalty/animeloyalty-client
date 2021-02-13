@@ -18,12 +18,12 @@ class App extends React.Component {
   }
 }
 
-app.shared.api.unsafe(window).checkStartup = () => {
-  return app.shared.core.screen.checkStartup(true);
+window.animeloyalty = {
+  electronStart: app.shared.core.screen.onElectronStart.bind(app.shared.core.screen),
+  electronState: app.shared.core.screen.onElectronState.bind(app.shared.core.screen)
 };
 
 (function() {
-  app.shared.core.screen.checkStartup(false);
   app.shared.core.view.open(app.remote.MainController.createController());
   app.shared.api.unsafe(videojs).Vhs.GOAL_BUFFER_LENGTH = app.shared.settings.videoBuffer;
   app.shared.api.unsafe(videojs).Vhs.MAX_GOAL_BUFFER_LENGTH = app.shared.settings.videoBufferMax;
