@@ -14,5 +14,6 @@ export const language = {
   subtitleFrFr: ['French', 'France'],
   subtitleItIt: ['Italian', 'Italy'],
   subtitlePtBr: ['Portuguese', 'Brazil'],
-  subtitleRuRu: ['Russian', 'Russia']
+  subtitleRuRu: ['Russian', 'Russia'],
+  subtitleTrTr: ['Turkish', 'Turkey']
 };

@@ -100,6 +100,7 @@ function getSubtitleNames(subtitle: app.ISubtitle) {
     case 'it-IT': return language.subtitleItIt;
     case 'pt-BR': return language.subtitlePtBr;
     case 'ru-RU': return language.subtitleRuRu;
+    case 'tr-TR': return language.subtitleTrTr;
     default: throw new Error();
   }
 }
