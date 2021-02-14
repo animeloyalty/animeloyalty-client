@@ -28,8 +28,7 @@ export class Octopus {
         return event.data.op === 'renderCanvas' && this.isWaiting;
       case 'get-styles':
         const styles = event.data.styles;
-        const biggestFontSize = styles.filter(x => x.FontSize).map(x => x.FontSize).sort((a, b) => b - a)[0];
-        styles.forEach((x, i) => this.transform(biggestFontSize, x, i));
+        styles.forEach((x, i) => this.transform(x, i));
         setTimeout(() => this.isWaiting = false, 100);
         return true;
       default:
@@ -37,8 +36,8 @@ export class Octopus {
     }
   }
 
-  private transform(biggestFontSize: number, style: SubtitlesOctopusStyle, index: number) {
-    const scale = 100 / biggestFontSize * style.FontSize;
+  private transform(style: SubtitlesOctopusStyle, index: number) {
+    const scale = 100 / 24 * style.FontSize;
     style.FontSize = Math.floor(scale / 100 * getSize(this.subtitle));
     this.worker.setStyle(style, index);
   }
