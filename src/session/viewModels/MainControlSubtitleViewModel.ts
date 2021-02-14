@@ -1,6 +1,7 @@
 import * as app from '..';
 import * as mobx from 'mobx';
 import {language} from '../language';
+const sizeKey = 'preferredSize';
 const subtitleKey = 'preferredSubtitle';
 const subtitleNone = 'none';
 
@@ -18,11 +19,17 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   }
 
   @mobx.action
-  select(subtitle: app.ISubtitle) {
+  selectSize(size: app.ISubtitle['size']) {
+    if (!this.canSelect || !this.selectedSubtitle || this.selectedSubtitle.size === size) return;
+    app.core.store.set(sizeKey, size);
+    this.loadSubtitle(this.selectedSubtitle);
+  }
+
+  @mobx.action
+  selectSubtitle(subtitle: app.ISubtitle) {
     if (!this.canSelect || this.selectedSubtitle === subtitle) return;
     app.core.store.set(subtitleKey, subtitle.language);
-    this.selectedSubtitle = subtitle;
-    this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
+    this.loadSubtitle(subtitle);
   }
 
   @mobx.action
@@ -30,7 +37,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
     switch (event.type) {
       case 'subtitles':
         this.subtitles = event.subtitles.map(x => ({...x, displayNames: getSubtitleNames(x)})).sort((a, b) => a.displayNames[0].localeCompare(b.displayNames[0]));
-        this.loadSubtitle();
+        this.detectSubtitle();
         break;
     }
   }
@@ -57,18 +64,24 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   subtitles: Array<app.ISubtitle> = [];
 
   @mobx.action
-  private loadSubtitle() {
+  private detectSubtitle() {
     const preferred = app.core.store.getString(subtitleKey, 'en-US');
     if (preferred === subtitleNone || this.tryLoadSubtitle(preferred)) return;
     this.tryLoadSubtitle('en-US');
   }
 
   @mobx.action
+  private loadSubtitle(subtitle: app.ISubtitle) {
+    const size = app.core.store.getString(sizeKey, 'normal') as app.ISubtitle['size'];
+    this.selectedSubtitle = {...subtitle, size};
+    this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle: this.selectedSubtitle});
+  }
+
+  @mobx.action
   private tryLoadSubtitle(language: string | null) {
     const subtitle = this.subtitles.find(x => x.language === language);
     if (subtitle) {
-      this.selectedSubtitle = subtitle;
-      this.bridge.dispatchRequest({type: 'loadSubtitle', subtitle});
+      this.loadSubtitle(subtitle);
       return true;
     } else {
       return false;
