@@ -287,6 +287,9 @@ var SubtitlesOctopus = function (options) {
                 self.onReadyEvent();
             }
         }
+        if (options.onWorkerMessage && options.onWorkerMessage(event)) {
+          return;
+        }
         var data = event.data;
         switch (data.target) {
             case 'stdout': {

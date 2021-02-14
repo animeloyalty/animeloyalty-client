@@ -9,29 +9,51 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
   render() {
     return (
       <mui.Grid className={this.classes.container}>
-        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} placement="bottom-end">
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} elevation={0} placement="bottom-end">
+          <mui.IconButton disabled={!this.props.vm.canSelect}>
+            <app.icons.FormatSize />
+          </mui.IconButton>
+          <mui.Grid>
+            {this.sizeItem('tiny', language.sizeTiny)}
+            {this.sizeItem('small', language.sizeSmall)}
+            {this.sizeItem('normal', language.sizeNormal)}
+            {this.sizeItem('large', language.sizeLarge)}
+            {this.sizeItem('huge', language.sizeHuge)}
+          </mui.Grid>
+        </app.MenuComponent>
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} elevation={0} placement="bottom-end">
           <mui.IconButton disabled={!this.props.vm.canSelect}>
             <app.icons.Subtitles />
           </mui.IconButton>
           <mui.Grid>
-            {this.menuItem(0)}
+            {this.subtitleItem(0)}
             <mui.Divider />
-            {this.props.vm.subtitles.map((subtitle, i) => this.menuItem(i + 1, subtitle))}
+            {this.props.vm.subtitles.map((subtitle, i) => this.subtitleItem(i + 1, subtitle))}
           </mui.Grid>
         </app.MenuComponent>
       </mui.Grid>
     );
   }
 
-  private menuItem(i: number, subtitle?: app.ISubtitle) {
+  private sizeItem(size: app.ISubtitle['size'], label: string) {
+    return (
+      <mui.MenuItem key={size} onClick={() => this.props.vm.selectSize(size)}>
+        <mui.FormControlLabel className={this.classes.label} label={label} control={<mui.Radio
+          checked={this.props.vm.selectedSubtitle?.size === size}
+          color="primary" />} />
+      </mui.MenuItem>
+    );
+  }
+
+  private subtitleItem(i: number, subtitle?: app.ISubtitle) {
     const displayNames = subtitle
       ? subtitle.displayNames
       : language.subtitle;
     const isChecked = subtitle
-      ? this.props.vm.selectedSubtitle === subtitle
+      ? this.props.vm.selectedSubtitle?.language === subtitle.language
       : this.props.vm.selectedSubtitle == null;
     const onClick = subtitle
-      ? () => this.props.vm.select(subtitle)
+      ? () => this.props.vm.selectSubtitle(subtitle)
       : () => this.props.vm.clear();
     return (
       <mui.MenuItem key={i} onClick={onClick}>
@@ -46,11 +68,10 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
 
 const Styles = mui.createStyles({
   container: {
-    display: 'inline-block'
+    display: 'inline-flex'
   },
   menu: {
-    backgroundColor: 'rgba(50, 50, 50, 0.5)',
-    transform: `translateX(${app.sz(32)})`
+    backgroundColor: 'rgba(50, 50, 50, 0.5)'
   },
   label: {
     pointerEvents: 'none'

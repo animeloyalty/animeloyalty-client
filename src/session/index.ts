@@ -3,6 +3,7 @@ export * from './utilities';
 export * from './typings';
 export * from './classes/Bridge';
 export * from './classes/Dispatcher';
+export * from './classes/Octopus';
 export * from './classes/Session';
 export * from './components/SliderComponent';
 export * from './viewModels/MainControlSourceViewModel';

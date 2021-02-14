@@ -1,4 +1,9 @@
 export const language = {
+  sizeTiny: 'Tiny',
+  sizeSmall: 'Small',
+  sizeNormal: 'Normal',
+  sizeLarge: 'Large',
+  sizeHuge: 'Huge',
   source: 'Unknown',
   subtitle: ['None'],
   subtitleArMe: ['Arabic', 'Arab'],

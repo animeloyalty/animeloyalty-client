@@ -1,6 +1,7 @@
 import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
 import FastForward from '@material-ui/icons/FastForward';
 import FastRewind from '@material-ui/icons/FastRewind';
+import FormatSize from '@material-ui/icons/FormatSize';
 import Pause from '@material-ui/icons/Pause';
 import PersonalVideo from '@material-ui/icons/PersonalVideo';
 import PlayArrow from '@material-ui/icons/PlayArrow';
@@ -10,4 +11,4 @@ import Settings from '@material-ui/icons/Settings';
 import SkipNext from '@material-ui/icons/SkipNext';
 import SkipPrevious from '@material-ui/icons/SkipPrevious';
 import Subtitles from '@material-ui/icons/Subtitles';
-export const icons = {ArrowBackIos, FastForward, FastRewind, Pause, PersonalVideo, PlayArrow, Refresh, Search, Settings, SkipNext, SkipPrevious, Subtitles};
+export const icons = {ArrowBackIos, FastForward, FastRewind, FormatSize, Pause, PersonalVideo, PlayArrow, Refresh, Search, Settings, SkipNext, SkipPrevious, Subtitles};

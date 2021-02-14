@@ -2,7 +2,7 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-export class Component extends app.BaseComponent<typeof Styles, {className?: string, disabled?: boolean, children: React.ReactNode | React.ReactNodeArray, placement: mui.PopperPlacementType}> {
+export class Component extends app.BaseComponent<typeof Styles, {className?: string, disabled?: boolean, elevation?: number, children: React.ReactNode | React.ReactNodeArray, placement: mui.PopperPlacementType}> {
   state = {
     anchorEl: undefined,
   };
@@ -20,7 +20,7 @@ export class Component extends app.BaseComponent<typeof Styles, {className?: str
           ? <mui.Grid>{firstChild}</mui.Grid>
           : <mui.Grid onClick={(ev) => this.setState({anchorEl: ev.currentTarget})}>{firstChild}</mui.Grid>}
         {menuItems && <mui.Popper anchorEl={this.state.anchorEl} open={Boolean(this.state.anchorEl)} disablePortal placement={this.props.placement}>
-          <mui.Paper className={this.props.className} square>
+          <mui.Paper className={this.props.className} elevation={this.props.elevation} square>
             <mui.ClickAwayListener onClickAway={() => this.setState({anchorEl: undefined})}>
               <mui.MenuList disablePadding onClick={() => this.setState({anchorEl: undefined})}>
                 {menuItems}

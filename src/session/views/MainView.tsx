@@ -3,14 +3,12 @@ import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 import videojs from 'video.js';
-const fonts = ['assets/default.woff2', 'assets/arabic.woff2'];
-const workerUrl = 'subtitles-octopus-4.0.0/subtitles-octopus-worker.js';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
   private element?: HTMLVideoElement;
+  private octopus?: app.Octopus;
   private player?: videojs.Player;
-  private worker?: SubtitlesOctopus;
 
   componentDidMount() {
     document.body.style.overflow = 'hidden';
@@ -32,8 +30,8 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
         break;
       case 'loadSubtitle':
         this.clearSubtitle();
-        if (request.subtitle.type === 'vtt') this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
-        else this.worker = new SubtitlesOctopus({video: this.element, subUrl: request.subtitle.url, workerUrl, fonts});
+        if (request.subtitle.type === 'vtt') this.createVtt(request);
+        else this.createAss(request);
         break;
       case 'pause':
         this.player?.pause();
@@ -59,8 +57,19 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
 
   private clearSubtitle() {
     Array.from(this.player?.remoteTextTracks() ?? []).forEach(x => this.player?.removeRemoteTextTrack(app.api.unsafe(x)));
-    this.worker?.dispose();
-    delete this.worker;
+    this.octopus?.dispose();
+    delete this.octopus;
+  }
+
+  private createAss(request: app.VideoRequest) {
+    if (request.type !== 'loadSubtitle' || !this.element) return;
+    this.octopus = new app.Octopus(this.element, request.subtitle);
+  }
+
+  private createVtt(request: app.VideoRequest) {
+    if (request.type !== 'loadSubtitle') return;
+    this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
+    this.player?.setAttribute('size', request.subtitle.size ?? 'normal');
   }
 
   private onCreate(element: HTMLVideoElement | null) {
@@ -76,8 +85,8 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
 
   private onDestroy() {
     this.props.bridge.unsubscribe(this);
+    this.octopus?.dispose();
     this.player?.dispose()
-    this.worker?.dispose();
   }
 }
 

@@ -8,7 +8,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSourceVi
   render() {
     return (
       <mui.Grid className={this.classes.container}>
-        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} placement="bottom-end">
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} elevation={0} placement="bottom-end">
           <mui.IconButton disabled={!this.props.vm.canSelect}>
             <app.icons.PersonalVideo />
           </mui.IconButton>
@@ -29,7 +29,7 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSourceVi
 
 const Styles = mui.createStyles({
   container: {
-    display: 'inline-block'
+    display: 'inline-flex'
   },
   menu: {
     backgroundColor: 'rgba(50, 50, 50, 0.5)'
