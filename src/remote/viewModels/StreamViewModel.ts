@@ -22,6 +22,9 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
       case 'error':
         this.onError();
         break;
+      case 'progress':
+        this.numberOfWarnings = 0;
+        break;
       case 'retryplaylist':
         this.onWarning();
         break;
