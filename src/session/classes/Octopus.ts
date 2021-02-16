@@ -27,19 +27,21 @@ export class Octopus {
       case 'canvas':
         return event.data.op === 'renderCanvas' && this.isWaiting;
       case 'get-styles':
-        const styles = event.data.styles;
-        styles.forEach((x, i) => this.transform(x, i));
+        const defaultStyles = event.data.styles
+          .filter(x => /^(?:Default|Main)/i.test(x.Name))
+          .sort((a, b) => b.FontSize - a.FontSize);
+        const fontSize = defaultStyles.length
+          ? defaultStyles[0].FontSize
+          : 24;
+        const newStyles = event.data.styles
+          .map(x => ({scale: 100 / fontSize * x.FontSize, style: x}))
+          .map(x => ({...x.style, FontSize: Math.floor(x.scale / 100 * getSize(this.subtitle))}));
+        newStyles.forEach((x, i) => this.worker.setStyle(x, i));
         setTimeout(() => this.isWaiting = false, 100);
         return true;
       default:
         return false;
     }
-  }
-
-  private transform(style: SubtitlesOctopusStyle, index: number) {
-    const scale = 100 / 24 * style.FontSize;
-    style.FontSize = Math.floor(scale / 100 * getSize(this.subtitle));
-    this.worker.setStyle(style, index);
   }
 }
 
