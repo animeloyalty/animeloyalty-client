@@ -11,7 +11,7 @@ type SubtitlesOctopusOptions = {
   fonts?: Array<string>;
   onWorkerMessage?: (event: SubtitlesOctopusEvent) => boolean;
   video?: HTMLVideoElement;
-}
+};
 
 type SubtitlesOctopusEvent = {
   data: {target: 'canvas', op: string} | {target: 'get-styles', styles: Array<SubtitlesOctopusStyle>};
@@ -19,4 +19,5 @@ type SubtitlesOctopusEvent = {
 
 type SubtitlesOctopusStyle = {
   FontSize: number;
-}
+  Name: string;
+};
