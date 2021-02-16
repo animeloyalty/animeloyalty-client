@@ -9755,6 +9755,7 @@ self.fastRender = function(force) {
  var startTime = performance.now();
  var renderResult = self.octObj.renderImage(self.getCurrentTime() + self.delay, self.changed);
  var changed = Module.getValue(self.changed, "i32");
+ force = true;
  if (changed != 0 || force) {
   var result = self.buildResult(renderResult);
   var newTime = performance.now();
@@ -9786,9 +9787,6 @@ self.fastRender = function(force) {
     bitmaps: bitmaps
    }, imgs);
   });
- }
- if (!self._isPaused) {
-  self.rafId = self.requestAnimationFrame(self.fastRender);
  }
 };
 

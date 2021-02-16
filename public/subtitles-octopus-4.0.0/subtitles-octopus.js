@@ -158,21 +158,13 @@ var SubtitlesOctopus = function (options) {
     self.setVideo = function (video) {
         self.video = video;
         if (self.video) {
-            var timeupdate = function () {
-                self.setCurrentTime(video.currentTime + self.timeOffset);
-            }
-            self.video.addEventListener("timeupdate", timeupdate, false);
             self.video.addEventListener("playing", function () {
                 self.setIsPaused(false, video.currentTime + self.timeOffset);
             }, false);
             self.video.addEventListener("pause", function () {
                 self.setIsPaused(true, video.currentTime + self.timeOffset);
             }, false);
-            self.video.addEventListener("seeking", function () {
-                self.video.removeEventListener("timeupdate", timeupdate);
-            }, false);
             self.video.addEventListener("seeked", function () {
-                self.video.addEventListener("timeupdate", timeupdate, false);
                 self.setCurrentTime(video.currentTime + self.timeOffset);
             }, false);
             self.video.addEventListener("ratechange", function () {
@@ -264,6 +256,9 @@ var SubtitlesOctopus = function (options) {
      */
     function renderFastFrames() {
         var data = self.renderFramesData;
+        self.renderFramesData = null;
+        if (options.debug)
+            console.log('rendering frame');
         var beforeDrawTime = performance.now();
         self.ctx.clearRect(0, 0, self.canvas.width, self.canvas.height);
         for (var i = 0; i < data.bitmaps.length; i++) {
@@ -335,19 +330,19 @@ var SubtitlesOctopus = function (options) {
                         break;
                     }
                     case 'renderCanvas': {
-                        if (self.lastRenderTime < data.time) {
-                            self.lastRenderTime = data.time;
-                            self.renderFramesData = data;
+                        if (options.debug)
+                            console.log('Receive frame');
+                        if (!self.renderFramesData)
                             window.requestAnimationFrame(renderFrames);
-                        }
+                        self.renderFramesData = data;
                         break;
                     }
                     case 'renderFastCanvas': {
-                        if (self.lastRenderTime < data.time) {
-                            self.lastRenderTime = data.time;
-                            self.renderFramesData = data;
+                        if (options.debug)
+                            console.log('Receive frame');
+                        if (!self.renderFramesData)
                             window.requestAnimationFrame(renderFastFrames);
-                        }
+                        self.renderFramesData = data;
                         break;
                     }
                     case 'setObjectProperty': {
@@ -465,6 +460,8 @@ var SubtitlesOctopus = function (options) {
     };
 
     self.setCurrentTime = function (currentTime) {
+        if (options.debug)
+            console.log('set current time in dom ' + currentTime);
         self.worker.postMessage({
             target: 'video',
             currentTime: currentTime

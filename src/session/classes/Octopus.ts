@@ -10,7 +10,7 @@ export class Octopus {
   constructor(element: HTMLVideoElement, subtitle: app.ISubtitle) {
     const onWorkerMessage = this.onWorkerMessage.bind(this);
     this.subtitle = subtitle;
-    this.worker = new SubtitlesOctopus({video: element, subUrl: subtitle.url, workerUrl, fonts, onWorkerMessage});
+    this.worker = new SubtitlesOctopus({lossyRender: true, video: element, subUrl: subtitle.url, workerUrl, fonts, onWorkerMessage});
     this.worker.getStyles();
   }
 

@@ -6,6 +6,8 @@ declare class SubtitlesOctopus {
 }
 
 type SubtitlesOctopusOptions = {
+  debug?: boolean;
+  lossyRender?: boolean;
   subUrl: string;
   workerUrl: string;
   fonts?: Array<string>;
