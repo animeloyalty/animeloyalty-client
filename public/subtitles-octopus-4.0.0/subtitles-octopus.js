@@ -331,18 +331,24 @@ var SubtitlesOctopus = function (options) {
                     }
                     case 'renderCanvas': {
                         if (options.debug)
-                            console.log('Receive frame');
-                        if (!self.renderFramesData)
-                            window.requestAnimationFrame(renderFrames);
-                        self.renderFramesData = data;
+                            console.log(`receive frame: ${self.lastRenderTime} < ${data.time}`);
+                        if (self.lastRenderTime < data.time) {
+                            self.lastRenderTime = data.time;
+                            if (!self.renderFramesData)
+                                window.requestAnimationFrame(renderFrames);
+                            self.renderFramesData = data;
+                        }
                         break;
                     }
                     case 'renderFastCanvas': {
                         if (options.debug)
-                            console.log('Receive frame');
-                        if (!self.renderFramesData)
-                            window.requestAnimationFrame(renderFastFrames);
-                        self.renderFramesData = data;
+                            console.log(`receive frame: ${self.lastRenderTime} < ${data.time}`);
+                        if (self.lastRenderTime < data.time) {
+                            self.lastRenderTime = data.time;
+                            if (!self.renderFramesData)
+                                window.requestAnimationFrame(renderFastFrames);
+                            self.renderFramesData = data;
+                        }
                         break;
                     }
                     case 'setObjectProperty': {
