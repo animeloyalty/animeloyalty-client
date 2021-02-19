@@ -287,9 +287,6 @@ var SubtitlesOctopus = function (options) {
                 self.onReadyEvent();
             }
         }
-        if (options.onWorkerMessage && options.onWorkerMessage(event)) {
-          return;
-        }
         var data = event.data;
         switch (data.target) {
             case 'stdout': {
@@ -517,7 +514,7 @@ var SubtitlesOctopus = function (options) {
         self.worker.terminate();
         self.workerActive = false;
         // Remove the canvas element to remove residual subtitles rendered on player
-        if (self.video && self.video.parentNode) {
+        if (self.video) {
             self.video.parentNode.removeChild(self.canvasParent);
         }
     };
