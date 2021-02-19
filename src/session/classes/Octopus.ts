@@ -7,10 +7,10 @@ export class Octopus {
   private readonly worker: SubtitlesOctopus;
   private isWaiting = true;
 
-  constructor(element: HTMLVideoElement, subtitle: app.ISubtitle) {
+  constructor(video: HTMLVideoElement, subtitle: app.ISubtitle) {
     const onWorkerMessage = this.onWorkerMessage.bind(this);
     this.subtitle = subtitle;
-    this.worker = new SubtitlesOctopus({video: element, subUrl: subtitle.url, workerUrl, fonts, onWorkerMessage});
+    this.worker = new SubtitlesOctopus({video, subUrl: subtitle.url, workerUrl, fonts, onWorkerMessage});
     this.worker.getStyles();
   }
 
