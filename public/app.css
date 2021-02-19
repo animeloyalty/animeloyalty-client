@@ -25,37 +25,3 @@ body {
   border-radius: max(1.6vmin, 8px);
   border: max(0.8vmin, 4px) solid #333;
 }
-
-.vjs-error-display {
-  display: none;
-}
-
-.vjs-tech {
-	outline: 0;
-}
-
-.vjs-text-track-display > div {
-	margin: 0 !important;
-}
-
-.vjs-text-track-display .vjs-text-track-cue {
-    inset: auto !important;
-    height: 100vh !important;
-}
-
-.vjs-text-track-display .vjs-text-track-cue > div {
-  -webkit-font-smoothing: antialiased;
-  background: transparent !important;
-  font-family: Trebuchet MS !important;
-  inset: auto auto max(5vmin, 25px) auto !important;
-  position: absolute !important;
-  text-shadow: #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px), #000 0px 0px max(0.2vmin, 1px);
-  transform: translateX(-50%);
-  width: 100%;
-}
-
-.video-js[size=tiny] .vjs-text-track-cue {font-size: max(2.4vmin, 12px) !important}
-.video-js[size=small] .vjs-text-track-cue {font-size: max(3.2vmin, 16px) !important}
-.video-js[size=normal] .vjs-text-track-cue {font-size: max(4vmin, 20px) !important}
-.video-js[size=large] .vjs-text-track-cue {font-size: max(5.2vmin, 26px) !important}
-.video-js[size=huge] .vjs-text-track-cue {font-size: max(7.2vmin, 36px) !important}

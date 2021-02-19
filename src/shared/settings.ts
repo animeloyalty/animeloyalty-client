@@ -6,6 +6,5 @@ export const settings = {
   seekBackward: 15,
   seekForward: 30,
   seekTimeout: 600,
-  videoBuffer: 100,
-  videoBufferMax: 100
+  videoBuffer: 100
 };

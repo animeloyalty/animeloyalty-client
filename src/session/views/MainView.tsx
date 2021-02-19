@@ -2,13 +2,14 @@ import * as app from '..';
 import * as mobxReact from 'mobx-react';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
-import videojs from 'video.js';
+import Hls from 'hls.js';
 
 @mobxReact.observer
 class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app.MainViewModel}> implements app.IVideoHandler {
-  private element?: HTMLVideoElement;
+  private readonly hls = new Hls();
+  private readonly vtt = React.createRef<HTMLDivElement>();
   private octopus?: app.Octopus;
-  private player?: videojs.Player;
+  private player?: HTMLVideoElement;
 
   componentDidMount() {
     document.body.style.overflow = 'hidden';
@@ -26,7 +27,9 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
         this.clearSubtitle();
         break;
       case 'loadSource':
-        this.player?.src(request.source.urls.map(x => ({src: x, type: 'application/x-mpegURL'})));
+        if (!this.player) break;
+        this.hls.loadSource(request.source.urls[0]);
+        this.hls.attachMedia(this.player);
         break;
       case 'loadSubtitle':
         this.clearSubtitle();
@@ -40,7 +43,8 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
         this.player?.play();
         break;
       case 'seek':
-        this.player?.currentTime(request.time);
+        if (!this.player) break;
+        this.player.currentTime = request.time;
         break;
     }
   }
@@ -48,7 +52,8 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   render() {
     return (
       <mui.Grid className={this.props.vm.isHidden ? this.classes.containerHidden : this.classes.container}>
-        <video className="video-js" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.onVideoClick()} />
+        <video className={this.classes.player} autoPlay crossOrigin="anonymous" ref={(el) => this.onCreate(el)} onClick={() => this.props.vm.onVideoClick()} />
+        <mui.Grid className={this.classes.subtitleContainer} ref={this.vtt} />
         <app.LoaderView open={this.props.vm.isWaiting} />
         <app.MainControlView className={this.classes.ui} vm={this.props.vm.control} />
       </mui.Grid>
@@ -56,37 +61,47 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   }
 
   private clearSubtitle() {
-    Array.from(this.player?.remoteTextTracks() ?? []).forEach(x => this.player?.removeRemoteTextTrack(app.api.unsafe(x)));
+    Array.from(this.player?.querySelectorAll('track') ?? []).forEach(x => this.player?.removeChild(x));
     this.octopus?.dispose();
     delete this.octopus;
   }
 
   private createAss(request: app.VideoRequest) {
-    if (request.type !== 'loadSubtitle' || !this.element) return;
-    this.octopus = new app.Octopus(this.element, request.subtitle);
+    if (request.type !== 'loadSubtitle' || !this.player) return;
+    this.octopus = new app.Octopus(this.player, request.subtitle);
   }
 
   private createVtt(request: app.VideoRequest) {
-    if (request.type !== 'loadSubtitle') return;
-    this.player?.addRemoteTextTrack({mode: 'showing', src: request.subtitle.url}, true);
-    this.player?.setAttribute('size', request.subtitle.size ?? 'normal');
+    if (request.type !== 'loadSubtitle' || !this.player) return;
+    const track = this.player.appendChild(document.createElement('track'));
+    track.default = true;
+    track.src = request.subtitle.url;
+    track.addEventListener('load', () => {
+      const container = this.vtt.current;
+      if (container && track.track.cues) {
+        container.setAttribute('size', request.subtitle.size ?? 'normal');
+        track.track.mode = 'hidden';
+        for (let i = 0; i < track.track.cues.length; i++) {
+          const cue = track.track.cues[i] as VTTCue;
+          cue.addEventListener('enter', () => (container.textContent = cue.text) && (container.style.visibility = 'visible'));
+          cue.addEventListener('exit', () => container.style.visibility = 'hidden');
+        }
+      }
+    });
   }
 
-  private onCreate(element: HTMLVideoElement | null) {
-    if (!element || this.element) return;
-    this.element = element;
-    this.player = videojs(element, app.api.unsafe({autoplay: true, controlBar: false, fill: true, loadingSpinner: false}), () => {
-      if (!this.player) return;
-      app.Dispatcher.attach(this.props.bridge, this.player);
-      this.props.bridge.subscribe(this);
-      this.props.bridge.dispatchEvent({type: 'create'});
-    });
+  private onCreate(player: HTMLVideoElement | null) {
+    if (!player || this.player) return;
+    this.player = player;
+    this.props.bridge.subscribe(this);
+    this.props.bridge.dispatchEvent({type: 'create'});
+    app.Dispatcher.attach(this.props.bridge, this.hls, this.player);
   }
 
   private onDestroy() {
     this.props.bridge.unsubscribe(this);
+    this.hls.destroy();
     this.octopus?.dispose();
-    this.player?.dispose()
   }
 }
 
@@ -98,6 +113,27 @@ const Styles = mui.createStyles({
     cursor: 'none',
     height: '100vh',
     '& $ui': {opacity: 0, pointerEvents: 'none'}
+  },
+  player: {
+    backgroundColor: '#000',
+    height: '100vh',
+    width: '100vw'
+  },
+  subtitleContainer: {
+    pointerEvents: 'none',
+    fontFamily: 'Trebuchet MS',
+    lineHeight: 'normal',
+    textAlign: 'center',
+    textShadow: `#000 0px 0px ${app.sz(1)}, #000 0px 0px ${app.sz(1)}, #000 0px 0px ${app.sz(1)}, #000 0px 0px ${app.sz(1)}, #000 0px 0px ${app.sz(1)}, #000 0px 0px ${app.sz(1)}`,
+    whiteSpace: 'pre-line',
+    position: 'absolute',
+    width: '100vw',
+    inset: `auto auto ${app.sz(25)}`,
+    '&[size=tiny]': {fontSize: app.sz(12)},
+    '&[size=small]': {fontSize: app.sz(16)},
+    '&[size=normal]': {fontSize: app.sz(20)},
+    '&[size=large]': {fontSize: app.sz(26)},
+    '&[size=huge]': {fontSize: app.sz(36)}
   },
   ui: {
     opacity: 1,
