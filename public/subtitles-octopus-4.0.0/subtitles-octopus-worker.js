@@ -10001,9 +10001,9 @@ function onMessageFromMainEmscriptenThread(message) {
     }
     self.resize(message.data.width, message.data.height);
     if (self.fastRenderMode) {
-     self.fastRender();
+     self.fastRender(true);
     } else {
-     self.render();
+     self.render(true);
     }
    } else throw "ey?";
    break;
