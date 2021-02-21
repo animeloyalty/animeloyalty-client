@@ -2,7 +2,8 @@ import * as app from '..';
 import {session} from '../..';
 
 export class Navigator implements session.INavigator {
- 
+  private preloadTime = 0;
+
   private constructor(private series: app.api.RemoteSeries, private index: number) {
     this.episodes = series.seasons.reduce((p, s) => p.concat(s.episodes.map(e => new app.NavigatorEpisode(series, s, e))), [] as Array<app.NavigatorEpisode>);
     this.current = this.episodes[this.index];
@@ -29,8 +30,9 @@ export class Navigator implements session.INavigator {
   }
 
   preloadNext() {
-    if (!this.hasNext) return;
+    if (!this.hasNext || this.preloadTime + app.settings.preloadTimeout > Date.now()) return;
     app.core.api.remote.streamAsync({url: this.episodes[this.index + 1].episodeUrl}).catch(() => {});
+    this.preloadTime = Date.now();
   }
 
   readonly current: app.NavigatorEpisode
