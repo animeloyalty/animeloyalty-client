@@ -4,7 +4,6 @@ import * as mobx from 'mobx';
 export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.IViewHandler {
   private clickTimeout?: number;
   private hideTimeout?: NodeJS.Timeout;
-  private skipPreload?: boolean;
 
   constructor(
     private readonly bridge: app.Bridge,
@@ -69,9 +68,8 @@ export class MainViewModel implements app.IInputHandler, app.IVideoHandler, app.
         this.isWaiting = true;
         break;
       case 'timeupdate':
-        if (this.skipPreload || !event.duration || event.duration - event.time > app.settings.preloadTreshold) break;
+        if (!event.duration || event.duration - event.time > app.settings.preloadTreshold) break;
         this.navigator.preloadNext();
-        this.skipPreload = true;
         break;
       case 'waiting':
         this.isWaiting = true;
