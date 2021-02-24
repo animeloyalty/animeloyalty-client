@@ -1,57 +1,69 @@
 import * as app from '..';
+import * as ass from 'ass-compiler';
 const fonts = ['assets/default.woff2', 'assets/arabic.woff2'];
 const workerUrl = 'subtitles-octopus-4.0.0/subtitles-octopus-worker.js';
 
 export class Octopus {
   private readonly subtitle: app.ISubtitle;
-  private readonly worker: SubtitlesOctopus;
-  private isWaiting = true;
+  private readonly video: HTMLVideoElement;
+  private worker?: SubtitlesOctopus;
 
   constructor(video: HTMLVideoElement, subtitle: app.ISubtitle) {
-    const onWorkerMessage = this.onWorkerMessage.bind(this);
     this.subtitle = subtitle;
-    this.worker = new SubtitlesOctopus({video, subUrl: subtitle.url, workerUrl, fonts, onWorkerMessage});
-    this.worker.getStyles();
+    this.video = video;
+  }
+
+  async loadAsync() {
+    const response = await fetch(this.subtitle.url);
+    const subtitle = ass.parse(await response.text());
+    this.resize(subtitle);
+    this.worker = new SubtitlesOctopus({video: this.video, subContent: ass.stringify(subtitle), workerUrl, fonts});
   }
 
   dispose() {
     try {
-      this.worker.dispose();
+      this.worker?.dispose();
     } catch {
       return;
     }
   }
 
-  private onWorkerMessage(event: SubtitlesOctopusEvent) {
-    switch (event.data.target) {
-      case 'canvas':
-        return event.data.op === 'renderCanvas' && this.isWaiting;
-      case 'get-styles':
-        const defaultStyles = event.data.styles
-          .filter(x => /^(?:Default|Main)/i.test(x.Name))
-          .sort((a, b) => b.FontSize - a.FontSize);
-        const fontSize = defaultStyles.length
-          ? defaultStyles[0].FontSize
-          : 24;
-        const newStyles = event.data.styles
-          .map(x => ({scale: 100 / fontSize * x.FontSize, style: x}))
-          .map(x => ({...x.style, FontSize: Math.floor(x.scale / 100 * getSize(this.subtitle))}));
-        newStyles.forEach((x, i) => this.worker.setStyle(x, i));
-        setTimeout(() => this.isWaiting = false, 100);
-        return true;
-      default:
-        return false;
+  private resize(subtitle: ass.ParsedASS) {
+    const primaryStyle = isNumber(subtitle.info.PlayResY)
+      ? fetchPrimaryStyle(subtitle)
+      : undefined;
+    if (primaryStyle && isNumber(primaryStyle.Fontsize)) {
+      const primaryFontSize = parseInt(primaryStyle.Fontsize, 10);
+      const primaryMarginV = primaryStyle.MarginV;
+      const scaleY = 1 / 360 * parseInt(subtitle.info.PlayResY, 10);
+      for (const style of subtitle.styles.style) {
+        style.Fontsize = isNumber(style.Fontsize)
+          ? String(1 / primaryFontSize * parseInt(style.Fontsize, 10) * fetchFontSize(this.subtitle) * scaleY)
+          : style.Fontsize;
+        style.MarginV = style.MarginV === primaryMarginV
+          ? String(18 * scaleY)
+          : style.MarginV;
+      }
     }
   }
 }
 
-function getSize(subtitle: app.ISubtitle) {
-  switch (subtitle.size) {
-    case 'tiny': return 8;
-    case 'small': return 12;
-    case 'normal': return 16;
-    case 'large': return 20;
-    case 'huge': return 24;
-    default: return 16;
-  }
+function fetchFontSize(subtitle: app.ISubtitle) {
+  if (subtitle.size === 'tiny') return 8;
+  if (subtitle.size === 'small') return 12;
+  if (subtitle.size === 'normal') return 16;
+  if (subtitle.size === 'large') return 20;
+  if (subtitle.size === 'huge') return 24;
+  return 16;
+}
+
+function fetchPrimaryStyle(content: ass.ParsedASS) {
+  const r = {} as Record<string, number>;
+  content.events.dialogue.forEach(c => r[c.Style] = r[c.Style] ? ++r[c.Style] : 1);
+  const n = Object.entries(r).sort((a, b) => b[1] - a[1]).shift()?.[0];
+  return content.styles.style.find(x => x.Name === n);
+}
+
+function isNumber(value: string) {
+  return /^[0-9]+$/.test(value);
 }

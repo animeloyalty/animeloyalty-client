@@ -69,6 +69,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
   private createAss(request: app.VideoRequest) {
     if (request.type !== 'loadSubtitle' || !this.player) return;
     this.octopus = new app.Octopus(this.player, request.subtitle);
+    this.octopus.loadAsync().catch(() => {});
   }
 
   private createVtt(request: app.VideoRequest) {
