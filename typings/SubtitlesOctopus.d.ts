@@ -1,15 +1,12 @@
 declare class SubtitlesOctopus {
   constructor(options: SubtitlesOctopusOptions);
   dispose(): void;
-  getStyles(): void;
-  setStyle(style: SubtitlesOctopusStyle, index: number): void;
 }
 
 type SubtitlesOctopusOptions = {
-  subUrl: string;
+  subContent: string;
   workerUrl: string;
   fonts?: Array<string>;
-  onWorkerMessage?: (event: SubtitlesOctopusEvent) => boolean;
   video?: HTMLVideoElement;
 };
 
