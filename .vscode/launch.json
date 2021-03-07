@@ -2,6 +2,7 @@
   "version": "0.2.0",
   "configurations": [{
     "name": "Launch Chrome",
+    "outFiles": ["${workspaceFolder}/dist/**/*.js"],
     "preLaunchTask": "Webpack",
     "request": "launch",
     "type": "chrome",
