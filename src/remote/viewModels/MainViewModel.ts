@@ -144,14 +144,13 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.action
   private update() {
+    if (!this.selectedProvider) return;
     const provider = this.selectedProvider?.id;
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
-    if (provider && page) {
-      this.page = app.MainPageViewModel.createViewModel(this.selectedSearch
-        ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
-        : new app.api.RemoteQueryPage({provider, page, options}));
-      this.setPreferred(provider, page, options);
-    }
+    this.page = app.MainPageViewModel.createViewModel(this.selectedSearch
+      ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
+      : new app.api.RemoteQueryPage({provider, page, options}));
+    this.setPreferred(provider, page, options);
   }
 }
