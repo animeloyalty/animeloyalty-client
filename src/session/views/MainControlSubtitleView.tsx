@@ -9,8 +9,8 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
   render() {
     return (
       <mui.Grid className={this.classes.container}>
-        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} elevation={0} placement="bottom-end">
-          <mui.IconButton disabled={!this.props.vm.canSelect}>
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelectSize} elevation={0} placement="bottom-end">
+          <mui.IconButton disabled={!this.props.vm.canSelectSize}>
             <app.icons.FormatSize />
           </mui.IconButton>
           <mui.Grid>
@@ -21,8 +21,8 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.MainControlSubtitle
             {this.sizeItem('huge', language.sizeHuge)}
           </mui.Grid>
         </app.MenuComponent>
-        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelect} elevation={0} placement="bottom-end">
-          <mui.IconButton disabled={!this.props.vm.canSelect}>
+        <app.MenuComponent className={this.classes.menu} disabled={!this.props.vm.canSelectSubtitle} elevation={0} placement="bottom-end">
+          <mui.IconButton disabled={!this.props.vm.canSelectSubtitle}>
             <app.icons.Subtitles />
           </mui.IconButton>
           <mui.Grid>

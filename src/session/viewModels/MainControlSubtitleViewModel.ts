@@ -12,7 +12,7 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
 
   @mobx.action
   clear() {
-    if (!this.canSelect || !this.selectedSubtitle) return;
+    if (!this.canSelectSubtitle || !this.selectedSubtitle) return;
     app.core.store.set(subtitleKey, subtitleNone);
     this.selectedSubtitle = undefined;
     this.bridge.dispatchRequest({type: 'clearSubtitle'});
@@ -20,14 +20,14 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
 
   @mobx.action
   selectSize(size: app.ISubtitle['size']) {
-    if (!this.canSelect || !this.selectedSubtitle || this.selectedSubtitle.size === size) return;
+    if (!this.canSelectSize || !this.selectedSubtitle || this.selectedSubtitle.size === size) return;
     app.core.store.set(sizeKey, size);
     this.loadSubtitle(this.selectedSubtitle);
   }
 
   @mobx.action
   selectSubtitle(subtitle: app.ISubtitle) {
-    if (!this.canSelect || this.selectedSubtitle === subtitle) return;
+    if (!this.canSelectSubtitle || this.selectedSubtitle === subtitle) return;
     app.core.store.set(subtitleKey, subtitle.language);
     this.loadSubtitle(subtitle);
   }
@@ -53,7 +53,12 @@ export class MainControlSubtitleViewModel implements app.IVideoHandler, app.IVie
   }
 
   @mobx.computed
-  get canSelect() {
+  get canSelectSize() {
+    return Boolean(this.selectedSubtitle);
+  }
+
+  @mobx.computed
+  get canSelectSubtitle() {
     return Boolean(this.subtitles.length);
   }
 
