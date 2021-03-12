@@ -5,6 +5,7 @@ export * from './classes/Bridge';
 export * from './classes/Dispatcher';
 export * from './classes/Octopus';
 export * from './classes/Session';
+export * from './classes/WebVtt';
 export * from './components/SliderComponent';
 export * from './viewModels/MainControlSourceViewModel';
 export * from './viewModels/MainControlSubtitleViewModel';

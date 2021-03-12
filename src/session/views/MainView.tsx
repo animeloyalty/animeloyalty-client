@@ -78,16 +78,9 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
     track.default = true;
     track.src = request.subtitle.url;
     track.addEventListener('load', () => {
-      const container = this.vtt.current;
-      if (container && track.track.cues) {
-        container.setAttribute('size', request.subtitle.size ?? 'normal');
-        track.track.mode = 'hidden';
-        for (let i = 0; i < track.track.cues.length; i++) {
-          const cue = track.track.cues[i] as VTTCue;
-          cue.addEventListener('enter', () => (container.textContent = cue.text) && (container.style.visibility = 'visible'));
-          cue.addEventListener('exit', () => container.style.visibility = 'hidden');
-        }
-      }
+      if (!this.vtt.current) return;
+      app.WebVtt.attach(this.vtt.current, track);
+      this.vtt.current.setAttribute('size', request.subtitle.size ?? 'normal');
     });
   }
 
