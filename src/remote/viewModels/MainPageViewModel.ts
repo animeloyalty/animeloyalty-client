@@ -73,7 +73,7 @@ export class MainPageViewModel extends app.BaseViewModel {
 
   @mobx.computed
   get isNarrow() {
-    const isCrunchyroll = this.query.provider === app.api.RemoteProviderId.Crunchyroll;
+    const isCrunchyroll = this.query.provider === 'crunchyroll';
     const isSearch = this.query instanceof app.api.RemoteQuerySearch;
     return isCrunchyroll && isSearch;
   }

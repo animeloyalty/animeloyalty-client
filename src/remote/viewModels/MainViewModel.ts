@@ -73,7 +73,7 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.action
   async refreshAsync() {
-    const result = await app.core.api.remote.contextAsync();
+    const result = await app.core.api.remote.contextAsync({});
     if (result.value) {
       const preferred = this.getPreferred();
       this.providers = result.value;
@@ -129,14 +129,14 @@ export class MainViewModel extends app.BaseViewModel {
 
   @mobx.action
   private getPreferred() {
-    const provider = app.core.store.get<app.api.RemoteProviderId>(providerKey, app.api.RemoteProviderId.Crunchyroll);
+    const provider = app.core.store.get<string>(providerKey, 'crunchyroll');
     const page = app.core.store.getString(pageKey, '');
     const options = app.core.store.get(optionsKey, '').split(',').filter(Boolean);
     return new app.api.RemoteQueryPage({provider, page, options});
   }
 
   @mobx.action
-  private setPreferred(provider?: app.api.RemoteProviderId, page?: string, options?: Array<string>) {
+  private setPreferred(provider?: string, page?: string, options?: Array<string>) {
     app.core.store.set(providerKey, provider);
     app.core.store.set(pageKey, page);
     app.core.store.set(optionsKey, options?.join(','));
@@ -147,9 +147,11 @@ export class MainViewModel extends app.BaseViewModel {
     const provider = this.selectedProvider?.id;
     const page = this.selectedPage?.id;
     const options = this.selectedOptions.map(x => x.id);
-    this.page = app.MainPageViewModel.createViewModel(this.selectedSearch
-      ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
-      : new app.api.RemoteQueryPage({provider, page, options}));
-    this.setPreferred(provider, page, options);
+    if (provider && page) {
+      this.page = app.MainPageViewModel.createViewModel(this.selectedSearch
+        ? new app.api.RemoteQuerySearch({provider, query: this.selectedSearch})
+        : new app.api.RemoteQueryPage({provider, page, options}));
+      this.setPreferred(provider, page, options);
+    }
   }
 }

@@ -3,7 +3,7 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends app.BaseComponent<typeof Styles, {imageUrl: string}> {
+class Component extends app.BaseComponent<typeof Styles, {imageUrl?: string}> {
   render() {
     return (
       <mui.Grid className={this.classes.imageContainer}>

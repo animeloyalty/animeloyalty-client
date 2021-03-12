@@ -2,7 +2,7 @@ import * as app from '..';
 import * as mui from '@material-ui/core';
 import * as React from 'react';
 
-class Component extends app.BaseComponent<typeof Styles, {height: string, imageUrl: string, text: string, onClick: () => void}> {
+class Component extends app.BaseComponent<typeof Styles, {height: string, imageUrl?: string, text: string, onClick: () => void}> {
   render() {
     return (
       <mui.Grid className={this.classes.container} onClick={this.props.onClick}>
