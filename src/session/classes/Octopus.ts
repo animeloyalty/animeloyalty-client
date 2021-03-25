@@ -58,10 +58,10 @@ function fetchFontSize(subtitle: app.ISubtitle) {
 }
 
 function fetchPrimaryStyle(content: ass.ParsedASS) {
-  const r = {} as Record<string, number>;
-  content.events.dialogue.forEach(c => r[c.Style] = r[c.Style] ? ++r[c.Style] : 1);
-  const n = Object.entries(r).sort((a, b) => b[1] - a[1]).shift()?.[0];
-  return content.styles.style.find(x => x.Name === n);
+  const result = {} as Record<string, number>;
+  content.events.dialogue.forEach(c => result[c.Style] = (result[c.Style] ?? 0) + c.End - c.Start);
+  const name = Object.entries(result).sort((a, b) => b[1] - a[1]).shift()?.[0];
+  return content.styles.style.find(x => x.Name === name);
 }
 
 function isNumber(value: string) {
