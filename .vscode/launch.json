@@ -1,12 +1,26 @@
 {
   "version": "0.2.0",
   "configurations": [{
-    "name": "Launch Chrome",
-    "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+    "name": "Electron: Main",
+    "outFiles": ["${workspaceFolder}/app/**/*.js"],
     "preLaunchTask": "Webpack",
     "request": "launch",
+    "type": "node",
+    "outputCapture": "std",
+    "runtimeArgs": ["--remote-debugging-port=16583", "app", "useWebpackServer"],
+    "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron"
+  }, {
+    "name": "Electron: Renderer",
+    "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+    "preLaunchTask": "Webpack",
+    "request": "attach",
     "type": "chrome",
-    "url": "http://localhost:6567",
+    "port": 16583,
+    "timeout": 60000,
     "webRoot": "${workspaceFolder}"
+  }],
+  "compounds": [{
+    "name": "Electron",
+    "configurations": ["Electron: Main", "Electron: Renderer"]
   }]
 }
