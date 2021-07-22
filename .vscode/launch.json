@@ -21,6 +21,7 @@
   }],
   "compounds": [{
     "name": "Electron",
-    "configurations": ["Electron: Main", "Electron: Renderer"]
+    "configurations": ["Electron: Main", "Electron: Renderer"],
+    "preLaunchTask": "Webpack"
   }]
 }

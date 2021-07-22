@@ -47,7 +47,9 @@
     "webpack-dev-server": "3.7.2"
   },
   "scripts": {
+    "dev": "webpack-dev-server --config webpack.dev.js",
     "prepack": "webpack-cli --config webpack.prod.js",
-    "prepare": "rimraf dist && tsc"
+    "prepare": "rimraf dist && tsc",
+    "release": "npm run prepack && electron-webpack && electron-builder"
   }
 }

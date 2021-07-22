@@ -1,0 +1,18 @@
+os: linux
+dist: focal
+language: node_js
+jobs:
+  include:
+    - os: linux
+      node_js: lts/*
+      script: npm run release
+    - os: osx
+      osx_image: xcode12.2
+      node_js: lts/*
+      script: npm run release
+    - os: windows
+      node_js: lts/*
+      script: npm run release
+branches:
+  only:
+  - master
