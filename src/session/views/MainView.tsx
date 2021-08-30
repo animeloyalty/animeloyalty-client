@@ -28,12 +28,16 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
         break;
       case 'loadSource':
         if (!this.player) break;
-        this.hls.loadSource(request.source.urls[0]);
-        this.hls.attachMedia(this.player);
+        if (request.sourceType === 'mkv') {
+          this.player.src = request.source.urls[0];
+        } else {
+          this.hls.loadSource(request.source.urls[0]);
+          this.hls.attachMedia(this.player);
+        }
         break;
       case 'loadSubtitle':
         this.clearSubtitle();
-        if (request.subtitle.type === 'vtt') this.createVtt(request);
+        if (request.subtitle.type === 'srt') this.createSrt(request);
         else this.createAss(request);
         break;
       case 'pause':
@@ -72,7 +76,7 @@ class View extends app.ViewComponent<typeof Styles, {bridge: app.Bridge, vm: app
     this.octopus.loadAsync().catch(() => {});
   }
 
-  private createVtt(request: app.VideoRequest) {
+  private createSrt(request: app.VideoRequest) {
     if (request.type !== 'loadSubtitle' || !this.player) return;
     const track = this.player.appendChild(document.createElement('track'));
     track.default = true;

@@ -17,7 +17,7 @@
     "npm": ">= 6.0.0"
   },
   "dependencies": {
-    "animesync": "0.11.3",
+    "animesync": "1.2.0-beta.1",
     "source-map-support": "0.5.19"
   },
   "devDependencies": {
@@ -34,12 +34,14 @@
     "electron-builder": "22.9.1",
     "electron-webpack": "2.8.2",
     "hls.js": "0.14.13",
+    "jszip": "3.7.1",
     "mobx": "5.5.0",
     "mobx-react": "5.2.8",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-lazyload": "3.1.0",
     "sanitize-html": "2.3.2",
+    "subtitle": "4.0.1",
     "rimraf": "3.0.2",
     "typescript": "4.0.3",
     "webpack": "4.35.0",

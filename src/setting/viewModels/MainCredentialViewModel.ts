@@ -44,7 +44,7 @@ export class MainCredentialViewModel extends app.BaseViewModel {
       const credential = await app.core.api.setting.credentialAsync();
       if (credential.value) {
         const model = this.createSetting(credential.value);
-        const response = await app.core.api.setting.updateCredentialAsync(model);
+        const response = await app.core.api.setting.credentialPutAsync(model);
         return response.statusCode === 204;
       } else {
         return false;

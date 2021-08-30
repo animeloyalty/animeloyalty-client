@@ -6,9 +6,9 @@ export function IsIn() {}
 export function IsNotEmpty() {}
 export function IsNumber() {}
 export function IsOptional() {}
+export function IsPositive() {}
 export function IsString() {}
 export function IsUrl() {}
 export function Matches() {}
-export function Min() {}
 export function MinLength() {}
 export function ValidateNested() {}

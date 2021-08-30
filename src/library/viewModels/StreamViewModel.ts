@@ -1,7 +1,9 @@
 import * as app from '..';
 import * as mobx from 'mobx';
+import * as sub from 'subtitle';
 import {language} from '../language';
 import {session} from '../..';
+import JSZip from 'jszip';
 
 export class StreamViewModel extends app.BaseViewModel implements session.IVideoHandler {
   private navigationTimeout?: NodeJS.Timeout;
@@ -9,7 +11,8 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
   constructor(
     readonly bridge: session.Bridge,
     readonly navigator: session.INavigator,
-    readonly url: string,
+    readonly seriesId: string,
+    readonly episodeId: string,
     readonly shouldDelay = false
   ) {super()}
   
@@ -46,10 +49,44 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
 
   @mobx.action
   async refreshAsync(): Promise<boolean> {
-    const result = await app.core.api.remote.streamAsync({url: this.url});
-    if (result.value) {
-      this.bridge.dispatchRequest({type: 'sources', sources: groupQualities(result.value.sources)});
-      this.bridge.dispatchRequest({type: 'subtitles', subtitles: result.value.subtitles});
+    const result = await app.core.api.library.episodeAsync(this);
+    const sources: Array<session.ISource> = [{urls: [result], type: 'mkv'}];
+
+    const subtitleUrl = await app.core.api.library.episodeSubtitleAsync(this);
+    const subtitleBlob = await fetch(subtitleUrl).then(x => x.arrayBuffer());
+    const zip = await new JSZip().loadAsync(subtitleBlob);
+    const subtitles: Array<session.ISubtitle> = [];
+
+    console.log(zip.files);
+    for (const [k, v] of Object.entries(zip.files).filter(x => x[0].includes('.eng.'))) { // WHAAA
+      const match = k.match(/\.([a-z]{3})\.(ass|srt)$/);
+      if (!match) continue;
+      // const languageCode = match[1];
+      const type = match[2];
+      const text = await v.async('string');
+      let url: string;
+
+      if (type === 'srt') {
+        const nodes = sub.parseSync(text);
+        const result = sub.stringifySync(nodes, {format: 'WebVTT'});
+        const typedBlobby = new Blob([result], {type : 'text/vtt'});
+        url = URL.createObjectURL(typedBlobby);
+      } else {
+        const typedBlobby = new Blob([text], {type : 'text/ass'});
+        url = URL.createObjectURL(typedBlobby);
+      }
+
+      subtitles.push({
+        language: 'en-US', // WRONG BUT WHATEVER,
+        type: type as any,
+        url: url
+      });
+      break; // BECAUSE BUUGGGS
+    }
+
+    if (result) {
+      this.bridge.dispatchRequest({type: 'sources', sources});
+      this.bridge.dispatchRequest({type: 'subtitles', subtitles});
       return true;
     } else if (this.isViewMounted && await app.core.dialog.openAsync(language.errorStreamBody, language.errorStreamButtons)) {
       return await this.refreshAsync();
@@ -107,12 +144,4 @@ export class StreamViewModel extends app.BaseViewModel implements session.IVideo
       this.numberOfWarnings = 0;
     });
   }
-}
-
-function groupQualities(sources: Array<app.api.RemoteStreamSource>) {
-  return sources.reduce((p, s) => {
-    const c = p.find(x => x.resolutionX === s.resolutionX && x.resolutionY === s.resolutionY);
-    if (c) return c.urls.push(s.url) ? p : p;
-    return p.concat({bandwidth: s.bandwidth, resolutionX: s.resolutionX, resolutionY: s.resolutionY, urls: [s.url], type: 'hls'});
-  }, [] as Array<session.ISource>)
 }

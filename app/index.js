@@ -120,11 +120,11 @@ function onWebBeforeInputEvent(event, input) {
  * ...
  */
 function startApplication() {
-  app.Server.usingAsync(async () => {
+  //app.Server.usingAsync(async () => {
     createMenu();
     createWindow();
-    await new Promise(() => {});
-  });
+  //  await new Promise(() => {});
+  //});
 }
 
 if (electron.app.requestSingleInstanceLock()) {

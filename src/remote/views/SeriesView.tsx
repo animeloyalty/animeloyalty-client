@@ -18,10 +18,6 @@ class View extends app.ViewComponent<typeof Styles, {vm: app.SeriesViewModel}> {
             <mui.Typography className={this.classes.summary}>
               {this.props.vm.synopsis ?? language.seriesSynopsis}
             </mui.Typography>
-            {this.props.vm.hasGenres && <mui.Grid className={this.classes.genresContainer}>
-              <mui.Divider className={this.classes.divider} />
-              {this.props.vm.genres.map((genre, i) => <mui.Chip key={i} label={genre} />)}
-            </mui.Grid>}
             <mui.Grid className={this.classes.clear} />
           </mui.Paper>
           {this.props.vm.seasons.map((vm, i) => <app.SeriesSeasonView key={i} vm={vm} />)}
@@ -45,14 +41,6 @@ const Styles = mui.createStyles({
     height: app.sz(192 - 50),
     overflow: 'auto',
     wordBreak: 'break-word'
-  },
-  genresContainer: {
-    height: app.sz(50),
-    overflow: 'hidden',
-    '& .MuiChip-root': {marginRight: app.sz(8)}
-  },
-  divider: {
-    margin: `${app.sz(8)} 0`
   },
   clear: {
     clear: 'both'

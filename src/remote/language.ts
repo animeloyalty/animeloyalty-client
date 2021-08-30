@@ -11,7 +11,6 @@ export const language = {
   errorSessionBody: 'An error occurred. The stream could not be played. Try again momentarily. If this error continues, open a support ticket.',
   errorSessionButtons: ['Cancel', 'Retry'],
   errorText: 'An error occurred.',
-  seriesPremium: 'premium',
   seriesSeason: 'There are no episodes available for this season.',
   seriesSynopsis: 'There is no synopsis available for this series.',
 };

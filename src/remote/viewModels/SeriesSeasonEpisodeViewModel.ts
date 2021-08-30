@@ -5,7 +5,6 @@ export class SeriesSeasonEpisodeViewModel {
   constructor(private series: app.api.RemoteSeries, private seasonIndex: number, private episodeIndex: number) {
     const episode = series.seasons[seasonIndex].episodes[episodeIndex];
     this.imageUrl = episode.imageUrl;
-    this.isPremium = episode.isPremium;
     this.name = episode.name;
     this.title = episode.title;
     this.url = episode.url;
@@ -30,9 +29,6 @@ export class SeriesSeasonEpisodeViewModel {
   
   @mobx.observable
   readonly imageUrl: app.api.RemoteSeriesSeasonEpisode['imageUrl'];
-
-  @mobx.observable
-  readonly isPremium: app.api.RemoteSeriesSeasonEpisode['isPremium'];
 
   @mobx.observable
   readonly name: app.api.RemoteSeriesSeasonEpisode['name'];

@@ -21,13 +21,14 @@ export interface ISource {
   readonly resolutionX?: number;
   readonly resolutionY?: number;
   readonly urls: Array<string>;
+  readonly type: 'hls' | 'mkv';
 }
 
 export interface ISubtitle {
   readonly displayNames?: Array<string>,
   readonly language: 'ar-ME' | 'de-DE' | 'en-US' | 'es-ES' | 'es-LA' | 'fr-FR' | 'it-IT' | 'pt-BR' | 'ru-RU' | 'tr-TR';
   readonly size?: 'tiny'| 'small' | 'normal' | 'large' | 'huge';
-  readonly type: 'ass' | 'vtt';
+  readonly type: 'ass' | 'srt';
   readonly url: string;
 };
 
@@ -52,7 +53,7 @@ export type VideoEvent =
   
 export type VideoRequest =
   {type: 'clearSubtitle'} |
-  {type: 'loadSource', source: ISource} |
+  {type: 'loadSource', source: ISource, sourceType: 'hls' | 'mkv'} |
   {type: 'loadSubtitle', subtitle: ISubtitle} |
   {type: 'pause'} |
   {type: 'play'} |

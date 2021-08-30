@@ -27,7 +27,7 @@ export class MainCoreViewModel extends app.BaseViewModel {
       const core = await app.core.api.setting.coreAsync();
       if (core.value) {
         const model = this.createSetting(core.value);
-        const response = await app.core.api.setting.updateCoreAsync(model);
+        const response = await app.core.api.setting.corePutAsync(model);
         if (response.statusCode === 204) return true;
         this.hasError = true;
         return false;
